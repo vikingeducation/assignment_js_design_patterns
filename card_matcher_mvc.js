@@ -65,7 +65,6 @@ var model = {
   flipCard: function(cardVal, cardID){
     this.flippedCardCount += 1;
     if (this.flippedCardCount %2 !== 0){
-      console.log("setting_val");
       this.previousCardValue = cardVal;
       this.previousCardID = cardID;
     }
@@ -117,6 +116,13 @@ var view = {
     this.renderScore();
   },
 
+  // something: function(event){
+  //   if($('.revealed-square').length === 2){
+  //     window.clearTimeout(controller.cardFlipBackDelay);
+  //     view.flipCard(event);
+  //   }
+  // },
+
   render: function(){
     this.renderScore();
     // this.renderGameboard();
@@ -127,7 +133,12 @@ var view = {
   },
 
   flipCard: function(event){
-    // clearTimeout(controller.cardFlipBackDelay());
+    //hide if 2 unmatched cards already revealed before flipping next
+    if($('.revealed-square').length === 2){
+      window.clearTimeout(controller.cardFlipBackDelay);
+      view.hideCard();
+    }
+
     var $selectedCard = $(event.target);
     $selectedCard.addClass("revealed-square");
     $selectedCard.removeClass("hidden-square");
@@ -138,7 +149,6 @@ var view = {
   },
 
   hideCard: function(prevCardID, currentCardID){
-    console.log(prevCardID + " " + currentCardID);
     $cardsFlipped = $('#' + prevCardID + ", #" + currentCardID);
     $cardsFlipped.text('');
     $cardsFlipped.addClass('hidden-square');
@@ -146,8 +156,7 @@ var view = {
   },
 
   confirmedPair: function(){
-    console.log('calling confirmpair fn');
-    $cardsFlipped = $('.revealed-sqaure');
+    $cardsFlipped = $('.revealed-square');
     $cardsFlipped.addClass('confirmed-pair');
     $cardsFlipped.removeClass('revealed-square');
   },
@@ -170,10 +179,10 @@ var controller = {
     view.init(boardsize);
   },
 
-  cardFlipBackDelay: function(prevCardID, currentCardID){
-    setTimeout(
-    function(){ view.hideCard(prevCardID, currentCardID);
-    }, 2000);},
+  // cardFlipBackDelay: function(prevCardID, currentCardID){
+  //   setTimeout(
+  //   function(){ view.hideCard(prevCardID, currentCardID);
+  //   }, 2000);},
 
   flipCard: function(cardVal, cardID){
     model.flipCard(cardVal, cardID);
@@ -186,7 +195,8 @@ var controller = {
         view.confirmedPair();
       } else {
         //delay before hiding card
-        this.cardFlipBackDelay(model.prevCardID, cardID);
+        this.cardFlipBackDelay = window.setTimeout(function(){view.hideCard(model.previousCardID, cardID);}, 2000);
+
         // cardFlipBackDelay = setTimeout(view.hideCard, 2000);
         // clearTimeout(cardFlipBackDelay);
       }
