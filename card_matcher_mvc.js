@@ -72,6 +72,7 @@ var model = {
     this.score += updateValue;
   },
 
+  // changes score based on cardMatch during gameplay
   updateScore: function(cardMatch) {
     cardMatch ? this.setScore(5) : this.setScore(-4);
   },
