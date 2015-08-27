@@ -35,16 +35,41 @@ var controller = {
   lastClickedCard: null,
 
   init: function() {
+    this.newGame();
     this.getGridSize();
     model.init();
     view.init();
   },
 
+  newGame: function() {
+    view.resetBoard();
+    model.resetGuessCount();
+    this.flag = false;
+    this.currentCard = null;
+    this.lastClickedCard = null;
+  },
+
 
   getGridSize: function() {
 
-    model.setGridSize(prompt("Enter grid size: "));
+    this.setGridSize(prompt("Enter grid size: "));
+  },
 
+  setGridSize: function(input) {
+    n = parseInt(input);
+    if (!isNaN(n)) {
+      if (n === 2 || n === 4) {
+        model.gridSize = n;
+      }
+      else {
+        alert("Grid size must be 2 or 4");
+        controller.getGridSize();
+      }
+    }
+    else {
+      alert("Must enter number");
+      controller.getGridSize();
+    }
   },
 
   checkCards: function(clickedCard) {
@@ -56,7 +81,7 @@ var controller = {
         this.currenCard = null;
         model.guessCount += 1;
         view.updateGuessCount();
-        // this.checkVictory();
+        this.checkVictory();
       }
       else {
 
@@ -74,8 +99,8 @@ var controller = {
           view.updateGuessCount();
         }, 1000);
 
-        
-        
+
+
         // this.flag = false;
         // this.currentCard = null;
         // model.guessCount += 1;
@@ -86,10 +111,23 @@ var controller = {
       this.flag = true;
       this.currentCard = clickedCard;
     }
+  },
+
+  checkVictory: function(){
+    victory = true;
+    for (var i = 0; i < $('.card').length; i++){
+      if (!$($('.card')[i]).hasClass('match')) {
+        victory = false;
+        break;
+      };
+    }
+    if (victory) {
+      alert("You win! It took " + model.guessCount + " tries! Press 'OK' to play again!");
+      controller.init();
+    }
   }
 
-
-};
+}
 
 //Model
   //will hold number for grid size
@@ -112,22 +150,6 @@ var model = {
     this.generateCards();
   },
 
-  setGridSize: function(input) {
-    n = parseInt(input);
-    if (!isNaN(n)) {
-      if (n === 2 || n === 4) {
-        this.gridSize = n;
-      }
-      else {
-        alert("Grid size must be 2 or 4");
-        controller.getGridSize();
-      }
-    }
-    else {
-      alert("Must enter number");
-      controller.getGridSize();
-    }
-  },
 
   //builds the html DOM elements for cards depending on users suggested gridsize by shoveling into an array
   generateCards: function() {
@@ -137,7 +159,7 @@ var model = {
     }
   },
 
-  //shuffles the array of DOM cards 
+  //shuffles the array of DOM cards
   shuffle: function (array) {
     var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -155,6 +177,11 @@ var model = {
     }
 
     return array;
+  },
+
+  resetGuessCount: function() {
+    this.guessCount = 0;
+    view.updateGuessCount();
   }
 
 };
@@ -172,13 +199,15 @@ var view = {
     //if card isnt already match
     //checks controllers game logic
     this.renderGrid();
-    
-    $('.card-grid').on('click', '.card', function(event){
-            $(event.target).removeClass('unexposed');
-            if (!$(event.target).hasClass('match')) {
-              controller.checkCards(event.target);
-            }
-        });
+
+    $('.card-grid').on('click', '.card', this.clickTracker);
+  },
+
+  clickTracker: function(event){
+    $(event.target).removeClass('unexposed');
+    if (!$(event.target).hasClass('match')) {
+      controller.checkCards(event.target);
+    }
   },
 
   //actaully appends the array of DOM elements to HTML
@@ -192,71 +221,13 @@ var view = {
 
   updateGuessCount: function() {
     $('#guess-count').html(model.guessCount);
-  }
-
-
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-// This is a binary search tree. Write a function to reverse it!
-//(i.e. the left-most node should be on the right side and the right-most node should be on the left.)
-
-var nodeF = { value: 1,  left: null,  right: null };
-var nodeG = { value: 3,  left: null,  right: null };
-var nodeH = { value: 7,  left: null,  right: null };
-var nodeI = { value: 9,  left: null,  right: null };
-var nodeJ = { value: 11, left: null,  right: null };
-
-var nodeC = { value: 2,  left: nodeF, right: nodeG };
-var nodeD = { value: 6,  left: null,  right: nodeH };
-var nodeE = { value: 10, left: nodeI, right: nodeJ };
-
-var nodeA = { value: 4,  left: nodeC, right: null  };
-var nodeB = { value: 8,  left: nodeD, right: nodeE };
-
-var binaryTree = {
-  reverse: function(){
-
-    // Start at root node
-
-    stack = [this.root];
-    while (stack.length != 0) {
-      current = stack.pop();
-      //swap
-      hold = current.left;
-      current.left = current.right;
-      current.right = hold;
-
-      if (current.left === null && current.right === null){
-        continue;
-      };
-
-      if (current.left != null) {
-        stack.push(current.left);
-      };
-
-      if (current.right != null) {
-        stack.push(current.right);
-      };
-
-    };
-
   },
 
-  root: {
-    value: 5,
-    left: nodeA,
-    right: nodeB
+  resetBoard: function() {
+    model.cards = [];
+    $('.card').remove();
+    $('.card-grid').off('click', '.card', view.clickTracker);
   }
+
+
 };
