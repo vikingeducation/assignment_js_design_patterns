@@ -13,7 +13,7 @@ var controller = {
   },
 
   setCallbacks: function(){
-    $('table').on("click", "td", controller.makeTurn);
+    $('table').on("click", "td[style*='opacity: 0']", controller.makeTurn);
   }
 }
 
@@ -27,52 +27,57 @@ var viewPlay = {
     modelBoard.buildBoard(size);
     modelBoard.fillBoard();
     modelBoard.hideBoard();
-    
+
   },
 
 
 
   showSquare: function(event){
 
+    var $target = $(event.target)
+
+    $target.css("cursor", "default")
+
     if (viewPlay.checkedSquare) {
-      $(event.target).css("opacity",1);
+      $target.css("opacity",1);
       modelBoard.attempt+=1;
 
-      if ($(event.target).text() !== viewPlay.checkedSquare.text()) {
+      if ($target.text() !== viewPlay.checkedSquare.text()) {
         var clicked_box = viewPlay.checkedSquare;
         setTimeout(function(){
-          viewPlay.hideSquare($(event.target));
+          viewPlay.hideSquare($target);
           viewPlay.hideSquare(clicked_box);
         }, 500);
-      }else{
-        modelBoard.match+=1
+      } else {
+        modelBoard.match += 1;
       };
       viewPlay.checkedSquare = null;
     } else {
-      viewPlay.checkedSquare = $(event.target);
-      $(event.target).css("opacity",1);
+      viewPlay.checkedSquare = $target;
+      $target.css("opacity",1);
     };
-  
+
   },
 
 
   renderInfo: function(){
     $('#attempt').text(modelBoard.attempt);
-    $('#score').text(Math.floor(modelBoard.match/modelBoard.attempt*100));
+    $('#score').text(Math.floor(modelBoard.match/modelBoard.attempt*100) || 0);
     $('#match').text(modelBoard.match);
   },
 
   checkGameOver: function() {
     if($('td[style*="opacity: 0"]').length === 0){
-      alert("Game over! You win!");
+      $("button").removeClass("hidden");
       $('table').off();
+      alert("Game over! You win!");
     }
   },
 
   checkedSquare: null,
 
   hideSquare: function(obj){
-    obj.css("opacity",0);
+    obj.css("opacity",0).css("cursor", "pointer");
   }
 }
 
@@ -90,7 +95,7 @@ var modelBoard = {
   words: ["Play","Game","Sun","Cloud","Js","Java","CSS","Ruby"],
 
   buildBoard: function(size){
-    $('body').append('<table> </table>');
+    $('#board-container').append('<table> </table>');
     for(var i=0; i<size;i++){
       $('table').append('<tr></tr>')
       for(var j=0; j<size;j++){
