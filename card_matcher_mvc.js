@@ -91,7 +91,7 @@ var view = {
   render: function(){
     this.renderScore();
     // this.renderGameboard();
-  }
+  },
   // show score
   renderScore: function(){
 
@@ -101,7 +101,7 @@ var view = {
     var selectedCard = event.target
     selectedCard.addClass("revealed-square");
     selectedCard.removeClass("hidden-square");
-  }
+  },
 
   // renderGameboard: function(){
   //   //display flip squares
@@ -112,7 +112,7 @@ var view = {
   setupGameboard: function(size){
     console.log(size);
     for( var i=1; i <= size; i++){
-      var $card = $('<div class="hidden-square"></div>').text(model.card_value(i));
+      var $card = $('<div class="hidden-square"></div>').text(model.cardValue(i));
       $('#gameboard').append($card);
     }
   }
