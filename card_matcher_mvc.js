@@ -77,13 +77,9 @@ var model = {
   },
 
   checkCardMatch: function(currentCardVal){
-    if (currentCardVal  === this.previousCardValue) {
-      this.updateScore(true);
-      return true;
-    } else {
-      this.updateScore(false);
-      return false;
-    }
+    correct = (currentCardVal  === this.previousCardValue) ? true : false;
+    this.updateScore(correct);
+    return correct;
   },
 
   cardValue: function(card_num){
