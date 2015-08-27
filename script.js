@@ -1,6 +1,6 @@
 $(document).ready(function(){
   controller.init();
-})
+});
 
 //Controller
   //window prompt for grid size
@@ -29,6 +29,7 @@ var controller = {
 
   init: function() {
     this.getGridSize();
+    view.init();
   },
 
 
@@ -52,7 +53,9 @@ var controller = {
 var model = {
 
   gridSize: 0,
-  cards: ["1", "2", "3", "4", "5", "6", "7", "8"],
+  cardsSources: ["1", "2", "3", "4", "5", "6", "7", "8"],
+  //['kin10.jpg', jack.jpg]
+  cards: [],
 
   setGridSize: function(input) {
     n = parseInt(input);
@@ -69,6 +72,14 @@ var model = {
       alert("Must enter number");
       controller.getGridSize();
     }
+  },
+
+  generateCards: function() {
+    for( var i = 0; i < (model.gridSize *model.gridSize)/2; i++ ){
+      this.cards.push($('<div>'+model.cardsSources[i]+'</div>'));
+      this.cards.push($('<div>'+model.cardsSources[i]+'</div>'));
+      //this.cards.push( $('<img src=' + model.cardsSources[i]+'>') )
+    }
   }
 
 };
@@ -77,3 +88,29 @@ var model = {
   //model passes grid size for rendering
   //will render the cover up
   //will render text.picture of card when clicked from controller
+
+var view = {
+
+  init: function() {
+    this.renderGrid();
+  },
+
+  renderGrid: function() {
+    //model.cards.shuffle()
+    for( var i = 0; i<model.cards.length; i++){
+      model.cards[i].appendTo('.card-grid');
+    }
+  }
+
+  
+};
+
+
+
+
+
+
+
+
+
+
