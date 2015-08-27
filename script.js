@@ -1,20 +1,37 @@
 var viewPlay = {
 
-  setCallbacks: function(){ 
+  setCallbacks: function(){
     $('table').on("click", "td", viewPlay.showSquare);
   },
 
   showSquare: function(event){
-    $(event.target).css("opacity",1);
+    if (viewPlay.checkedSquare) {
+      $(event.target).css("opacity",1);
+      console.log($(event.target).text());
+      console.log(viewPlay.checkedSquare.text());
+      if ($(event.target).text() !== viewPlay.checkedSquare.text()) {
+        var clicked_box = viewPlay.checkedSquare;
+        setTimeout(function(){
+          viewPlay.hideSquare($(event.target));
+          viewPlay.hideSquare(clicked_box);
+        }, 500);
+      };
+      viewPlay.checkedSquare = null;
+    } else {
+      viewPlay.checkedSquare = $(event.target);
+      $(event.target).css("opacity",1);
+    };
 
-    setTimeout(function(){
-      viewPlay.hideSquare(event);
-    }, 1000);
-    
   },
 
-  hideSquare: function(event){
-    $(event.target).css("opacity",0);
+  checkGameOver: function() {
+    $("td")
+  },
+
+  checkedSquare: null,
+
+  hideSquare: function(obj){
+    obj.css("opacity",0);
   }
 }
 
