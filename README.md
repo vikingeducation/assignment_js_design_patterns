@@ -7,7 +7,7 @@ Alice and Alok
 ##[Play Memory](https://rawgit.com/alokpradhan/assignment_js_design_patterns/master/card_matcher.html)
 
 ## Instructions:
-### Select Number of Tiles
-### Find 2 matched tiles
-### End game by finding all tiles
-### Get a high score!
+Select Number of Tiles
+Find 2 matched tiles
+End game by finding all tiles
+Get a high score!
