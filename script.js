@@ -1,31 +1,72 @@
-var viewPlay = {
 
-  setCallbacks: function(){
-    $('table').on("click", "td", viewPlay.showSquare);
+var controller = {
+
+  init: function(){
+    viewPlay.init();
+    controller.setCallbacks();
   },
 
+  makeTurn: function(event){
+    viewPlay.showSquare(event);
+    viewPlay.renderInfo();
+    viewPlay.checkGameOver();
+  },
+
+  setCallbacks: function(){
+    $('table').on("click", "td", controller.makeTurn);
+  }
+}
+
+
+var viewPlay = {
+  init:  function(){
+    do {
+      size = prompt("What is the size of the board?");
+    } while(modelBoard.checkOdd());
+
+    modelBoard.buildBoard(size);
+    modelBoard.fillBoard();
+    modelBoard.hideBoard();
+    
+  },
+
+
+
   showSquare: function(event){
+
     if (viewPlay.checkedSquare) {
       $(event.target).css("opacity",1);
-      console.log($(event.target).text());
-      console.log(viewPlay.checkedSquare.text());
+      modelBoard.attempt+=1;
+
       if ($(event.target).text() !== viewPlay.checkedSquare.text()) {
         var clicked_box = viewPlay.checkedSquare;
         setTimeout(function(){
           viewPlay.hideSquare($(event.target));
           viewPlay.hideSquare(clicked_box);
         }, 500);
+      }else{
+        modelBoard.match+=1
       };
       viewPlay.checkedSquare = null;
     } else {
       viewPlay.checkedSquare = $(event.target);
       $(event.target).css("opacity",1);
     };
+  
+  },
 
+
+  renderInfo: function(){
+    $('#attempt').text(modelBoard.attempt);
+    $('#score').text(Math.floor(modelBoard.match/modelBoard.attempt*100));
+    $('#match').text(modelBoard.match);
   },
 
   checkGameOver: function() {
-    $("td")
+    if($('td[style*="opacity: 0"]').length === 0){
+      alert("Game over! You win!");
+      $('table').off();
+    }
   },
 
   checkedSquare: null,
@@ -39,17 +80,8 @@ var viewPlay = {
 var modelBoard = {
 
   size: 2,
-  init:  function(){
-    do {
-      size = prompt("What is the size of the board?");
-    } while(modelBoard.checkOdd());
-
-    modelBoard.buildBoard(size);
-    modelBoard.fillBoard();
-    modelBoard.hideBoard();
-    viewPlay.setCallbacks();
-  },
-
+  attempt: 0,
+  match: 0,
 
   checkOdd: function() {
     return ( !(size % 2 == 0 ));
@@ -88,7 +120,6 @@ var modelBoard = {
 
 }
 
-modelBoard.init();
 
 
 function shuffle(array) {
@@ -110,3 +141,4 @@ function shuffle(array) {
   return array;
 }
 
+controller.init();

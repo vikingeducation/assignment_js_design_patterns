@@ -1,22 +1,12 @@
-#pic1 {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  background-image: url(https://cdn.idevie.com/wp-content/uploads/2013/08/icon-grid1.gif);
 
-}
-
-#pic2 {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  background-image: url(https://cdn.idevie.com/wp-content/uploads/2013/08/icon-grid1.gif);
-
-}
 
 td {
   padding: 15px 15px;
   height: 50px;
   width: 50px;
   border: 3px solid #333;
+}
+
+p {
+  display: inline-block;
 }
