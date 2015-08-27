@@ -54,8 +54,8 @@ var controller = {
 var model = {
 
   gridSize: 0,
-  cardsSources: ["1", "2", "3", "4", "5", "6", "7", "8"],
-  //['kin10.jpg', jack.jpg]
+  // cardsSources: ["1", "2", "3", "4", "5", "6", "7", "8"],
+  cardsSources: ['icon-dropbox', 'icon-github', 'icon-skype', 'icon-linux', 'icon-instagram', 'icon-twitter', 'icon-facebook', 'icon-stackexchange'],
   cards: [],
 
   init: function() {
@@ -80,7 +80,7 @@ var model = {
   },
 
   generateCards: function() {
-    for( var i = 0; i < model.gridSize/2; i++ ){
+    for( var i = 0; i < (model.gridSize*model.gridSize)/2; i++ ){
       this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
       this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
       //this.cards.push( $('<img src=' + model.cardsSources[i]+'>') )
@@ -126,6 +126,8 @@ var view = {
       model.cards[i].appendTo('.card-grid .row');
     }
   }
+
+
 
 
 };
