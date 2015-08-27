@@ -27,6 +27,9 @@ $(document).ready(function(){
 
 var controller = {
 
+  flag: false,
+  currentCard: null,
+
   init: function() {
     this.getGridSize();
     model.init();
@@ -38,7 +41,34 @@ var controller = {
 
     model.setGridSize(prompt("Enter grid size: "));
 
+  },
+
+  checkCards: function(clickedCard) {
+    if (this.flag) {
+      if ($(clickedCard).html() === $(this.currentCard).html()) {
+        $(clickedCard).addClass('match');
+        $(this.currentCard).addClass('match');
+        this.flag = false;
+        this.currenCard = null;
+        model.guessCount += 1;
+        view.updateGuessCount();
+        this.checkVictory();
+      }
+      else {
+        $(clickedCard).addClass('unexposed');
+        $(this.currentCard).addClass('unexposed');
+        this.flag = false;
+        this.currentCard = null;
+        model.guessCount += 1;
+        view.updateGuessCount();
+      };
+    }
+    else {
+      this.flag = true;
+      this.currentCard = clickedCard
+    };
   }
+
 
 };
 
@@ -53,9 +83,10 @@ var controller = {
 
 var model = {
 
+  guessCount: 0,
   gridSize: 0,
   // cardsSources: ["1", "2", "3", "4", "5", "6", "7", "8"],
-  cardsSources: ['icon-dropbox', 'icon-github', 'icon-skype', 'icon-linux', 'icon-instagram', 'icon-twitter', 'icon-facebook', 'icon-stackexchange'],
+  cardsSources: ['fa fa-dropbox', 'fa fa-github', 'fa fa-skype', 'fa fa-linux', 'fa fa-instagram', 'fa fa-twitter', 'fa fa-facebook', 'fa fa-stack-exchange'],
   cards: [],
 
   init: function() {
@@ -81,8 +112,8 @@ var model = {
 
   generateCards: function() {
     for( var i = 0; i < (model.gridSize*model.gridSize)/2; i++ ){
-      this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
-      this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
+      this.cards.push($('<div class="well card text-center col-md-' + 12 / model.gridSize + ' unexposed" ><i class="'+model.cardsSources[i]+' fa-3x"></i></div>'));
+      this.cards.push($('<div class="well card text-center col-md-' + 12 / model.gridSize + ' unexposed" ><i class="'+model.cardsSources[i]+' fa-3x"></i></div>'));
       //this.cards.push( $('<img src=' + model.cardsSources[i]+'>') )
     }
   },
@@ -117,14 +148,24 @@ var view = {
 
   init: function() {
     this.renderGrid();
+    $('.card-grid').on('click', '.card', function(event){
+            $(event.target).removeClass('unexposed');
+            if (!$(event.target).hasClass('match')) {
+              controller.checkCards(event.target);
+            };
+        });
   },
 
   renderGrid: function() {
     //model.cards.shuffle()
     model.shuffle(model.cards);
     for( var i = 0; i<model.cards.length; i++){
-      model.cards[i].appendTo('.card-grid .row');
+      model.cards[i].appendTo('.card-grid .card-row');
     }
+  },
+
+  updateGuessCount: function() {
+    $('#guess-count').html(model.guessCount);
   }
 
 

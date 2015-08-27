@@ -1,0 +1,11 @@
+.card {
+  border: 1px solid red;
+}
+
+.unexposed {
+  background-color: black;
+}
+
+.unexposed .fa {
+  visibility: hidden;
+}
