@@ -25,10 +25,14 @@ $(document).ready(function(){
 
       //
 
+//gets gridsize
+//checks to see if card match
 var controller = {
 
+  //if flag is true means we are looking for card to match
   flag: false,
   currentCard: null,
+  lastClickedCard: null,
 
   init: function() {
     this.getGridSize();
@@ -52,21 +56,36 @@ var controller = {
         this.currenCard = null;
         model.guessCount += 1;
         view.updateGuessCount();
-        this.checkVictory();
+        // this.checkVictory();
       }
       else {
-        $(clickedCard).addClass('unexposed');
-        $(this.currentCard).addClass('unexposed');
-        this.flag = false;
-        this.currentCard = null;
-        model.guessCount += 1;
-        view.updateGuessCount();
-      };
+
+        setTimeout(function(){
+
+          console.log("clickedCard" + $(clickedCard));
+          console.log("currentCard:" + controller.currentCard);
+          console.log("this:" + this);
+
+          $(clickedCard).addClass('unexposed');
+          $(controller.currentCard).addClass('unexposed');
+          controller.flag = false;
+          controller.currentCard = null;
+          model.guessCount += 1;
+          view.updateGuessCount();
+        }, 1000);
+
+        
+        
+        // this.flag = false;
+        // this.currentCard = null;
+        // model.guessCount += 1;
+        // view.updateGuessCount();
+      }
     }
     else {
       this.flag = true;
-      this.currentCard = clickedCard
-    };
+      this.currentCard = clickedCard;
+    }
   }
 
 
@@ -110,14 +129,15 @@ var model = {
     }
   },
 
+  //builds the html DOM elements for cards depending on users suggested gridsize by shoveling into an array
   generateCards: function() {
     for( var i = 0; i < (model.gridSize*model.gridSize)/2; i++ ){
       this.cards.push($('<div class="well card text-center col-md-' + 12 / model.gridSize + ' unexposed" ><i class="'+model.cardsSources[i]+' fa-3x"></i></div>'));
       this.cards.push($('<div class="well card text-center col-md-' + 12 / model.gridSize + ' unexposed" ><i class="'+model.cardsSources[i]+' fa-3x"></i></div>'));
-      //this.cards.push( $('<img src=' + model.cardsSources[i]+'>') )
     }
   },
 
+  //shuffles the array of DOM cards 
   shuffle: function (array) {
     var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -147,15 +167,21 @@ var model = {
 var view = {
 
   init: function() {
+
+    //reveals card on click
+    //if card isnt already match
+    //checks controllers game logic
     this.renderGrid();
+    
     $('.card-grid').on('click', '.card', function(event){
             $(event.target).removeClass('unexposed');
             if (!$(event.target).hasClass('match')) {
               controller.checkCards(event.target);
-            };
+            }
         });
   },
 
+  //actaully appends the array of DOM elements to HTML
   renderGrid: function() {
     //model.cards.shuffle()
     model.shuffle(model.cards);
