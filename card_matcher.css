@@ -14,3 +14,9 @@
 
 }
 
+td {
+  padding: 15px 15px;
+  height: 50px;
+  width: 50px;
+  border: 3px solid #333;
+}
