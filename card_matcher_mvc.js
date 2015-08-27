@@ -62,10 +62,11 @@ var model = {
   score: 0,
 
   flipCard: function(cardVal){
+    this.flippedCardCount += 1;
     if (this.flippedCardCount %2 !== 0){
+      console.log("setting_val");
       this.previousCardValue = cardVal;
     }
-    this.flippedCardCount += 1;
   },
 
   setScore: function(updateValue) {
@@ -78,6 +79,7 @@ var model = {
   },
 
   checkCardMatch: function(currentCardVal){
+    console.log("current: " + currentCardVal + ", prev: " + this.previousCardValue);
     correct = (currentCardVal  === this.previousCardValue) ? true : false;
     this.updateScore(correct);
     return correct;
@@ -108,7 +110,7 @@ var view = {
     this.setupGameboard(size);
     $('#gameboard').click('.hidden-square',
       function(event){view.flipCard(event);});
-    // this.renderScore();
+    this.renderScore();
   },
 
   render: function(){
@@ -116,7 +118,9 @@ var view = {
     // this.renderGameboard();
   },
   // show score
-  renderScore: function(){},
+  renderScore: function(){
+    $('#score').text(model.score);
+  },
 
   flipCard: function(event){
     var $selectedCard = $(event.target);
@@ -125,6 +129,20 @@ var view = {
     var selectCardVal = model.cards[$selectedCard.attr('id')];
     $selectedCard.text(selectCardVal);
     controller.flipCard(selectCardVal);
+  },
+
+  hideCard: function(){
+    $cardsFlipped = $('.revealed-square');
+    $cardsFlipped.text('');
+    $cardsFlipped.addClass('hidden-square');
+    $cardsFlipped.removeClass('revealed-square');
+  },
+
+  confirmedPair: function(){
+    console.log('calling confirmpair fn');
+    $cardsFlipped = $('.revealed-sqaure');
+    $cardsFlipped.addClass('confirmed-pair');
+    $cardsFlipped.removeClass('revealed-square');
   },
 
   // show gameboard
@@ -139,16 +157,25 @@ var view = {
 var controller = {
   init: function(){
     var boardsize = this.boardsize();
-    view.init(boardsize);
     model.totalCards = boardsize;
     model.cardValue(boardsize);
     model.setScore(boardsize*10);
+    view.init(boardsize);
   },
 
   flipCard: function(cardVal){
     model.flipCard(cardVal);
     if (model.flippedCardCount %2 === 0) {
       var isMatch = model.checkCardMatch(cardVal);
+      console.log(isMatch);
+      if (isMatch){
+        console.log('inside controller isMatch if statement');
+        //view method to keep card flipped;
+        view.confirmedPair();
+      }else {
+        //delay before hiding card
+        view.hideCard();
+      }
     }
     view.render();
   },
