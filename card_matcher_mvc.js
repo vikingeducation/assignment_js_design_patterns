@@ -56,8 +56,35 @@ function shuffle(array) {
 var model = {
 
   totalCards: 0,
-
   cards: {},
+  previousCardValue: 0,
+  flippedCardCount: 0,
+  score: 0,
+
+  flipCard: function(cardVal){
+    if (this.flippedCardCount %2 !== 0){
+      this.previousCardValue = cardVal;
+    }
+    this.flippedCardCount += 1;
+  },
+
+  setScore: function(updateValue) {
+    this.score += updateValue;
+  },
+
+  updateScore: function(cardMatch) {
+    cardMatch ? this.setScore(5) : this.setScore(-4);
+  },
+
+  checkCardMatch: function(currentCardVal){
+    if (currentCardVal  === this.previousCardValue) {
+      this.updateScore(true);
+      return true;
+    } else {
+      this.updateScore(false);
+      return false;
+    }
+  },
 
   cardValue: function(card_num){
     var cardValues = [];
@@ -72,11 +99,10 @@ var model = {
 
     //assign
     for (var key = 1; key <= this.totalCards; key++) {
-      this.cards.key = cardValues.pop();
+      this.cards[key] = cardValues.pop();
+      console.log(this.cards);
     }
-  },
-
-  flippedCardCount: 0
+  }
 
 };
 
@@ -84,7 +110,7 @@ var view = {
   init: function(size){
     this.setupGameboard(size);
     $('#gameboard').click('.hidden-square',
-      function(event){view.flipSquare(event);});
+      function(event){view.flipCard(event);});
     // this.renderScore();
   },
 
@@ -95,28 +121,22 @@ var view = {
   // show score
   renderScore: function(){},
 
-  flipSquare: function(event){
+  flipCard: function(event){
     var $selectedCard = $(event.target);
     $selectedCard.addClass("revealed-square");
     $selectedCard.removeClass("hidden-square");
-    console.log($selectedCard);
-    $selectedCard.text(model.cards[$selectedCard.attr('id')]);
+    var selectCardVal = model.cards[$selectedCard.attr('id')];
+    $selectedCard.text(selectCardVal);
+    controller.flipCard(selectCardVal);
   },
-
-  // renderGameboard: function(){
-  //   //display flip squares
-  //   // $(".revealed-square")
-  // },
 
   // show gameboard
   setupGameboard: function(size){
-    console.log(size);
     for( var i=1; i <= size; i++){
-      var $card = $('<div class="hidden-square" id="'+i+'"></div>').text(model.cardValue(i));
+      var $card = $('<div class="hidden-square" id="'+i+'"></div>');
       $('#gameboard').append($card);
     }
   }
-
 };
 
 var controller = {
@@ -124,11 +144,15 @@ var controller = {
     var boardsize = this.boardsize();
     view.init(boardsize);
     model.totalCards = boardsize;
+    model.cardValue(boardsize);
+    model.setScore(boardsize*10);
   },
 
-  flipCard: function(){
-    model.flipCard();
-    view.flipCard();
+  flipCard: function(cardVal){
+    model.flipCard(cardVal);
+    if (model.flippedCardCount %2 === 0) {
+      var isMatch = model.checkCardMatch(cardVal);
+    }
     view.render();
   },
 
