@@ -48,7 +48,6 @@ var model = {
   },
 
   checkCardMatch: function(currentCardVal){
-    console.log("current: " + currentCardVal + ", prev: " + this.previousCardValue);
     var correct = (currentCardVal  === this.previousCardValue) ? true : false;
     this.updateScore(correct);
     return correct;
@@ -68,7 +67,6 @@ var model = {
     //assign
     for (var key = 1; key <= this.totalCards; key++) {
       this.cards[key] = cardValues.pop();
-      console.log(this.cards);
     }
   }
 
@@ -156,7 +154,6 @@ var controller = {
     model.flipCard(cardVal, cardID);
     if (model.flippedCardCount %2 === 0) {
       var isMatch = model.checkCardMatch(cardVal);
-      console.log(isMatch);
       if (isMatch){
         //view method to keep card flipped;
         view.confirmedPair();
@@ -165,9 +162,6 @@ var controller = {
       } else {
         //delay before hiding card
         this.cardFlipBackDelay = window.setTimeout(view.hideCard, 2000);
-
-        // cardFlipBackDelay = setTimeout(view.hideCard, 2000);
-        // clearTimeout(cardFlipBackDelay);
       }
     }
     view.render();
