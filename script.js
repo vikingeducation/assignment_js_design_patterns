@@ -182,3 +182,55 @@ var view = {
 
 
 
+
+// This is a binary search tree. Write a function to reverse it!
+//(i.e. the left-most node should be on the right side and the right-most node should be on the left.)
+
+var nodeF = { value: 1,  left: null,  right: null };
+var nodeG = { value: 3,  left: null,  right: null };
+var nodeH = { value: 7,  left: null,  right: null };
+var nodeI = { value: 9,  left: null,  right: null };
+var nodeJ = { value: 11, left: null,  right: null };
+
+var nodeC = { value: 2,  left: nodeF, right: nodeG };
+var nodeD = { value: 6,  left: null,  right: nodeH };
+var nodeE = { value: 10, left: nodeI, right: nodeJ };
+
+var nodeA = { value: 4,  left: nodeC, right: null  };
+var nodeB = { value: 8,  left: nodeD, right: nodeE };
+
+var binaryTree = {
+  reverse: function(){
+
+    // Start at root node
+
+    stack = [this.root];
+    while (stack.length != 0) {
+      current = stack.pop();
+      //swap
+      hold = current.left;
+      current.left = current.right;
+      current.right = hold;
+
+      if (current.left === null && current.right === null){
+        continue;
+      };
+
+      if (current.left != null) {
+        stack.push(current.left);
+      };
+
+      if (current.right != null) {
+        stack.push(current.right);
+      };
+
+    };
+
+  },
+
+  root: {
+    value: 5,
+    left: nodeA,
+    right: nodeB
+  }
+};
