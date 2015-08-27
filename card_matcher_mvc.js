@@ -1,28 +1,4 @@
-
-// View
-// Listener on click
-// Create cards
-// Flip card
-// Hide card
-// Generate game / cards
-// Render board
-
-// Controller
-// User prompt to generate game / cards
-//   - Set game score
-//   - Render board
-// User clicks on card
-//   - Flip card
-//   - Check card match if flipped card count = 2
-//   - Hide card if incorrect
-//   - Update score
-//   - Check game end
-// Game end
-
-// Match cards on value, create board with 2 cards of value 1...
-
-
-// 'use strict';
+'use strict';
 
 //shuffle function
 function shuffle(array) {
@@ -40,18 +16,10 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }
 
-// Model
-// create cards obj
-// Suggestion: each card has a value
-// Flipped card count
-// Check card match
-// Keep game score
-//   - related to board size
-// Card status (flipped)
+//---------- MODEL -----------
 
 var model = {
 
@@ -81,7 +49,7 @@ var model = {
 
   checkCardMatch: function(currentCardVal){
     console.log("current: " + currentCardVal + ", prev: " + this.previousCardValue);
-    correct = (currentCardVal  === this.previousCardValue) ? true : false;
+    var correct = (currentCardVal  === this.previousCardValue) ? true : false;
     this.updateScore(correct);
     return correct;
   },
@@ -105,6 +73,8 @@ var model = {
   }
 
 };
+
+//---------- VIEW -----------
 
 var view = {
   init: function(size){
@@ -141,14 +111,14 @@ var view = {
   },
 
   hideCard: function(){
-    $cardsFlipped = $('.revealed-square');
+    var $cardsFlipped = $('.revealed-square');
     $cardsFlipped.text('');
     $cardsFlipped.addClass('hidden-square');
     $cardsFlipped.removeClass('revealed-square');
   },
 
   confirmedPair: function(){
-    $cardsFlipped = $('.revealed-square');
+    var $cardsFlipped = $('.revealed-square');
     $cardsFlipped.addClass('confirmed-pair');
     $cardsFlipped.removeClass('revealed-square');
   },
@@ -166,6 +136,8 @@ var view = {
     }
   }
 };
+
+//---------- CONTROLLER -----------
 
 var controller = {
   init: function(){
@@ -211,10 +183,10 @@ var controller = {
   boardsize: function(){
     var userBoardSize = prompt('What is the size of the board?');
     userBoardSize = Math.floor(userBoardSize);
-    if (userBoardSize %2 !== 0){
-      userBoardSize +=1;
-    }else if(userBoardSize === 0){
+    if (isNaN(userBoardSize) || userBoardSize === 0){
       userBoardSize = 10;
+    } else if (userBoardSize % 2 !== 0){
+      userBoardSize +=1;
     }
     return userBoardSize;
   }
