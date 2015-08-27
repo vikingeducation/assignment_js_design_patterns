@@ -22,7 +22,7 @@
 // Match cards on value, create board with 2 cards of value 1...
 
 
-'use strict';
+// 'use strict';
 
 //shuffle function
 function shuffle(array) {
@@ -78,30 +78,30 @@ var model = {
 
   flippedCardCount: 0
 
-
 };
 
 var view = {
   init: function(size){
     this.setupGameboard(size);
-    $('#gameboard').click('.hidden-square', function(event){this.flipSquare(event);});
+    $('#gameboard').click('.hidden-square',
+      function(event){view.flipSquare(event);});
     // this.renderScore();
   },
 
   render: function(){
     this.renderScore();
     // this.renderGameboard();
-  }
-  // show score
-  renderScore: function(){
-
   },
+  // show score
+  renderScore: function(){},
 
   flipSquare: function(event){
-    var selectedCard = event.target
-    selectedCard.addClass("revealed-square");
-    selectedCard.removeClass("hidden-square");
-  }
+    var $selectedCard = $(event.target);
+    $selectedCard.addClass("revealed-square");
+    $selectedCard.removeClass("hidden-square");
+    console.log($selectedCard);
+    $selectedCard.text(model.card[$selectedCard.attr('id')]);
+  },
 
   // renderGameboard: function(){
   //   //display flip squares
@@ -112,10 +112,11 @@ var view = {
   setupGameboard: function(size){
     console.log(size);
     for( var i=1; i <= size; i++){
-      var $card = $('<div class="hidden-square"></div>').text(model.card_value(i));
+      var $card = $('<div class="hidden-square" id="'+i+'"></div>').text(model.cardValue(i));
       $('#gameboard').append($card);
     }
   }
+
 };
 
 var controller = {
@@ -134,9 +135,9 @@ var controller = {
   boardsize: function(){
     var userBoardSize = prompt('What is the size of the board?');
     userBoardSize = Math.floor(userBoardSize);
-    if (userBoardSize %2 !== 0 && userBoardSize !== 0){
+    if (userBoardSize %2 !== 0){
       userBoardSize +=1;
-    }else {
+    }else if(userBoardSize === 0){
       userBoardSize = 10;
     }
     return userBoardSize;
@@ -144,8 +145,4 @@ var controller = {
 
 };
 
-
-
-$(document).ready(function(){
-  controller.init();
-});
+$(document).ready(function(){ controller.init(); });
