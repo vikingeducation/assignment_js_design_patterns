@@ -100,7 +100,7 @@ var view = {
     $selectedCard.addClass("revealed-square");
     $selectedCard.removeClass("hidden-square");
     console.log($selectedCard);
-    $selectedCard.text(model.card[$selectedCard.attr('id')]);
+    $selectedCard.text(model.cards[$selectedCard.attr('id')]);
   },
 
   // renderGameboard: function(){
