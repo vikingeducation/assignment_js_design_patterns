@@ -4,8 +4,7 @@ Turning spaghetti into bricks since 1981
 
 Alice and Alok
 
-##[Play Memory at:]
-(https://rawgit.com/alokpradhan/assignment_js_design_patterns/master/card_matcher.html)
+##[Play Memory](https://rawgit.com/alokpradhan/assignment_js_design_patterns/master/card_matcher.html)
 
 ## Instructions:
 ### Select Number of Tiles
