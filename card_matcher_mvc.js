@@ -28,7 +28,47 @@
 // Match cards on value, create board with 2 cards of value 1...
 
 
-// 'use strict'
+// 'use strict';
+
+var model = {
+
+};
+
+var view = {
+  init: function(size){
+    this.renderGameboard(size);
+
+    // this.renderScore();
+  },
+
+  // show score
+  renderScore: function(){
+
+  },
+
+  // show gameboard
+  renderGameboard: function(size){
+    console.log(size);
+    var card = $('<div class = "hidden-square"></div>');
+    for( var i=0; i <= size; i++){
+      console.log(i);
+      $('#gameboard').append(card);
+    }
+  }
+};
+
+var controller = {
+  init: function(){
+    var boardsize = this.boardsize();
+    view.init(boardsize);
+  },
+
+
+  boardsize: function(){
+    return prompt('What is the size of the board?');
+  }
+
+};
 
 
 
