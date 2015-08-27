@@ -4,6 +4,7 @@
   width: 50px;
   display: inline-block;
   border: 2px solid blue;
+  vertical-align: middle;
 }
 
 /*hiding number*/
