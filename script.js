@@ -1,3 +1,24 @@
+var viewPlay = {
+
+  setCallbacks: function(){ 
+    $('table').on("click", "td", viewPlay.showSquare);
+  },
+
+  showSquare: function(event){
+    $(event.target).css("opacity",1);
+
+    setTimeout(function(){
+      viewPlay.hideSquare(event);
+    }, 1000);
+    
+  },
+
+  hideSquare: function(event){
+    $(event.target).css("opacity",0);
+  }
+}
+
+
 var modelBoard = {
 
   size: 2,
@@ -8,6 +29,8 @@ var modelBoard = {
 
     modelBoard.buildBoard(size);
     modelBoard.fillBoard();
+    modelBoard.hideBoard();
+    viewPlay.setCallbacks();
   },
 
 
@@ -22,7 +45,7 @@ var modelBoard = {
     for(var i=0; i<size;i++){
       $('table').append('<tr></tr>')
       for(var j=0; j<size;j++){
-         $('tr').last().append('<td>Board</td>')
+         $('tr').last().append('<td></td>')
       }
     }
   },
@@ -33,12 +56,17 @@ var modelBoard = {
       pos[i] = i;
     };
     pos = shuffle(pos);
+
     console.log(pos)
 
     for(var j = 0; j< pos.length; j++){
       $('tr td').eq(pos[j]).text(modelBoard.words[w])
       if (j % 2 == 1) w++;
     }
+  },
+
+  hideBoard: function(){
+    $('td').css("opacity",0)
   }
 
 }
@@ -64,3 +92,4 @@ function shuffle(array) {
 
   return array;
 }
+
