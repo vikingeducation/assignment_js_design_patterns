@@ -4,6 +4,7 @@
 //   - related to board size
 // Card status (flipped)
 // Flipped card count
+// Suggestion: each card has a value
 
 // View
 // Listener on click
@@ -32,6 +33,24 @@
 
 var model = {
 
+totalCards: "",
+
+cards = {
+  index: value;
+},
+
+cardValue: function(card_num){
+  cardValues = [];
+  for(var i = 1; i <= totalCards; i++) {
+
+  }
+
+  for (var key = 1; key <= totalCards; key++) {
+    cards.key = cardValues.shift();
+  }
+}
+
+
 };
 
 var view = {
@@ -49,10 +68,9 @@ var view = {
   // show gameboard
   renderGameboard: function(size){
     console.log(size);
-    var card = $('<div class = "hidden-square"></div>');
-    for( var i=0; i <= size; i++){
-      console.log(i);
-      $('#gameboard').append(card);
+    for( var i=1; i <= size; i++){
+      var $card = $('<div class="hidden-square"></div>').text(model.card_value(i));
+      $('#gameboard').append($card);
     }
   }
 };
@@ -61,6 +79,7 @@ var controller = {
   init: function(){
     var boardsize = this.boardsize();
     view.init(boardsize);
+    model.totalCards = boardsize;
   },
 
 
