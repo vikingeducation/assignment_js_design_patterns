@@ -29,6 +29,7 @@ var controller = {
 
   init: function() {
     this.getGridSize();
+    model.init();
     view.init();
   },
 
@@ -57,6 +58,10 @@ var model = {
   //['kin10.jpg', jack.jpg]
   cards: [],
 
+  init: function() {
+    this.generateCards();
+  },
+
   setGridSize: function(input) {
     n = parseInt(input);
     if (!isNaN(n)) {
@@ -75,11 +80,30 @@ var model = {
   },
 
   generateCards: function() {
-    for( var i = 0; i < (model.gridSize *model.gridSize)/2; i++ ){
-      this.cards.push($('<div>'+model.cardsSources[i]+'</div>'));
-      this.cards.push($('<div>'+model.cardsSources[i]+'</div>'));
+    for( var i = 0; i < model.gridSize/2; i++ ){
+      this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
+      this.cards.push($('<div class="col-md-' + 12 / model.gridSize + ' unexposed" >'+model.cardsSources[i]+'</div>'));
       //this.cards.push( $('<img src=' + model.cardsSources[i]+'>') )
     }
+  },
+
+  shuffle: function (array) {
+    var currentIndex = array.length, temporaryValue, randomIndex ;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 
 };
@@ -97,12 +121,13 @@ var view = {
 
   renderGrid: function() {
     //model.cards.shuffle()
+    model.shuffle(model.cards);
     for( var i = 0; i<model.cards.length; i++){
-      model.cards[i].appendTo('.card-grid');
+      model.cards[i].appendTo('.card-grid .row');
     }
   }
 
-  
+
 };
 
 
