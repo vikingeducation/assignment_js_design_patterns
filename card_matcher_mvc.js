@@ -58,7 +58,7 @@ var model = {
   totalCards: 0,
   cards: {},
   previousCardValue: 0,
-  previousCardID: 0,
+  previousCardID: 0, //don't use
   flippedCardCount: 0,
   score: 0,
 
@@ -110,18 +110,10 @@ var view = {
   init: function(size){
     this.setupGameboard(size);
     $('#gameboard').click('.hidden-square',
-      function(event){
-      view.flipCard(event);
-      });
+      function(event){ view.flipCard(event); });
     this.renderScore();
   },
 
-  // something: function(event){
-  //   if($('.revealed-square').length === 2){
-  //     window.clearTimeout(controller.cardFlipBackDelay);
-  //     view.flipCard(event);
-  //   }
-  // },
 
   render: function(){
     this.renderScore();
@@ -135,8 +127,8 @@ var view = {
   flipCard: function(event){
     //hide if 2 unmatched cards already revealed before flipping next
     if($('.revealed-square').length === 2){
-      window.clearTimeout(controller.cardFlipBackDelay);
-      view.hideCard();
+      controller.immediateClear();
+      this.hideCard();
     }
 
     var $selectedCard = $(event.target);
@@ -148,8 +140,8 @@ var view = {
     controller.flipCard(selectCardVal, selectCardID);
   },
 
-  hideCard: function(prevCardID, currentCardID){
-    $cardsFlipped = $('#' + prevCardID + ", #" + currentCardID);
+  hideCard: function(){
+    $cardsFlipped = $('.revealed-square');
     $cardsFlipped.text('');
     $cardsFlipped.addClass('hidden-square');
     $cardsFlipped.removeClass('revealed-square');
@@ -159,6 +151,11 @@ var view = {
     $cardsFlipped = $('.revealed-square');
     $cardsFlipped.addClass('confirmed-pair');
     $cardsFlipped.removeClass('revealed-square');
+  },
+
+  endGame: function(){
+    $('#gameboard').off();
+    alert('Game Ended!');
   },
 
   // show gameboard
@@ -179,10 +176,9 @@ var controller = {
     view.init(boardsize);
   },
 
-  // cardFlipBackDelay: function(prevCardID, currentCardID){
-  //   setTimeout(
-  //   function(){ view.hideCard(prevCardID, currentCardID);
-  //   }, 2000);},
+  immediateClear: function(){
+    window.clearTimeout(controller.cardFlipBackDelay);
+  },
 
   flipCard: function(cardVal, cardID){
     model.flipCard(cardVal, cardID);
@@ -190,18 +186,26 @@ var controller = {
       var isMatch = model.checkCardMatch(cardVal);
       console.log(isMatch);
       if (isMatch){
-        console.log('inside controller isMatch if statement');
         //view method to keep card flipped;
         view.confirmedPair();
+        this.checkGameEnd();
+
       } else {
         //delay before hiding card
-        this.cardFlipBackDelay = window.setTimeout(function(){view.hideCard(model.previousCardID, cardID);}, 2000);
+        this.cardFlipBackDelay = window.setTimeout(view.hideCard, 2000);
 
         // cardFlipBackDelay = setTimeout(view.hideCard, 2000);
         // clearTimeout(cardFlipBackDelay);
       }
     }
     view.render();
+  },
+
+  checkGameEnd: function(){
+    var gameComplete = ($('.hidden-square').length === 0);
+    if (gameComplete){
+      view.endGame();
+    }
   },
 
   boardsize: function(){
