@@ -48,10 +48,19 @@ var model = {
 var view = {
   init: function() {
     model.init(prompt('Enter the total number of cards:'));
+    view.renderView();
+  },
+
+  renderView: function() {
+    $(model.cards).each(function(index, cardObject) { view.renderCard(cardObject) } );
+  },
+
+  renderCard: function(cardObject) {
+    $card = $(cardObject)
+    var $newCard = $("<div class='card'>" + cardObject.value + "</div>");
+    $('.board').append($newCard);
   }
 
-    //$newCard = $("<div class='card'></div>");
-    //$('.board').append($newCard);
 }
 
 

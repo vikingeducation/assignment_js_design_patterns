@@ -1,0 +1,16 @@
+.board {
+
+}
+
+.card {
+  height: 128px;
+  width: 96px;
+  margin: 8px;
+  border: 1px solid #999;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: lightblue;
+  line-height: 128px;
+  font-size: 48px;
+  text-align: center;
+}
