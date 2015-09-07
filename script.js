@@ -4,16 +4,33 @@
 var model = {
   totalCards: 0,
   flippedCards: 0,
-  currentlyFlippedCard: null,
+  currentlyFlippedCardIndex: null,
   matchedCards: 0,
   cards: [],
   values: [],
 
   init: function(numberOfCards) {
-    for(var i = 0; i < numberOfCards; i++) {
+    var n = Number(numberOfCards)
+    for(var i = 0; i < n; i++) {
       model.createCard();
     };
-    model.totalCards = numberOfCards;
+    model.totalCards = n;
+    model.shuffleCards();
+  },
+
+  //Fisher-Yates (http://www.frankmitchell.org/2015/01/fisher-yates/)
+  shuffleCards: function() {
+    var array = model.cards
+      , i = 0
+      , j = 0
+      , temp = null;
+
+    for (i = array.length - 1; i > 0; i -= 1) {
+      j = Math.floor(Math.random() * (i + 1))
+      temp = array[i]
+      array[i] = array[j]
+      array[j] = temp
+    };
   },
 
 
@@ -44,7 +61,7 @@ var model = {
   },
 
   setCurrentlyFlipped: function(index) {
-    model.currentlyFlippedCard = model.cards[index];
+    model.currentlyFlippedCardIndex = index;
   },
 
   getCardByIndex: function(index) {
@@ -52,12 +69,20 @@ var model = {
   },
 
   checkMatch: function(index) {
-    var card = model.getCardByIndex(index)
-    var check = model.currentlyFlippedCard
+    var card = model.getCardByIndex(index);
+    var check = model.getCardByIndex(model.currentlyFlippedCardIndex);
     if (card.value === check.value) {
       card.matched = true;
       check.matched = true;
-      view.flagMatched(card.id, check.id);
+      model.matchedCards += 2;
+      view.flagMatched(index, model.currentlyFlippedCardIndex);
+      model.checkWin();
+    };
+  },
+
+  checkWin: function() {
+    if (model.totalCards === model.matchedCards) {
+      view.renderGameOver();
     };
   }
 
@@ -66,6 +91,7 @@ var model = {
 
 var view = {
   init: function() {
+    // prevent odd numbers
     model.init(prompt('Enter the total number of cards:'));
 
     $('.board').on('click', '.facedown', controller.pickCard);
@@ -99,6 +125,11 @@ var view = {
   flagMatched: function(index1, index2) {
     $('.board').children().eq(index1).removeClass('card').addClass('matched');
     $('.board').children().eq(index2).removeClass('card').addClass('matched');
+  },
+
+  renderGameOver: function() {
+    var $results = $("<div class='result-wrapper'><h4>You win!</h4><p>Stats go here</p></div>");
+    $('.board').after($results);
   }
 
 }
@@ -116,6 +147,7 @@ var controller = {
     if (model.flippedCards === 2) {
       model.checkMatch(index);
       $('.board').off('click');
+      //don't delay if matched
       setTimeout(view.hideAllCards, 2000);
     }
     else {
