@@ -8,6 +8,8 @@ var model = {
   matchedCards: 0,
   cards: [],
   values: [],
+  totalMoves: 0,
+  score: 0,
 
   init: function(numberOfCards) {
     var n = Number(numberOfCards)
@@ -75,15 +77,38 @@ var model = {
       card.matched = true;
       check.matched = true;
       model.matchedCards += 2;
+      model.scoreMatch();
       view.flagMatched(index, model.currentlyFlippedCardIndex);
       model.checkWin();
-    };
+    }
+    else {
+      model.scoreWrong();
+    }
   },
 
   checkWin: function() {
     if (model.totalCards === model.matchedCards) {
       view.renderGameOver();
     };
+  },
+
+  addMove: function() {
+    model.totalMoves++;
+    model.sendScoreboard();
+  },
+
+  scoreMatch: function() {
+    model.score += 1;
+    model.sendScoreboard();
+  },
+
+  scoreWrong: function() {
+    model.score -= 1;
+    model.sendScoreboard();
+  },
+
+  sendScoreboard: function() {
+    view.refreshScoreboard(model.totalMoves, model.score);
   }
 
 }
@@ -128,8 +153,13 @@ var view = {
   },
 
   renderGameOver: function() {
-    var $results = $("<div class='result-wrapper'><h4>You win!</h4><p>Stats go here</p></div>");
+    var $results = $("<div class='result-wrapper'><h4>You win!</h4></div>");
     $('.board').after($results);
+  },
+
+  refreshScoreboard: function(moves, score) {
+    $('.scoreboard').children().first().text("Total moves: " + moves);
+    $('.scoreboard').children().eq(1).text("Score: " + score);
   }
 
 }
@@ -143,6 +173,7 @@ var controller = {
   pickCard: function() {
     pickedCard = this;
     index = $(pickedCard).index();
+    model.addMove();
     view.renderCard(pickedCard);
     if (model.flippedCards === 2) {
       model.checkMatch(index);
