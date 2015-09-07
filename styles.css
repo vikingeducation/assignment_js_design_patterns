@@ -6,10 +6,10 @@
   height: 128px;
   width: 96px;
   margin: 8px;
-  border: 1px solid #999;
+  border: 4px solid #eee;
   border-radius: 8px;
   display: inline-block;
-  background-color: #ddd;
+  background-color: lightyellow;
   line-height: 128px;
   font-size: 48px;
   text-align: center;
@@ -17,4 +17,17 @@
 
 .facedown {
   background-color: lightblue;
+}
+
+.matched {
+  height: 128px;
+  width: 96px;
+  margin: 8px;
+  border: 4px solid green;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: lightyellow;
+  line-height: 128px;
+  font-size: 48px;
+  text-align: center;
 }

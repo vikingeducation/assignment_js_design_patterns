@@ -4,6 +4,7 @@
 var model = {
   totalCards: 0,
   flippedCards: 0,
+  currentlyFlippedCard: null,
   matchedCards: 0,
   cards: [],
   values: [],
@@ -20,6 +21,7 @@ var model = {
     var newCard = {
       id: model.cards.length,
       value: model.generateValue(),
+      matched: false
     };
 
     model.cards[newCard.id] = newCard;
@@ -39,6 +41,24 @@ var model = {
     else {
       return lastValue;
     }
+  },
+
+  setCurrentlyFlipped: function(index) {
+    model.currentlyFlippedCard = model.cards[index];
+  },
+
+  getCardByIndex: function(index) {
+    return model.cards[index];
+  },
+
+  checkMatch: function(index) {
+    var card = model.getCardByIndex(index)
+    var check = model.currentlyFlippedCard
+    if (card.value === check.value) {
+      card.matched = true;
+      check.matched = true;
+      view.flagMatched(card.id, check.id);
+    };
   }
 
 }
@@ -74,6 +94,11 @@ var view = {
     $('.card').addClass('facedown').text("#");
     model.flippedCards = 0;
     $('.board').on('click', '.facedown', controller.pickCard);
+  },
+
+  flagMatched: function(index1, index2) {
+    $('.board').children().eq(index1).removeClass('card').addClass('matched');
+    $('.board').children().eq(index2).removeClass('card').addClass('matched');
   }
 
 }
@@ -85,11 +110,17 @@ var controller = {
   },
 
   pickCard: function() {
-    view.renderCard(this);
+    pickedCard = this;
+    index = $(pickedCard).index();
+    view.renderCard(pickedCard);
     if (model.flippedCards === 2) {
+      model.checkMatch(index);
       $('.board').off('click');
       setTimeout(view.hideAllCards, 2000);
-    };
+    }
+    else {
+      model.setCurrentlyFlipped(index);
+    }
   }
 }
 
