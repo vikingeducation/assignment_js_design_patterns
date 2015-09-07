@@ -3,6 +3,8 @@
 
 var model = {
   totalCards: 0,
+  flippedCards: 0,
+  matchedCards: 0,
   cards: [],
   values: [],
 
@@ -37,28 +39,41 @@ var model = {
     else {
       return lastValue;
     }
-  },
-
-  getCard: function() {
-
   }
+
 }
 
 
 var view = {
   init: function() {
     model.init(prompt('Enter the total number of cards:'));
+
+    $('.board').on('click', '.facedown', controller.pickCard);
+
     view.renderView();
   },
 
   renderView: function() {
-    $(model.cards).each(function(index, cardObject) { view.renderCard(cardObject) } );
+    $(model.cards).each(function(index, cardObject) { view.renderHiddenCard(cardObject) } );
+  },
+
+  renderHiddenCard: function(cardObject) {
+    $card = $(cardObject)
+    var $newCard = $("<div class='card facedown'>#</div>");
+    $('.board').append($newCard);
   },
 
   renderCard: function(cardObject) {
     $card = $(cardObject)
-    var $newCard = $("<div class='card'>" + cardObject.value + "</div>");
-    $('.board').append($newCard);
+    var index = $card.index();
+    $card.removeClass('facedown').text(model.cards[index].value);
+    model.flippedCards++;
+  },
+
+  hideAllCards: function() {
+    $('.card').addClass('facedown').text("#");
+    model.flippedCards = 0;
+    $('.board').on('click', '.facedown', controller.pickCard);
   }
 
 }
@@ -67,6 +82,14 @@ var view = {
 var controller = {
   init: function() {
     view.init();
+  },
+
+  pickCard: function() {
+    view.renderCard(this);
+    if (model.flippedCards === 2) {
+      $('.board').off('click');
+      setTimeout(view.hideAllCards, 2000);
+    };
   }
 }
 
