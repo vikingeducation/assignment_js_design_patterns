@@ -20,6 +20,7 @@ var model = {
     model.shuffleCards();
   },
 
+
   //Fisher-Yates (http://www.frankmitchell.org/2015/01/fisher-yates/)
   shuffleCards: function() {
     var array = model.cards
@@ -46,6 +47,7 @@ var model = {
     model.cards[newCard.id] = newCard;
   },
 
+
   generateValue: function() {
     var lastValue = model.values[model.values.length - 1];
     if (model.values.length === 0) {
@@ -62,13 +64,16 @@ var model = {
     }
   },
 
+
   setCurrentlyFlipped: function(index) {
     model.currentlyFlippedCardIndex = index;
   },
 
+
   getCardByIndex: function(index) {
     return model.cards[index];
   },
+
 
   checkMatch: function(index) {
     var card = model.getCardByIndex(index);
@@ -78,13 +83,16 @@ var model = {
       check.matched = true;
       model.matchedCards += 2;
       model.scoreMatch();
-      view.flagMatched(index, model.currentlyFlippedCardIndex);
       model.checkWin();
+      view.flagMatched(index, model.currentlyFlippedCardIndex);
+      view.nextTurn();
     }
     else {
       model.scoreWrong();
+      setTimeout(view.nextTurn, 1500);
     }
   },
+
 
   checkWin: function() {
     if (model.totalCards === model.matchedCards) {
@@ -92,20 +100,24 @@ var model = {
     };
   },
 
+
   addMove: function() {
     model.totalMoves++;
     model.sendScoreboard();
   },
+
 
   scoreMatch: function() {
     model.score += 1;
     model.sendScoreboard();
   },
 
+
   scoreWrong: function() {
     model.score -= 1;
     model.sendScoreboard();
   },
+
 
   sendScoreboard: function() {
     view.refreshScoreboard(model.totalMoves, model.score);
@@ -114,25 +126,29 @@ var model = {
 }
 
 
+
+
 var view = {
+
   init: function() {
     // prevent odd numbers
     model.init(prompt('Enter the total number of cards:'));
-
     $('.board').on('click', '.facedown', controller.pickCard);
-
     view.renderView();
   },
+
 
   renderView: function() {
     $(model.cards).each(function(index, cardObject) { view.renderHiddenCard(cardObject) } );
   },
+
 
   renderHiddenCard: function(cardObject) {
     $card = $(cardObject)
     var $newCard = $("<div class='card facedown'>#</div>");
     $('.board').append($newCard);
   },
+
 
   renderCard: function(cardObject) {
     $card = $(cardObject)
@@ -141,21 +157,25 @@ var view = {
     model.flippedCards++;
   },
 
-  hideAllCards: function() {
+
+  nextTurn: function() {
     $('.card').addClass('facedown').text("#");
     model.flippedCards = 0;
     $('.board').on('click', '.facedown', controller.pickCard);
   },
+
 
   flagMatched: function(index1, index2) {
     $('.board').children().eq(index1).removeClass('card').addClass('matched');
     $('.board').children().eq(index2).removeClass('card').addClass('matched');
   },
 
+
   renderGameOver: function() {
     var $results = $("<div class='result-wrapper'><h4>You win!</h4></div>");
     $('.board').after($results);
   },
+
 
   refreshScoreboard: function(moves, score) {
     $('.scoreboard').children().first().text("Total moves: " + moves);
@@ -166,9 +186,11 @@ var view = {
 
 
 var controller = {
+
   init: function() {
     view.init();
   },
+
 
   pickCard: function() {
     pickedCard = this;
@@ -176,15 +198,14 @@ var controller = {
     model.addMove();
     view.renderCard(pickedCard);
     if (model.flippedCards === 2) {
-      model.checkMatch(index);
       $('.board').off('click');
-      //don't delay if matched
-      setTimeout(view.hideAllCards, 2000);
+      model.checkMatch(index);
     }
     else {
       model.setCurrentlyFlipped(index);
     }
   }
+
 }
 
 
