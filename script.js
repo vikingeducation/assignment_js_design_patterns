@@ -132,9 +132,22 @@ var view = {
 
   init: function() {
     // prevent odd numbers
-    model.init(prompt('Enter the total number of cards:'));
+    model.init(view.startupPrompt());
     $('.board').on('click', '.facedown', controller.pickCard);
     view.renderView();
+  },
+
+  startupPrompt: function() {
+    while(true){
+      var input = prompt("Enter the total number of cards (must be an even number):");
+      if (input > 0 && input % 2 === 0) {
+        break;
+      }
+      else {
+        alert("Sorry, that number was invalid. Please try again.");
+      }
+    }
+    return input;
   },
 
 
