@@ -78,15 +78,6 @@ var view = {
 		$('#user-score').html("Score: " + model.getScore());
 	}
 
-	// Flip card
-		// Returns face down if already flipped
-
-	// Matched Card
-
-	// Victory
-
-	// Render
-
 }
 
 
@@ -110,6 +101,8 @@ var controller = {
 		controller.potential_matches.push(model.card_grid[card_number]);
 		controller.cards_up++;
 		if(controller.cards_up == 2){
+			// Make it so we can't click more than 2 cards
+			$('#card-grid').off('click', 'td');
 			setTimeout(controller.determineMatch, 1000);
 		}
 	},
@@ -132,6 +125,8 @@ var controller = {
 		controller.cards_up = 0;
 		view.displayScore();
 		controller.checkVictory();
+		// Turn card click listeners back on.
+		view.config();
 	}, 
 
 	checkVictory: function(){
