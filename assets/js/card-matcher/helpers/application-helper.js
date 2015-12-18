@@ -7,7 +7,7 @@ var ApplicationHelper = {
 
   _partialPath: function(template) {
     template = template.split('/').join('/_');
-    return 'https://rawgit.com/BideoWego/assignment_js_design_patterns/master/assets/js/card-matcher/views/' + 
+    return '/assets/js/card-matcher/views/' + 
       template + '.html.ejs';
   }
 };

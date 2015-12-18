@@ -23,7 +23,7 @@ var ApplicationController = {
   },
 
   _templatePath: function(template) {
-    return 'https://rawgit.com/BideoWego/assignment_js_design_patterns/master/assets/js/card-matcher/views/' + 
+    return '/assets/js/card-matcher/views/' + 
       this.templateDirectory + 
       '/' + template + '.html.ejs';
   }
