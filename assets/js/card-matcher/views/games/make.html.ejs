@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-xs-12">
+
+      <header class="page-header text-center">
+        <h1>Welcome to Card Matcher!</h1>
+        <div class="row">
+          <div class="col-xs-4"><%= img_tag() %></div>
+        </div>
+      </header>
+
+      <div class="well">
+        <form id="form">
+          <div class="form-group">
+            <label for="size">
+              Select Grid Size
+            </label>
+            <select id="size" name="size" class="form-control">
+
+              <% for (var i = Grid.minSize; i <= Grid.maxSize; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+              <% } %>
+
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Play!
+          </button>
+        </form>
+      </div>
+
+      <script>
+        $('#form').submit(function(e) {
+          e.preventDefault();
+
+          GamesController.params = {
+            size: $('#size').val()
+          };
+          GamesController.create();
+
+          return false;
+        });
+      </script>
+
+  </div>
+</div>
+
