@@ -2,8 +2,8 @@
 
 var model = {
 
-  lastCard: "",
-  currentCard: "",
+  lastCard: null,
+  currentCard: null,
 
   getCardImgs: function(){
     var emojiPngs = ["1f400.png", "1f403.png", "1f405.png", "1f408.png", 
@@ -30,7 +30,21 @@ var model = {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   },
 
-  cardMatch: function() {}
+  addCard: function(card){
+    if (model.currentCard) {
+      model.lastCard = model.currentCard;
+    }
+    model.currentCard = card;
+  },
+
+  nullCards: function(){
+    model.lastCard = null;
+    model.currentCard = null;
+  },
+
+  cards: function(){
+    return model.lastCard.add(model.currentCard);
+  }
 
 };
 
@@ -43,8 +57,10 @@ var view = {
   eventHandlers: function() {
     $("div").on("click", function(){
       var card = $(this).children("img");
-      card.show();
-      controller.revealCard(card);
+      card.fadeIn(500, function(){
+        controller.revealCard(card);
+      });
+      
     });
   },
 
@@ -56,9 +72,17 @@ var view = {
   },
 
   hideCards: function(cards){
-    $.each(cards, function(i, val){
-      $(val).hide();
-    });
+    cards.parent().animate({"border-color": "#FF0000"}, 500)
+                  .animate({"border-color": "#bbb"}, 500)
+                  .animate({"border-color": "#FF0000"}, 500)
+                  .animate({"border-color": "#bbb"}, 500, 
+                    function(){
+                      cards.fadeOut(300);
+                    });
+  },
+
+  unbindCards: function(cards){
+    cards.parent().off("click").animate({"border-color": "#80FF00"}, 500);
   }
 
 
@@ -76,22 +100,16 @@ var controller = {
 
 
   revealCard: function(card){
-    if (model.currentCard) {
-      model.lastCard = model.currentCard;
-    }
+    model.addCard(card);
 
-    model.currentCard = card;
-
-    console.log("current: " + model.currentCard[0].src)
-    console.log("last " + model.lastCard[0].src)
-    if (model.lastCard[0].src && model.currentCard[0].src) {
-      if (model.lastCard == model.currentCard) {
-        model.lastCard = "";
-        model.currentCard = "";
+    if (model.lastCard && model.currentCard) {
+      if (model.lastCard[0].src == model.currentCard[0].src) {
+        view.unbindCards(model.cards())
+        model.nullCards();
       } else {
-        view.hideCards(model.lastCard, model.currentCard);
-        model.lastCard = "";
-        model.currentCard = "";
+        console.log(model.cards())
+        view.hideCards(model.cards());
+        model.nullCards();
       }
     }
   }
