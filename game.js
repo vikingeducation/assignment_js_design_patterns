@@ -42,11 +42,13 @@ var model = {
     model.currentCard = null;
   },
 
-  cards: function(){
+  getCards: function(){
     return model.lastCard.add(model.currentCard);
   }
 
 };
+
+
 
 var view = {
 
@@ -58,7 +60,7 @@ var view = {
     $("div").on("click", function(){
       var card = $(this).children("img");
       card.fadeIn(500, function(){
-        controller.revealCard(card);
+        controller.checkCard(card);
       });
       
     });
@@ -81,13 +83,13 @@ var view = {
                     });
   },
 
-  unbindCards: function(cards){
-    cards.parent().off("click").animate({"border-color": "#80FF00"}, 500);
+  matchedCards: function(cards){
+    cards.parent().off("click").animate({"border-color": "#80FF00"}, 500,
+      function(){ cards.show(); });
   }
 
-
-
 };
+
 
 
 var controller = {
@@ -99,16 +101,15 @@ var controller = {
   },
 
 
-  revealCard: function(card){
+  checkCard: function(card){
     model.addCard(card);
 
     if (model.lastCard && model.currentCard) {
       if (model.lastCard[0].src == model.currentCard[0].src) {
-        view.unbindCards(model.cards())
+        view.matchedCards(model.getCards());
         model.nullCards();
       } else {
-        console.log(model.cards())
-        view.hideCards(model.cards());
+        view.hideCards(model.getCards());
         model.nullCards();
       }
     }
