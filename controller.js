@@ -8,9 +8,14 @@ var controller = {
 
   getPairs: function(){
     return model.getPairs();
+  },
+
+  showCard: function(cardId) {
+    model.getPairs()[cardId].visible = true;
+    console.log(cardId);
+    console.log(model.getPairs(), model.getPairs()[cardId]);
+    view.render();
   }
-
-
 
 };
 
