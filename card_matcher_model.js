@@ -19,8 +19,8 @@ var model = {
     return this.cards[id];
   },
 
-  checkRevealed: function( id, cardViewRevealed ) {
-    if ( cardViewRevealed ) {
+  checkRevealed: function( id ) {
+    //if ( cardViewRevealed ) {
       this.revealedCards.push( this.getCard(id) );
 
       if(this.revealed){
@@ -41,7 +41,7 @@ var model = {
         this.revealed = true;
       }
 
-    }
+    //}
   },
 
   populateCards: function( numPairs ) {
