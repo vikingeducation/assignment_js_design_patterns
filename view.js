@@ -2,10 +2,7 @@ var view = {
  init: function() {
 
   $("input").on('click', function(){
-    var $board = $('<div></div>');
-    $board.attr("class", "board");
-    $("body").append($board);
-    controller.init();
+    controller.resetGame();
   } );
 
   $('.board').on('click', '.unmatched', function(event){
@@ -26,7 +23,7 @@ var view = {
       controller.checkMatch(visibleCardIds);
       controller.addAttempt();
       setTimeout(view.hideAllCards, 500);
-      controller.checkWin();
+      setTimeout(controller.checkWin, 500);
     }
   
 
@@ -78,7 +75,7 @@ var view = {
   },
 
   renderWin: function() {
-    $(".board").remove();
+    $("img").remove();
     $(".win").text("You Won!");
   }
 };

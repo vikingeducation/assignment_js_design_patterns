@@ -45,6 +45,12 @@ var controller = {
     if ( model.checkWin() ) {
       view.renderWin();
     }
+  },
+
+  resetGame: function() {
+    model.init();
+    model.generatePairs(2);
+    view.render();
   }
 
 };
