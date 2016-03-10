@@ -1,0 +1,3 @@
+var view = {
+ init: function() {},
+};
