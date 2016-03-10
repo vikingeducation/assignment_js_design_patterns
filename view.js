@@ -2,7 +2,7 @@ var view = {
  init: function() {
 
 
-  $('.board').on('click', 'img', function(event){
+  $('.board').on('click', '.unmatched', function(event){
     $id = $(event.target).attr("id");
     var cards = controller.getPairs();
     var visibleCount = 0;
@@ -17,9 +17,12 @@ var view = {
       }
       if ( visibleCount >= 2 ) {
         controller.checkMatch(visibleCardIds);
+        controller.addAttempt();
         setTimeout(view.hideAllCards, 500);
       }
     }
+
+    view.showGameStats();
   });
 
   this.render();
@@ -34,10 +37,13 @@ var view = {
       var $imgTag = $('<img></img>');
       if ( cards[c].matched ) {
         $imgTag.css({"height": "300px", "width": "200px"});
+        $imgTag.attr("class", "matched");
       } else if ( cards[c].visible ) {
         $imgTag.attr("src", "images/" + cards[c].name);
+        $imgTag.attr("class", "unmatched");
       } else {
         $imgTag.attr("src", "images/" + "red_joker.png");
+        $imgTag.attr("class", "unmatched");
       }
       $imgTag.attr("id", c);
       $(".board").append($imgTag);
@@ -50,5 +56,12 @@ var view = {
     for ( var c in cards ) {
       controller.hideCard(c);
     }
+  },
+
+  showGameStats: function() {
+    var attempts = controller.getAttempts();
+    var totalPairs = controller.getPairs().length/2;
+    var totalMatches = controller.getMathces();
+    
   }
 };

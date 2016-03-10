@@ -58,6 +58,16 @@ var model = {
     } else {
       return false;
     }
+  },
+
+  getMatches: function(){
+    var matches = 0;
+    for (var m in pairs) {
+      if (pairs[m].matched) {
+        matches++;
+      }
+    }
+    return Math.floor(matches/2);
   }
 
 };

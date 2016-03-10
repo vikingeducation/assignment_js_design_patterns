@@ -10,6 +10,10 @@ var controller = {
     return model.getPairs();
   },
 
+  getAttempts: function(){
+    return model.getAttempts();
+  },
+
   showCard: function(cardId) {
     model.getPairs()[cardId].visible = true;
     view.render();
@@ -25,10 +29,15 @@ var controller = {
     if (cards[cardIds[0]].name === cards[cardIds[1]].name) {
       cards[cardIds[0]].matched = true;
       cards[cardIds[1]].matched = true;
-      return true;
-    } else {
-      return false;
     }
+  },
+
+  getMatches: function() {
+    return model.getMatches();
+  },
+
+  addAttempts: function() {
+    model.addAttempts();
   }
 
 };
