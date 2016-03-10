@@ -4,6 +4,7 @@ var view = {
   init: function(){
     this.renderBoard();
     this.eventListeners.showCard();
+    this.eventListeners.howManyFlipped();
   },
 
   rowNames: ["one", "two"],
@@ -21,7 +22,6 @@ var view = {
 
   renderBoard: function() {
     var numPieces = (this.rowNames.length*this.rowNames.length)
-    console.log(numPieces)
     // columns
     for (var i=0; i < this.rowNames.length; i++) {
       // rows
@@ -32,58 +32,47 @@ var view = {
   },
 
 
+  // adds/removes .coverup, hides/shows images
   toggleCard: function(target) {
     $(target).toggleClass('coverup');
     $(target).children().first().toggle(); // switches display: none
   },
 
+
   hideCards: function(){
-    $.each($('img'), function(index, img){
-      if(!$(img).hasClass('matched')){
-        $(img).hide();
-        $(img).parent().addClass('coverup');
-        model.pickedCards = [];
-      }
-    })
+    if (!$('.clicked').hasClass('matched')) {
+      $('.clicked').children().hide();
+    }
+
+    $('.clicked').addClass('coverup');
+    $('.clicked').removeClass('clicked');
   },
 
 
-  // that: this,
+  addMatchedClass: function() {
+    $('.clicked').addClass('matched');
+    $('.clicked').removeClass('clicked');
+  },
+
 
   eventListeners: {
-
     showCard: function(){
       $('.coverup').click(function(e){
         view.toggleCard(e.target)
         $(e.target).addClass('clicked')
       })
+    },
+
+    howManyFlipped: function() {
+      $('.coverup').click(function(e) {
+        controller.incrementCounter();
+        if (controller.checkMatch()) {
+          controller.keepCards();
+        } else if (!controller.checkMatch() && controller.cardsClicked === 2) {
+          controller.noMatch();
+        }
+      })
     }
-    // showCard: function() {
-    //   $('.coverup').click( function(e) {
-    //     //True on first card pick
-    //     if(model.pickedCards.length <= 1){
-    //       //Showing the card
-    //       view.toggleCard(e.target);
-    //       model.pickedCards.push(e.target.children[0].src);
-    //       //If you've already stored the first card in the model
-    //       if(model.firstCard ===0){
-    //         //Storing first card in model
-    //         model.firstCard = e.target;
-    //       }
-    //     }
-    //     else if (model.checkMatch){
-    //       $(e.target).addClass('matched');
-    //       $(model.firstCard).addClass('matched');
-    //       model.firstCard = 0;
-    //     }
-    //       else{
-    //         view.hideCards();
-    //       }
-    //   })
-    // },
-
-
-
   }
 
 };
@@ -118,16 +107,6 @@ var model = {
     });
   },
 
-  //Lists name of card img src tags for comparison
-  pickedCards: [],
-
-  //Holds first card picked for later comparison
-  firstCard: 0,
-
-  // checkMatch: function(){
-  //   return model.pickedCards[0] === model.pickedCards[1];
-  // },
-
 };
 
 
@@ -135,7 +114,12 @@ var model = {
 
 var controller = {
 
-  init: model.createCards(),
+  cardsClicked: 0,
+
+  init: function() {
+    model.createCards();
+    view.init();
+  },
 
   placeCards: function(){
     for (var i=0; i < model.gamePieces.length; i++){
@@ -147,17 +131,35 @@ var controller = {
   },
 
   checkMatch: function(){
-    return $('.clicked')[0].src === $('.clicked')[1].src));
+    if (this.cardsClicked === 2) {
+      return $('.clicked')[0].children[0].src === $('.clicked')[1].children[0].src;
+    } 
   },
+
+  incrementCounter: function() {
+    this.cardsClicked++;
+  },
+
+  keepCards: function() {
+    view.addMatchedClass();
+    controller.cardsClicked = 0;
+  },
+
+  noMatch: function() {
+    setTimeout(function() {
+      controller.cardsClicked = 0;
+      view.hideCards();
+    }, 2000)
+  },
+
+
+
 }
 
 
 $(document).ready(function(){
-  // var ourModel = model;
-  // view.renderBoard();
 
-  // $('.img-bucket').text(model.emojis)
-  view.init();
+  controller.init();
 
 
 });
