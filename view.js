@@ -2,6 +2,9 @@ var view = {
  init: function() {
 
   $("input").on('click', function(){
+    var $board = $('<div></div>');
+    $board.attr("class", "board");
+    $("body").append($board);
     controller.init();
   } );
 
