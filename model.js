@@ -1,9 +1,11 @@
 var model = {
 
-  attempts: 0,
-  pairs: [],
-  matchedArray: [],
-  cards: [],
+  init: function() {
+    this.attempts = 0;
+    this.pairs = [];
+    this.matchedArray = [];
+    this.cards = [];
+  },
 
   generatePairs: function(pairNum) {
     // Initializes deck
@@ -26,7 +28,7 @@ var model = {
 
   },
 
-  addAttempts: function(){
+  addAttempt: function(){
     this.attempts++;
   },
 
@@ -53,7 +55,7 @@ var model = {
   },
 
   checkWin: function(){
-    if ( this.pairs.length === this.matchedArray.length ){
+    if ( this.pairs.length/2 === this.getMatches() ){
       return true;
     } else {
       return false;
@@ -62,8 +64,8 @@ var model = {
 
   getMatches: function(){
     var matches = 0;
-    for (var m in pairs) {
-      if (pairs[m].matched) {
+    for (var m in this.pairs) {
+      if (this.pairs[m].matched) {
         matches++;
       }
     }

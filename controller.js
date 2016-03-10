@@ -1,6 +1,7 @@
 var controller = {
   init: function(){
       // Initialize random pairs
+      model.init();
       model.generatePairs(2);
       view.init();
     },
@@ -36,8 +37,14 @@ var controller = {
     return model.getMatches();
   },
 
-  addAttempts: function() {
-    model.addAttempts();
+  addAttempt: function() {
+    model.addAttempt();
+  },
+
+  checkWin: function() {
+    if ( model.checkWin() ) {
+      view.renderWin();
+    }
   }
 
 };

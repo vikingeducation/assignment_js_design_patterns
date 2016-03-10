@@ -1,6 +1,9 @@
 var view = {
  init: function() {
 
+  $("input").on('click', function(){
+    controller.init();
+  } );
 
   $('.board').on('click', '.unmatched', function(event){
     $id = $(event.target).attr("id");
@@ -15,14 +18,15 @@ var view = {
         visibleCount++;
         visibleCardIds.push(c);
       }
-      if ( visibleCount >= 2 ) {
-        controller.checkMatch(visibleCardIds);
-        controller.addAttempt();
-        setTimeout(view.hideAllCards, 500);
-      }
     }
+    if ( visibleCount >= 2 ) {
+      controller.checkMatch(visibleCardIds);
+      controller.addAttempt();
+      setTimeout(view.hideAllCards, 500);
+      controller.checkWin();
+    }
+  
 
-    view.showGameStats();
   });
 
   this.render();
@@ -48,6 +52,8 @@ var view = {
       $imgTag.attr("id", c);
       $(".board").append($imgTag);
     }
+
+    view.showGameStats();
   },
 
 
@@ -61,7 +67,15 @@ var view = {
   showGameStats: function() {
     var attempts = controller.getAttempts();
     var totalPairs = controller.getPairs().length/2;
-    var totalMatches = controller.getMathces();
+    var totalMatches = controller.getMatches();
     
+    $(".attempts").text("Attempts: " + attempts);
+    $(".pairs").text("Pairs: " + totalPairs);
+    $(".matches").text("Matches: " + totalMatches);
+  },
+
+  renderWin: function() {
+    $(".board").remove();
+    $(".win").text("You Won!");
   }
 };
