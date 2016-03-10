@@ -69,17 +69,17 @@ var view = {
     init: function(){
 
        do {
-         gridSize = prompt("Enter the grid_size (between 2 - 8) :" );
+         var gridSize = prompt("Enter the grid_size (between 2 - 8) :" );
        } while(!(model.validateGridSize(gridSize)));
 
     },
 
     render: function(){
-      cardList = model.getGenerateCards();
+      var cardList = model.getGenerateCards();
       for(i=0; i < cardList.length; i++) {
-        currentCard = model.cardList[i];
+        var currentCard = model.cardList[i];
         console.log(currentCard);
-        newCard = '<div class="card" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>'
+        var newCard = '<div class="card" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>'
         $('.card-field').append(newCard)
       }
     },
