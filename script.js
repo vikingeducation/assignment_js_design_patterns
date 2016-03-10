@@ -1,13 +1,12 @@
 var view = {
 
-  // rowNames = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
   init: function(){
     this.renderBoard();
     this.eventListeners.showCard();
     this.eventListeners.howManyFlipped();
   },
 
-  rowNames: ["one", "two"],
+  rowNames: ["one", "two", "three", "four", "five", "six", "seven", "eight"],
 
   getRandomRow: function(){
     return Math.floor(Math.random() * this.rowNames.length);
@@ -94,7 +93,7 @@ var model = {
   gamePieces: [],
 
   createCards: function() {
-    var numRows = 2;
+    var numRows = view.rowNames.length;
     var uniqueCards = (numRows*numRows) / 2;
     for (var i=0; i < uniqueCards; i++) {
       this.gamePieces.push(this.emojis[ Math.floor(Math.random() * this.emojis.length) ]);
