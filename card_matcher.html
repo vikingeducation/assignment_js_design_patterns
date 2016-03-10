@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="card_matcher.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+
+
+    <div id="game-class-container">
+
+      <div class="game-info">
+        <div class="section">
+          <div id="game-state-text">
+            Enter a grid size and click on a card.
+          </div>
+        </div>
+
+        <div class="section">
+          Num Guesses:
+          <div id="num-guesses">
+          </div>
+        </div>
+
+        <div class="section">
+          Total cards:
+          <div id="total-cards">
+          </div>
+        </div>
+        <div class="section">
+          Matched cards:
+          <div id="matched-cards">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="form-container">
+      <form action="/">
+        <label for="grid_size">Grid Size</label>
+        <br>
+        <span id='info'></span>
+        <input type="text" id="grid_size" name="grid_size">
+        <br>
+        <input type="submit" value="Create Grid">
+        <br>
+      </form>
+    </div>
+
+    <div class="grid-container">
+      <div id="matcher-grid">
+      </div>
+    </div>
+
+  </body>
+
+</html>
