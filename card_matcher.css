@@ -5,6 +5,10 @@
   height: 200px;
 }
 
-.card-col{
+.card-col {
   padding: 10px;
+}
+
+.card-revealed {
+  background-color: red;
 }
