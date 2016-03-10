@@ -22,6 +22,19 @@ var matcherModel = {
     return false;
   },
 
+  selectedCard: null,
+
+  setSelectedCard: function(cardId) {
+    this.selectedCard = this.getCard(cardId);
+  },
+
+  checkGuess: function(cardId) {
+    var guessedCard = this.getCard(cardId);
+    var correct =  this.selectedCard.matches(guessedCard);
+    this.selectedCard = null;
+    return correct;
+  },
+
   Card: function(id, value) {
     this.id = id;
     this.value = value;
@@ -72,7 +85,6 @@ var matcherModel = {
   },
 };
 
-var matcherController = {};
 
 var matcherView = {
 
@@ -80,7 +92,6 @@ var matcherView = {
 
   init: function() {
 
-    this.model.init();
     this.$grid = $('#matcher-grid');
 
     this.render();
@@ -88,19 +99,70 @@ var matcherView = {
 
   render: function() {
     this.addCardsToGrid();
+    var width = 100.0 / this.model.size - 2;
+    $('.card').css({
+      width: width + "%"
+    });
 
+    $('.card').click(function(e){
+      matcherController.selectCard($(this).data('card-id'))
+    });
+  },
+
+  revealCard: function(cardId) {
+    $('#card-' + cardId).addClass('revealed');
+  },
+
+  setCorrect: function(cardId) {
+    $('#card-' + cardId).addClass('correct');
+  },
+
+  hideCards: function() {
+    $('.card').not('.correct').removeClass('revealed');
   },
 
   addCardsToGrid: function() {
     for( var i = 0; i < this.model.cards.length; i++ ) {
       var card = this.model.cards[i];
-      var $cardDiv = $('<div>' + card.value.toString() + '</div>');
+      var $cardDiv = $("<div> <div class='name'>" + card.value.toString() + "</div></div>");
       $cardDiv.addClass('card');
       $cardDiv.data( 'card-id', card.id );
+      $cardDiv.attr( 'id', 'card-' + card.id );
       this.$grid.append($cardDiv);
     }
   },
 
 };
 
+var matcherController = {
+
+  model: matcherModel,
+  view: matcherView,
+
+  init: function() {
+    this.model.init();
+    this.view.init();
+  },
+
+  selectCard: function(cardId) {
+    this.view.revealCard(cardId);
+
+    if (this.model.selectedCard) {
+      var selectedCard = this.model.selectedCard;
+      var correct = this.model.checkGuess(cardId);
+      if (correct) {
+        this.view.setCorrect(cardId);
+        this.view.setCorrect(selectedCard.id);
+      } else {
+        this.view.hideCards();
+      }
+    } else {
+      this.model.setSelectedCard(cardId);
+    }
+  }
+};
+
+$(document).ready(function() {
+  matcherController.init();
+})
 
