@@ -11,14 +11,15 @@ var model = {
     var cardVal = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king", "ace"];
     for (var s in suits) {
       for (var cv in cardVal) {
-        this.cards.push(cardVal + "_of_" + s + ".png");
+        var newCard = new Card(cardVal[cv] + "_of_" + suits[s] + ".png")
+        this.cards.push(newCard);
       }
     }
 
     // generate pairs
     for (var i = 0; i < pairNum; i++) {
       var randomIndex = Math.floor(Math.random()*52);
-      this.setPairs(cards[randomIndex]);
+      this.setPairs(this.cards[randomIndex]);
     }
 
     // shuffle the pairs
@@ -60,3 +61,8 @@ var model = {
   }
 
 };
+
+function Card(name) {
+  this.visible = false;
+  this.name = name;
+}
