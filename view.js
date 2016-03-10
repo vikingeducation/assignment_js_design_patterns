@@ -4,10 +4,11 @@ var view = {
 
   $('.board').on('click', 'img', function(event){
     $id = $(event.target).attr("id");
-    // Check for visible cards and win conditions
     var cards = controller.getPairs();
     var visibleCount = 0;
     var visibleCardIds = [];
+
+    controller.showCard($id);
 
     for ( var c in cards ) {
       if ( cards[c].visible) {
@@ -15,31 +16,12 @@ var view = {
         visibleCardIds.push(c);
       }
       if ( visibleCount >= 2 ) {
-        console.log(visibleCardIds);
         controller.checkMatch(visibleCardIds);
-        view.hideAllCards();
+        setTimeout(function() {
+          view.hideAllCards();
+        }, 500);
       }
     }
-
-    // reveals the card
-    controller.showCard($id);
-
-    visibleCount = 0;
-    visibleCardIds = [];
-
-    for ( c in cards ) {
-      if ( cards[c].visible) {
-        visibleCount++;
-        visibleCardIds.push(c);
-      }
-      if ( visibleCount >= 2 ) {
-        console.log(visibleCardIds);
-        controller.checkMatch(visibleCardIds);
-        //view.hideAllCards();
-      }
-    }
-
-
   } );
 
   this.render();
@@ -52,7 +34,6 @@ var view = {
     for ( var c in cards ){
 
       var $imgTag = $('<img></img>');
-      console.log(cards[c].visible);
       if ( cards[c].matched ) {
         $imgTag.css({"height": "300px", "width": "200px"});
       } else if ( cards[c].visible ) {
