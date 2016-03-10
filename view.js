@@ -17,12 +17,10 @@ var view = {
       }
       if ( visibleCount >= 2 ) {
         controller.checkMatch(visibleCardIds);
-        setTimeout(function() {
-          view.hideAllCards();
-        }, 500);
+        setTimeout(view.hideAllCards, 500);
       }
     }
-  } );
+  });
 
   this.render();
  },
