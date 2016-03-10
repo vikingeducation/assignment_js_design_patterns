@@ -1,6 +1,11 @@
 var view = {
 
   // rowNames = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
+  init: function(){
+    this.renderBoard();
+    this.eventListeners.showCard();
+  },
+
   rowNames: ["one", "two"],
 
   getRandomRow: function(){
@@ -32,17 +37,54 @@ var view = {
     $(target).children().first().toggle(); // switches display: none
   },
 
+  hideCards: function(){
+    $.each($('img'), function(index, img){
+      if(!$(img).hasClass('matched')){
+        $(img).hide();
+        $(img).parent().addClass('coverup');
+        model.pickedCards = [];
+      }
+    })
+  },
+
+
   // that: this,
 
   eventListeners: {
-    showCard: function() {
-      $('.coverup').click( function(e) {
-        view.toggleCard(e.target);
+
+    showCard: function(){
+      $('.coverup').click(function(e){
+        view.toggleCard(e.target)
+        $(e.target).addClass('clicked')
       })
     }
+    // showCard: function() {
+    //   $('.coverup').click( function(e) {
+    //     //True on first card pick
+    //     if(model.pickedCards.length <= 1){
+    //       //Showing the card
+    //       view.toggleCard(e.target);
+    //       model.pickedCards.push(e.target.children[0].src);
+    //       //If you've already stored the first card in the model
+    //       if(model.firstCard ===0){
+    //         //Storing first card in model
+    //         model.firstCard = e.target;
+    //       }
+    //     }
+    //     else if (model.checkMatch){
+    //       $(e.target).addClass('matched');
+    //       $(model.firstCard).addClass('matched');
+    //       model.firstCard = 0;
+    //     }
+    //       else{
+    //         view.hideCards();
+    //       }
+    //   })
+    // },
+
+
+
   }
-
-
 
 };
 
@@ -59,6 +101,7 @@ var model = {
     "santa.svg",  "swirlie.svg",  "thumbsup.svg",
     "titanic.svg",  "twitter.svg",  "umbrella.svg"],
 
+  //Actual cards used for game
   gamePieces: [],
 
   createCards: function() {
@@ -71,11 +114,19 @@ var model = {
     this.gamePieces = this.gamePieces.concat(this.gamePieces);
     // shuffle our array
     this.gamePieces.sort(function() {
-      return .5 - Math.random();
+      return 0.5 - Math.random();
     });
   },
 
+  //Lists name of card img src tags for comparison
+  pickedCards: [],
 
+  //Holds first card picked for later comparison
+  firstCard: 0,
+
+  // checkMatch: function(){
+  //   return model.pickedCards[0] === model.pickedCards[1];
+  // },
 
 };
 
@@ -83,6 +134,7 @@ var model = {
 
 
 var controller = {
+
   init: model.createCards(),
 
   placeCards: function(){
@@ -94,6 +146,9 @@ var controller = {
     return model.gamePieces.pop();
   },
 
+  checkMatch: function(){
+    return $('.clicked')[0].src === $('.clicked')[1].src));
+  },
 }
 
 
@@ -102,7 +157,7 @@ $(document).ready(function(){
   // view.renderBoard();
 
   // $('.img-bucket').text(model.emojis)
-
+  view.init();
 
 
 });
