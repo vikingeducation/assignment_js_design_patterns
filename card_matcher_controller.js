@@ -4,13 +4,13 @@ var controller = {
         view.init();
         model.generateCards();
         view.render();
-        view.clickCard();
+        view.registerClickEvents();
     },
 
 
-    clickCard: function(index,target) {
-      if (model.clickCard(index,target)) {
-        
+    clickCard: function(index) {
+      if (model.clickCard(index)) {
+        console.log('card already flipped')
       } else {
         model.cardMatch();
       }

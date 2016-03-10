@@ -14,7 +14,11 @@ var view = {
 
       for(i=0; i < cardList.length; i++) {
         var currentCard = model.cardList[i];
-        var newCard = '<div class="card" id="' + i + '" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>';
+        var newCard = '<div class="card" ' + 
+        'data-card-id="' + i + 
+        '" data-card-value="' + 
+        String(model.getCardValue(currentCard)) + 
+        '" id=card-' + i + '>Card</div>';
         $('.card-field').append(newCard);
         $('#current-score').text(model.currentScore);
       }
@@ -25,12 +29,12 @@ var view = {
       return target.attr( "data-card-value");
     },
 
-    displayCard: function(target,flipped) {
+    flipCard: function(target,flipped) {
       console.log(target + ': ' + flipped)
       if (!flipped) {
         var val = 'Card';
       } else {
-        var val = $(target).attr( "data-card-value");
+        var val = $('#card-' + target).attr( "data-card-value");
       }
       $(target).text(val);
     },
@@ -40,11 +44,11 @@ var view = {
       $('#current-score').text("Current Score: " + score);
     },
 
-    clickCard: function() {
+    registerClickEvents: function() {
       $('.card').click(function(eventObj) {
-        var index = Number($(eventObj.target).attr('id'));
+        var index = Number($(eventObj.target).attr('data-card-id'));
 
-        controller.clickCard(index,$(eventObj.target));
+        controller.clickCard(index);
       });
     },
 

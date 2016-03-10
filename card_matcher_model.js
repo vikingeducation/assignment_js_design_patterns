@@ -68,7 +68,7 @@ var model = {
         this.changeState('current')
         this.previousCard = this.currentCard;
         this.previousID = this.currentID;
-        view.displayCard('#' + model.currentID, true)
+        view.flipCard(this.currentID, true)
       } else {
         var previousValue = this.previousCard.value;
         var currentValue = this.currentCard.value;
@@ -83,20 +83,21 @@ var model = {
           this.changeState("previous");
           this.changeState("current");
 
-          view.displayCard('#' + model.previousID,false);
-          view.displayCard('#' + model.currentID,false);
+          view.flipCard(this.previousID,false);
+          view.flipCard(this.currentID,false);
           this.previousCard = undefined;
           this.previousID = undefined;
         };
       };
     },
 
-    clickCard: function(index,target) {
+    clickCard: function(index) {
         this.currentCard = this.getGenerateCards()[index];
         this.currentID = index;
         console.log('Current card:' + this.currentID);
         console.log('Previous card:' + this.previousID)
         var state = this.getCardState(this.currentCard);
+        console.log(state);
         return state;
     }
 
