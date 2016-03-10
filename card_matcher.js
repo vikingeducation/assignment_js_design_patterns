@@ -10,6 +10,11 @@ var model = {
       return true
     }
 
+    getgridSize: function(){
+        return this.gridSize;
+    },
+
+
 };
 
 var controller = {
