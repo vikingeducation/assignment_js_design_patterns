@@ -28,6 +28,10 @@ var matcherModel = {
     this.selectedCard = this.getCard(cardId);
   },
 
+  sameCard: function( id ) {
+    return ( this.selectedCard && id === this.selectedCard.id )
+  },
+
   checkGuess: function(cardId) {
     var guessedCard = this.getCard(cardId);
     var correct =  this.selectedCard.matches(guessedCard);
@@ -131,7 +135,6 @@ var matcherView = {
       this.$grid.append($cardDiv);
     }
   },
-
 };
 
 var matcherController = {
@@ -145,6 +148,10 @@ var matcherController = {
   },
 
   selectCard: function(cardId) {
+    if( this.model.sameCard(cardId) ) {
+      return;
+    }
+
     this.view.revealCard(cardId);
 
     if (this.model.selectedCard) {

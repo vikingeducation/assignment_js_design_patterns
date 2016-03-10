@@ -14,16 +14,22 @@
   padding: 0;
   border: 1px solid black;
   box-sizing: border-box;
+  transition: all 0.5s;
+  transform: rotateY(180deg);
 }
 
 .name {
   font-size: large;
   transform: translateY(60%);
+  backface-visibility: hidden;
+  position: relative;
+  display: block;
 }
 
 .revealed {
   border-color: green;
   background-color: green;
+  transform: rotateY(0deg);  
 }
 
 .correct {
