@@ -26,12 +26,13 @@ var view = {
     },
 
     displayCard: function(target,flipped) {
+      console.log(target + ': ' + flipped)
       if (!flipped) {
         var val = 'Card';
       } else {
-        var val = target.attr( "data-card-value");
+        var val = $(target).attr( "data-card-value");
       }
-      target.text(val);
+      $(target).text(val);
     },
 
 
@@ -43,46 +44,8 @@ var view = {
       $('.card').click(function(eventObj) {
         var index = Number($(eventObj.target).attr('id'));
 
-        //controller.clickCard(index,$(eventObj.target))
-
-        var currentCard = model.getGenerateCards()[index];
-        var state = model.getCardState(currentCard);
-
-        if (!state) {
-          $target = $(eventObj.target);
-          var val = $target.attr( "data-card-value");
-
-          $target.text(val);
-          model.changeState(currentCard);
-
-          if (!model.previousCard) {
-            model.previousCard = currentCard;
-            model.previousID = index;
-          } else {
-            var previousValue = model.previousCard.value;
-            var currentValue = currentCard.value;
-            if (currentValue === previousValue) {
-              alert('Congratulations!');
-              model.currentScore++;
-              model.previousCard = undefined;
-              $('#current-score').text("Current Score: " + model.currentScore);
-            } else {
-              alert('Try again');
-              model.currentScore--;
-              $('#current-score').text(model.currentScore);
-              model.changeState(model.previousCard);
-              model.changeState(currentCard);
-
-              $('#' + model.previousID).text('Card');
-              $target.text('Card');
-              model.previousCard = undefined;
-            };
-          }
-        } else {
-          alert('Card has been flipped');
-        }
-
-      })
+        controller.clickCard(index,$(eventObj.target));
+      });
     },
 
 };

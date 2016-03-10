@@ -7,13 +7,13 @@ var controller = {
         view.clickCard();
     },
 
-   /*
+
     clickCard: function(index,target) {
-       if (model.clickCard(index,target)) {
-  
-       } else {
-  
-       }
+      if (model.clickCard(index,target)) {
+        
+      } else {
+        model.cardMatch();
+      }
     }
-    */
+
 };

@@ -46,11 +46,12 @@ var model = {
     },
 
     changeState: function(ourCard) {
-      //ourCard.flipped = !ourCard.flipped;
       if (ourCard === "previous" ) {
-        this.previousCard.flipped = !this.previousCard.flipped
+        this.previousCard.flipped = !this.previousCard.flipped;
+        console.log('Card ' + this.previousCard.value + ' flipped')
       } else {
-        this.currentCard.flipped = !this.currentCard.flipped
+        this.currentCard.flipped = !this.currentCard.flipped;
+        console.log('Card ' + this.currentCard.value + ' flipped')
       };
     },
 
@@ -64,67 +65,39 @@ var model = {
 
     cardMatch: function() {
       if (!this.previousCard) {
+        this.changeState('current')
         this.previousCard = this.currentCard;
         this.previousID = this.currentID;
+        view.displayCard('#' + model.currentID, true)
       } else {
         var previousValue = this.previousCard.value;
         var currentValue = this.currentCard.value;
         if (currentValue === previousValue) {
-          addScore();
+          this.addScore();
           this.previousCard = undefined;
-          view.displayScore(score);
+          view.displayScore(this.currentScore);
         } else {
-          decreaseScore();
-          view.displayScore(score);
+          this.decreaseScore();
+          view.displayScore(this.currentScore);
 
-          changeState("previous");
-          changeState("current");
+          this.changeState("previous");
+          this.changeState("current");
 
-          view.displayCard('#' + model.previousID,false) {
+          view.displayCard('#' + model.previousID,false);
+          view.displayCard('#' + model.currentID,false);
           this.previousCard = undefined;
+          this.previousID = undefined;
         };
-    }
-    /*
+      };
+    },
+
     clickCard: function(index,target) {
         this.currentCard = this.getGenerateCards()[index];
-        this.currentId = index;
-        var state = this.getCardState(currentCard);
+        this.currentID = index;
+        console.log('Current card:' + this.currentID);
+        console.log('Previous card:' + this.previousID)
+        var state = this.getCardState(this.currentCard);
         return state;
     }
-        if (!state) {
-          //$target = $(eventObj.target);
-          var val = target.attr( "data-card-value");
-
-          $target.text(val);
-          model.changeState(currentCard);
-
-          if (!model.previousCard) {
-            model.previousCard = currentCard;
-            model.previousID = index;
-          } else {
-            var previousValue = model.previousCard.value;
-            var currentValue = currentCard.value;
-            if (currentValue === previousValue) {
-              alert('Congratulations!');
-              model.currentScore++;
-              model.previousCard = undefined;
-              $('#current-score').text(model.currentScore);
-            } else {
-              alert('Try again');
-              model.currentScore--;
-              $('#current-score').text(model.currentScore);
-              model.changeState(model.previousCard);
-              model.changeState(currentCard);
-
-              $('#' + model.previousID).text('Card');
-              $target.text('Card');
-              model.previousCard = undefined;
-            };
-          }
-        } else {
-          alert('Card has been flipped');
-        }
-    },
-    */
 
 };
