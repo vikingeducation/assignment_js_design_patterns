@@ -4,6 +4,7 @@
 }
 
 .card {
+  z-index: 1000;
   opacity: 0;
   height: 50px;
   display: inline-block;
@@ -39,4 +40,36 @@
 .correct {
   border-color: darkgreen;
   background-color: lime;
+}
+
+.section div {
+  display: inline;
+  font-weight: bold;
+  color: white;
+}
+
+body {
+  margin: 0;
+}
+
+.game-info {
+  display: block;
+  height: 40px;
+  margin: 0 0 10px 0;
+  background-color: gray;
+}
+
+.form-container {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.section {
+  text-align: center;
+  display: inline-block;
+  width: 25%;
+  position: relative;
+  top: 10px;
+  color: #DDD;
+  float: left;
 }
