@@ -8,19 +8,21 @@ var view = {
     $(".card-col").on("click", ".card", function( event ) {
 
       var cardID = event.target.id;
-      $("#" + cardID).toggleClass("card-revealed");
-      $("#" + cardID).text( model.getCard( this.getIndexFromCardID(cardID) ).content )
 
-      model.checkRevealed( indexFromCardID(cardID), !!event.target.className.match(/card-revealed/) );
+      view.revealCard( cardID );
+
+      model.checkRevealed( view.indexFromCardID( cardID ), !!event.target.className.match(/card-revealed/) );
     });
   },
 
-  revealCard: function() {
-
+  revealCard: function( cardID ) {
+    $("#" + cardID).addClass("card-revealed");
+    $("#" + cardID).text( model.getCard( view.indexFromCardID(cardID) ).content )
   },
 
   hideCard: function( id ) {
     $("#card-" + id).removeClass("card-revealed");
+    $("#card-" + id).text("");
   },
 
   askUser: function() {
@@ -32,7 +34,7 @@ var view = {
     $('#cardholder').append(card);
   },
 
-  indexFromCardID: function(cardID) {
-    Number(cardID.match(/card-(.)/)[1]);
+  indexFromCardID: function( cardID ) {
+    return Number(cardID.match(/card-(.)/)[1]);
   }
 }

@@ -1,6 +1,6 @@
 var model = {
 
-  cardContents: [ "red", "blue", "green" ],
+  cardContents: [ "red", "blue", "green", "chicken", "horse" ],
   revealed: false,
 
   init: function() {
@@ -21,7 +21,7 @@ var model = {
 
   checkRevealed: function( id, cardViewRevealed ) {
     if ( cardViewRevealed ) {
-      this.revealedCards.push( getCard(id) );
+      this.revealedCards.push( this.getCard(id) );
 
       if(this.revealed){
         if( this.revealedCards[0].content === this.revealedCards[1].content ) {
@@ -29,9 +29,12 @@ var model = {
         }
         else{
           this.revealed = false;
-          while ( revealedCards.length > 0 ) {
-            setTimeout( view.hideCard( revealedCards.pop().id ), 1000);
-          }
+
+            setTimeout( function() {
+              while ( model.revealedCards.length > 0 ) {
+                view.hideCard( model.revealedCards.pop().id );
+              }
+            }, 1000);
         }
       }
       else{
@@ -42,12 +45,11 @@ var model = {
   },
 
   populateCards: function( numPairs ) {
-    var content = "something";
-    
-    for (var id = 0; id < numPairs; id++ ){
-      this.setCard( id, content );
+    for (var id = 0; id < 2*numPairs; id += 2 ){
+      this.setCard( id, this.cardContents[Math.floor(id/2)] );
+      this.setCard( id + 1, this.cardContents[Math.floor(id/2)] );
     }
-
+    console.log(this.cardOrder)
     for ( var i = 0; i < this.cardOrder.length; i++ ) {
       view.addCard( this.cardOrder[i] );
     }
@@ -57,7 +59,7 @@ var model = {
 }
 
 function Card( id, content ) {
-  this.content = "test";
+  this.content = content;
   this.id = id;
 }
 

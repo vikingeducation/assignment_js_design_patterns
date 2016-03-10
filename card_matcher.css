@@ -10,5 +10,7 @@
 }
 
 .card-revealed {
-  background-color: red;
+  background-color: white;
+  text-align: center;
+  font-size: 50px;
 }
