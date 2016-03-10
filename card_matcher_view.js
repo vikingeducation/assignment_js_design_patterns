@@ -29,14 +29,16 @@ var view = {
       return target.attr( "data-card-value");
     },
 
-    flipCard: function(target,flipped) {
-      console.log(target + ': ' + flipped)
+    flipCard: function(id,flipped) {
+
+      var makeId = "#card-"+id;      
       if (!flipped) {
         var val = 'Card';
       } else {
-        var val = $('#card-' + target).attr( "data-card-value");
+        var val = $(makeId).attr( "data-card-value");
       }
-      $(target).text(val);
+
+      $(makeId).text(val);
     },
 
 
@@ -47,7 +49,7 @@ var view = {
     registerClickEvents: function() {
       $('.card').click(function(eventObj) {
         var index = Number($(eventObj.target).attr('data-card-id'));
-
+        console.log("Index passed is " + index);
         controller.clickCard(index);
       });
     },

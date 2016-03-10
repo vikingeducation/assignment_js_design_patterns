@@ -48,10 +48,12 @@ var model = {
     changeState: function(ourCard) {
       if (ourCard === "previous" ) {
         this.previousCard.flipped = !this.previousCard.flipped;
-        console.log('Card ' + this.previousCard.value + ' flipped')
+      console.log('Card State Previus ' + this.previousCard.flipped);
       } else {
+      console.log('Before Card State Current ' + this.currentCard.flipped);
+
         this.currentCard.flipped = !this.currentCard.flipped;
-        console.log('Card ' + this.currentCard.value + ' flipped')
+        console.log('After Card State Current ' + this.currentCard.flipped);
       };
     },
 
@@ -64,29 +66,43 @@ var model = {
     },
 
     cardMatch: function() {
-      if (!this.previousCard) {
+
+      if (this.previousCard === undefined) {
+
         this.changeState('current')
+        
         this.previousCard = this.currentCard;
         this.previousID = this.currentID;
+
         view.flipCard(this.currentID, true)
+
       } else {
+
         var previousValue = this.previousCard.value;
         var currentValue = this.currentCard.value;
+        
         if (currentValue === previousValue) {
+          
           this.addScore();
           this.previousCard = undefined;
           view.displayScore(this.currentScore);
+
         } else {
+
           this.decreaseScore();
           view.displayScore(this.currentScore);
 
           this.changeState("previous");
           this.changeState("current");
 
+          console.log("1.1 CurrentState is " + this.currentCard.flipped);
+
           view.flipCard(this.previousID,false);
           view.flipCard(this.currentID,false);
+
           this.previousCard = undefined;
           this.previousID = undefined;
+
         };
       };
     },
@@ -97,7 +113,7 @@ var model = {
         console.log('Current card:' + this.currentID);
         console.log('Previous card:' + this.previousID)
         var state = this.getCardState(this.currentCard);
-        console.log(state);
+        console.log("State is :" + state);
         return state;
     }
 
