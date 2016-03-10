@@ -3,7 +3,8 @@ var matcherModel = {
   cards: [],
   possibleValues: ["A", "B", "C", "D", "E", "F", "G"],
 
-  init: function() {
+  init: function(size) {
+    this.size = size;
     var totalPairs = Math.pow(this.size, 2) / 2;
     for (var i = 0; i < totalPairs; ++i) {
       this.addPair();
@@ -143,8 +144,8 @@ var matcherController = {
   model: matcherModel,
   view: matcherView,
 
-  init: function() {
-    this.model.init();
+  init: function(size) {
+    this.model.init(size);
     this.view.init();
   },
 
@@ -191,5 +192,12 @@ var matcherController = {
 };
 
 $(document).ready(function() {
-  matcherController.init();
+  $('input[type=submit]').click(function(e) {
+    e.preventDefault();
+    var size = $('#grid_size').val();
+    matcherController.init(size);
+    $(this).closest('form').hide();
+    $('.card').animate({opacity: 1});
+  })
+
 })
