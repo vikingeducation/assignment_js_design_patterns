@@ -1,25 +1,53 @@
 var view = {
-  // flipping cards
 
   // rowNames = ["one", "two", "three", "four", "five", "six", "seven", "eight"]
   rowNames: ["one", "two"],
 
   getRandomRow: function(){
-    return Math.floor(Math.random() * this.rowNames.length)
+    return Math.floor(Math.random() * this.rowNames.length);
   },
 
 
-  renderCard: function(){
-    var randRow = "#" + this.rowNames[this.getRandomRow()];
-    console.log(randRow);
-    console.log("<img src='assets/" + controller.getRandomCard() + "'>")
-    $(randRow).append($("<img src='assets/" + controller.getRandomCard() + "'>"))
+  renderCard: function(row){
+    var div = $("#" + row).children().first();
+    var randCard = $("<div class='col-sm-1 coverup'><img src='assets/" + controller.getRandomCard() + "'></div>")
+    $(div).after(randCard);
+  },
+
+  renderBoard: function() {
+    var numPieces = (this.rowNames.length*this.rowNames.length)
+    console.log(numPieces)
+    // columns
+    for (var i=0; i < this.rowNames.length; i++) {
+      // rows
+      for (row in this.rowNames) {
+        this.renderCard(this.rowNames[row]);
+      }
+    }
+  },
+
+
+  toggleCard: function(target) {
+    $(target).toggleClass('coverup');
+    $(target).children().first().toggle(); // switches display: none
+  },
+
+  // that: this,
+
+  eventListeners: {
+    showCard: function() {
+      $('.coverup').click( function(e) {
+        view.toggleCard(e.target);
+      })
+    }
   }
+
+
+
 };
 
 
 var model = {
-  // create cards, compare cards
 
   emojis: ["andrew.svg",  "bear.svg",  "bob.svg",
     "canoe.svg",  "cheeky.svg",  "controller.svg",
@@ -37,11 +65,15 @@ var model = {
     var numRows = 2;
     var uniqueCards = (numRows*numRows) / 2;
     for (var i=0; i < uniqueCards; i++) {
-      this.gamePieces.push(this.emojis[ Math.floor(Math.random() * this.emojis.length) ])
+      this.gamePieces.push(this.emojis[ Math.floor(Math.random() * this.emojis.length) ]);
     }
-    this.gamePieces = this.gamePieces.concat(this.gamePieces)//awesome!
+    // put two of each piece in our array
+    this.gamePieces = this.gamePieces.concat(this.gamePieces);
+    // shuffle our array
+    this.gamePieces.sort(function() {
+      return .5 - Math.random();
+    });
   },
-
 
 
 
@@ -55,11 +87,11 @@ var controller = {
 
   placeCards: function(){
     for (var i=0; i < model.gamePieces.length; i++){
-      this.getRandomCard()
+      this.getRandomCard();
     }
   },
   getRandomCard: function(){
-    return model.gamePieces.pop()
+    return model.gamePieces.pop();
   },
 
 }
@@ -67,6 +99,7 @@ var controller = {
 
 $(document).ready(function(){
   // var ourModel = model;
+  // view.renderBoard();
 
   // $('.img-bucket').text(model.emojis)
 
