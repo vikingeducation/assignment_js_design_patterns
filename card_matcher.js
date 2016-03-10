@@ -12,16 +12,13 @@ var model = {
 
     gridSize: 2,
     cardList: [],
-    card: {
-      flipped: false,
-      value: ''
-    },
 
     validateGridSize: function(gridSize) {
       if ((gridSize % 2 !== 0) || (gridSize > 8)) {
-        return false
+        return false;
       }
-      return true
+      this.gridSize = gridSize;
+      return true;
     },
 
     getgridSize: function(){
@@ -29,10 +26,14 @@ var model = {
     },
 
     generateCards: function() {
-      for (var i=0; i < (Math.pow(gridSize, 2) / 2); i++) {
-        this.card.value = 'foo' + i;
-        this.cardList.push(this.card);
-        this.cardList.push(this.card);
+      for (var i=0; i < (Math.pow(this.gridSize, 2) / 2); i++) {
+        var card = {
+          flipped: false,
+          value: 'foo' + i,
+        };
+
+        this.cardList.push(card);
+        this.cardList.push(card);
       };
       shuffle(this.cardList);
     },
@@ -56,12 +57,10 @@ var controller = {
         view.init();
         model.generateCards();
         view.render();
+        view.clickCard();
+        //model.checkPreviousCard();
     },
 
-    cardFlip: function(){
-      view.clickCard();
-      model.checkPreviousCard();
-    }
 };
 
 var view = {
@@ -76,19 +75,31 @@ var view = {
 
     render: function(){
       var cardList = model.getGenerateCards();
+
       for(i=0; i < cardList.length; i++) {
         var currentCard = model.cardList[i];
-        console.log(currentCard);
+        console.log("In Display Current Card: " + currentCard);
         var newCard = '<div class="card" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>'
         $('.card-field').append(newCard)
       }
+
     },
 
     clickCard: function() {
-      $('.card').click(function() {
-        model.getCardState;
+      $('.card').click(function(eventObj) {
+        var state = model.getCardState(eventObj.target);
+
+        if (!state) {
+          $target = $(eventObj.target);
+          var val = $target.attr( "data-card-value");
+
+          $target.text(val);
+
+          console.log("Flipped Card value is " + val);
+        }
+
       })
-    }
+    },
 
 };
 
