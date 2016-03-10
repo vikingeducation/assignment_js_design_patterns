@@ -6,21 +6,8 @@ var view = {
 
   registerEventListeners: function() {
     $(".card-col").on("click", ".card", function( event ) {
-
-      if (model.clickable){
-        var cardID = event.target.id;
-        //view.revealCard( cardID );
-        model.checkRevealed( view.indexFromCardID( cardID ));
-
-        for (var i = 0; i <2; i++){
-          if(model.revealedCards[i]){
-            view.revealCard(model.revealedCards[i].id);
-          }
-          
-        }
-
-      }
-      
+      $(".card").css("pointer-events: none;");
+      model.checkRevealed( view.indexFromCardID( event.target.id ) );
     });
   },
 
@@ -44,6 +31,6 @@ var view = {
   },
 
   indexFromCardID: function( cardID ) {
-    return Number(cardID.match(/card-(.)/)[1]);
+    return Number(cardID.match(/card-(\d+)/)[1]);
   }
 }

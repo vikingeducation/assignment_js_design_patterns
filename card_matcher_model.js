@@ -1,12 +1,13 @@
 var model = {
 
-  cardContents: [ "red", "blue", "green", "chicken", "horse", "cheese", "burrito" ],
+  cardContents: [ "blue", "red", "green", "chicken", "horse", "cheese", "burrito" ],
   revealed: false,
 
   init: function() {
     this.cards = {};
     this.cardOrder = [];
-    this.revealedCards = [];
+    this.firstCard = null;
+    this.secondCard = null;
     this.clickable = true;
   },
 
@@ -20,40 +21,37 @@ var model = {
     return this.cards[id];
   },
 
-  checkRevealed: function( id ) {
-    console.log(this.revealedCards);
-    this.revealedCards.push( this.getCard(id) );
-    console.log(this.revealedCards);
+  compareContent: function() {
+    if( this.firstCard.content === this.secondCard.content ) {
+      model.firstCard = null;
+      model.secondCard = null;
+    } else {
 
-    if(this.revealed){
-      this.revealed = false;
-      if( this.revealedCards[0].content === this.revealedCards[1].content ) {
-        console.log(this.revealedCards);
-
-        model.revealedCards = [];
-      } else {
-        console.log(this.revealedCards);
-
-        this.clickable = false;
-        setTimeout( function() {
-          while ( model.revealedCards.length > 0 ) {
-            view.hideCard( model.revealedCards.pop().id );
-          }
-
-          model.revealedCards = [];
-          model.clickable = true;
-        }, 1000);
-      }
+      setTimeout( function() {
+        view.hideCard(model.firstCard.id);
+        view.hideCard(model.secondCard.id);
+        model.firstCard = null;
+        model.secondCard = null;
+        $(".card").css("pointer-events: auto;");
+      }, 1000);
     }
-    else{
-      this.revealed = true;
+  },
+
+  checkRevealed: function( id ) {
+    if ( this.firstCard && !this.secondCard ) {
+      this.secondCard = this.getCard(id);
+      view.revealCard( this.secondCard.id );
+      this.compareContent();
+    } else if ( !this.firstCard && !this.secondCard ) {
+      this.firstCard = this.getCard(id);
+      view.revealCard( this.firstCard.id );
     }
   },
 
   populateCards: function( numPairs ) {
     for (var id = 0; id < 2*numPairs; id += 2 ){
-      this.setCard( id, this.cardContents[id/2] );
-      this.setCard( id + 1, this.cardContents[id/2] );
+      this.setCard( id, this.cardContents[Math.floor(id/2)] );
+      this.setCard( id + 1, this.cardContents[Math.floor(id/2)] );
     }
     for ( var i = 0; i < this.cardOrder.length; i++ ) {
       console.log(this.cardOrder.length);
