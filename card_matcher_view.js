@@ -7,17 +7,26 @@ var view = {
   registerEventListeners: function() {
     $(".card-col").on("click", ".card", function( event ) {
 
-      var cardID = event.target.id;
+      if (model.clickable){
+        var cardID = event.target.id;
+        //view.revealCard( cardID );
+        model.checkRevealed( view.indexFromCardID( cardID ));
 
-      view.revealCard( cardID );
+        for (var i = 0; i <2; i++){
+          if(model.revealedCards[i]){
+            view.revealCard(model.revealedCards[i].id);
+          }
+          
+        }
 
-      model.checkRevealed( view.indexFromCardID( cardID ), !!event.target.className.match(/card-revealed/) );
+      }
+      
     });
   },
 
-  revealCard: function( cardID ) {
-    $("#" + cardID).addClass("card-revealed");
-    $("#" + cardID).text( model.getCard( view.indexFromCardID(cardID) ).content )
+  revealCard: function( id ) {
+    $("#card-" + id).addClass("card-revealed");
+    $("#card-" + id).text( model.getCard(id).content )
   },
 
   hideCard: function( id ) {
