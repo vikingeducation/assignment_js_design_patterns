@@ -2,12 +2,17 @@ var view = {
 
   init: function() {
     this.askUser();
+    $("#outcome").hide();
   },
 
   registerEventListeners: function() {
     $(".card-col").on("click", ".card", function( event ) {
       $(".card").css("pointer-events: none;");
       model.checkRevealed( view.indexFromCardID( event.target.id ) );
+    });
+
+    $("button").on("click", function(event){
+      location.reload();
     });
   },
 

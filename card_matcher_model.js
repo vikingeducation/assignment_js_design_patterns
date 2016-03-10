@@ -9,6 +9,7 @@ var model = {
     this.firstCard = null;
     this.secondCard = null;
     this.clickable = true;
+    this.matches = 0;
   },
 
   setCard: function(id, content) {
@@ -23,6 +24,11 @@ var model = {
 
   compareContent: function() {
     if( this.firstCard.content === this.secondCard.content ) {
+      this.matches++;
+      if(this.matches === view.numPairs){
+        console.log("matches run");
+        $("#outcome").show();
+      }
       model.firstCard = null;
       model.secondCard = null;
     } else {
