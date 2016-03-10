@@ -118,6 +118,7 @@ var matcherView = {
   },
 
   setCorrect: function(cardId) {
+    $('#card-' + cardId).off('click');
     $('#card-' + cardId).addClass('correct');
   },
 
@@ -147,24 +148,44 @@ var matcherController = {
     this.view.init();
   },
 
+  selecting: false,
+
   selectCard: function(cardId) {
+    if (this.selecting) {
+      return;
+    }
+
     if( this.model.sameCard(cardId) ) {
       return;
     }
 
     this.view.revealCard(cardId);
 
+    this.selecting = true;
     if (this.model.selectedCard) {
       var selectedCard = this.model.selectedCard;
       var correct = this.model.checkGuess(cardId);
       if (correct) {
-        this.view.setCorrect(cardId);
-        this.view.setCorrect(selectedCard.id);
+        var that = this;
+        setTimeout(
+            function() {
+              that.view.setCorrect(cardId);
+              that.view.setCorrect(selectedCard.id);
+              that.selecting = false;
+            }
+        , 1000);
       } else {
-        this.view.hideCards();
+        var that = this;
+        setTimeout(
+          function(){
+            that.view.hideCards();
+            that.selecting = false;
+          }
+          , 1000);
       }
     } else {
       this.model.setSelectedCard(cardId);
+      this.selecting = false;
     }
   }
 };
@@ -172,4 +193,3 @@ var matcherController = {
 $(document).ready(function() {
   matcherController.init();
 })
-
