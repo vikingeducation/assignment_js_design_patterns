@@ -7,6 +7,7 @@ var model = {
     this.cards = {};
     this.cardOrder = [];
     this.revealedCards = [];
+    this.clickable = true;
   },
 
   setCard: function(id, content) {
@@ -19,29 +20,33 @@ var model = {
     return this.cards[id];
   },
 
-  checkRevealed: function( id, cardViewRevealed ) {
-    if ( cardViewRevealed ) {
-      this.revealedCards.push( this.getCard(id) );
+  checkRevealed: function( id ) {
+    console.log(this.revealedCards);
+    this.revealedCards.push( this.getCard(id) );
+    console.log(this.revealedCards);
 
-      if(this.revealed){
-        this.revealed = false;
-        if( this.revealedCards[0].content === this.revealedCards[1].content ) {
+    if(this.revealed){
+      this.revealed = false;
+      if( this.revealedCards[0].content === this.revealedCards[1].content ) {
+        console.log(this.revealedCards);
+
+        model.revealedCards = [];
+      } else {
+        console.log(this.revealedCards);
+
+        this.clickable = false;
+        setTimeout( function() {
+          while ( model.revealedCards.length > 0 ) {
+            view.hideCard( model.revealedCards.pop().id );
+          }
+
           model.revealedCards = [];
-        } else {
-          setTimeout( function() {
-            while ( model.revealedCards.length > 0 ) {
-              view.hideCard( model.revealedCards.pop().id );
-            }
-
-            model.revealedCards = [];
-            console.log(model.revealedCards.length)
-          }, 1000);
-        }
+          model.clickable = true;
+        }, 1000);
       }
-      else{
-        this.revealed = true;
-      }
-
+    }
+    else{
+      this.revealed = true;
     }
   },
 
@@ -50,8 +55,8 @@ var model = {
       this.setCard( id, this.cardContents[id/2] );
       this.setCard( id + 1, this.cardContents[id/2] );
     }
-    console.log(this.cardOrder)
     for ( var i = 0; i < this.cardOrder.length; i++ ) {
+      console.log(this.cardOrder.length);
       view.addCard( this.cardOrder[i] );
     }
 
