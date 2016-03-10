@@ -155,14 +155,15 @@ var matcherController = {
     if (this.selecting) {
       return;
     }
+    this.selecting = true;
 
     if( this.model.sameCard(cardId) ) {
+      this.selecting = false;
       return;
     }
 
     this.view.revealCard(cardId);
 
-    this.selecting = true;
     if (this.model.selectedCard) {
       var selectedCard = this.model.selectedCard;
       var correct = this.model.checkGuess(cardId);
@@ -174,7 +175,7 @@ var matcherController = {
               that.view.setCorrect(selectedCard.id);
               that.selecting = false;
             }
-        , 1000);
+        , 500);
       } else {
         var that = this;
         setTimeout(
