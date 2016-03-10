@@ -65,4 +65,5 @@ var model = {
 function Card(name) {
   this.visible = false;
   this.name = name;
+  this.matched = false;
 }

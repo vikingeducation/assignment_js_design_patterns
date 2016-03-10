@@ -18,6 +18,17 @@ var controller = {
   hideCard: function(cardId) {
     model.getPairs()[cardId].visible = false;
     view.render();
+  },
+
+  checkMatch: function(cardIds) {
+    var cards = model.getPairs();
+    if (cards[cardIds[0]].name === cards[cardIds[1]].name) {
+      cards[cardIds[0]].matched = true;
+      cards[cardIds[1]].matched = true;
+      return true;
+    } else {
+      return false;
+    }
   }
 
 };
