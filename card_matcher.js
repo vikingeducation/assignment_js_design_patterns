@@ -12,6 +12,9 @@ var model = {
 
     gridSize: 2,
     cardList: [],
+    previousCard: undefined,
+    previousID: undefined,
+    currentScore: 0,
 
     validateGridSize: function(gridSize) {
       if ((gridSize % 2 !== 0) || (gridSize > 8)) {
@@ -27,13 +30,13 @@ var model = {
 
     generateCards: function() {
       for (var i=0; i < (Math.pow(this.gridSize, 2) / 2); i++) {
-        var card = {
-          flipped: false,
-          value: 'foo' + i,
+        var Card = function(){
+          this.flipped = false;
+          this.value = 'foo' + i;
         };
 
-        this.cardList.push(card);
-        this.cardList.push(card);
+        this.cardList.push(new Card());
+        this.cardList.push(new Card());
       };
       shuffle(this.cardList);
     },
@@ -49,6 +52,10 @@ var model = {
     getCardState: function(ourCard) {
       return ourCard.flipped;
     },
+
+    changeState: function(ourCard) {
+      ourCard.flipped = !ourCard.flipped;
+    }
 };
 
 var controller = {
@@ -78,24 +85,51 @@ var view = {
 
       for(i=0; i < cardList.length; i++) {
         var currentCard = model.cardList[i];
-        console.log("In Display Current Card: " + currentCard);
-        var newCard = '<div class="card" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>'
-        $('.card-field').append(newCard)
+        var newCard = '<div class="card" id="' + i + '" data-card-value=' + String(model.getCardValue(currentCard)) + '>Card</div>';
+        $('.card-field').append(newCard);
+        $('#current-score').text(model.currentScore);
       }
 
     },
 
     clickCard: function() {
       $('.card').click(function(eventObj) {
-        var state = model.getCardState(eventObj.target);
+        var index = Number($(eventObj.target).attr('id'));
+        var currentCard = model.getGenerateCards()[index];
+        var state = model.getCardState(currentCard);
 
         if (!state) {
           $target = $(eventObj.target);
           var val = $target.attr( "data-card-value");
 
           $target.text(val);
+          model.changeState(currentCard);
 
-          console.log("Flipped Card value is " + val);
+          if (!model.previousCard) {
+            model.previousCard = currentCard;
+            model.previousID = index;
+          } else {
+            var previousValue = model.previousCard.value;
+            var currentValue = currentCard.value;
+            if (currentValue === previousValue) {
+              alert('Congratulations!');
+              model.currentScore++;
+              model.previousCard = undefined;
+              $('#current-score').text(model.currentScore);
+            } else {
+              alert('Try again');
+              model.currentScore--;
+              $('#current-score').text(model.currentScore);
+              model.changeState(model.previousCard);
+              model.changeState(currentCard);
+
+              $('#' + model.previousID).text('Card');
+              $target.text('Card');
+              model.previousCard = undefined;
+            };
+          }
+        } else {
+          alert('Card has been flipped');
         }
 
       })
