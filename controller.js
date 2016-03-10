@@ -12,8 +12,11 @@ var controller = {
 
   showCard: function(cardId) {
     model.getPairs()[cardId].visible = true;
-    console.log(cardId);
-    console.log(model.getPairs(), model.getPairs()[cardId]);
+    view.render();
+  },
+
+  hideCard: function(cardId) {
+    model.getPairs()[cardId].visible = false;
     view.render();
   }
 

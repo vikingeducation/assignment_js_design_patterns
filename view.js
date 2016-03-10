@@ -1,10 +1,39 @@
 var view = {
  init: function() {
 
+
   $('.board').on('click', 'img', function(event){
     $id = $(event.target).attr("id");
+    var cards = controller.getPairs();
+    var visibleCount = 0;
+
+    for ( var c in cards ) {
+      if ( cards[c].visible ) {
+        visibleCount++;
+      }
+
+      if ( visibleCount >= 2 ) {
+        view.hideAllCards();
+      }
+    };
+
+
     controller.showCard($id);
-  });
+
+    // cards = controller.getPairs();
+    // visibleCount = 0;
+
+    // for ( var c in cards ) {
+    //   if ( cards[c].visible ) {
+    //     visibleCount++;
+    //   }
+
+    //   if ( visibleCount >= 2 ) {
+    //     view.hideAllCards();
+    //   }
+    // };
+
+  } );
 
   this.render();
  },
@@ -24,6 +53,14 @@ var view = {
       }
       $imgTag.attr("id", c);
       $(".board").append($imgTag);
+    }
+  },
+
+
+  hideAllCards: function(){
+    var cards = controller.getPairs();
+    for ( var c in cards ) {
+      controller.hideCard(c);
     }
   }
 };
