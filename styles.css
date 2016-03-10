@@ -1,0 +1,20 @@
+img {
+  height: 96px;
+  width: 96px;
+  display: none;
+  border: 3px solid white;
+}
+
+
+
+.coverup {
+  background-color: blue;
+  border: 3px solid white;
+  height: 96px;
+  width: 96px;
+}
+
+
+.matched {
+  border: 3px solid green;
+}
