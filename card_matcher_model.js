@@ -102,13 +102,16 @@ var model = {
           this.changeState("previous",false);
           this.changeState("current",false);
 
-          view.flipCard(this.previousID,false);
           view.flipCard(this.currentID,true);
        
-          var id = this.currentID;
+          var currentID = this.currentID;
+          var previousID = this.previousID;
           window.setTimeout(function() {
-            view.flipCard(id,false)
-          }, 2000);
+            view.flipCard(currentID,false)
+          }, 1000);
+          window.setTimeout(function() {
+            view.flipCard(previousID,false)
+          }, 1000);
 
           this.previousCard = undefined;
           this.previousID = undefined;
