@@ -45,16 +45,23 @@ var model = {
       return ourCard.flipped;
     },
 
-    changeState: function(ourCard) {
-      if (ourCard === "previous" ) {
-        this.previousCard.flipped = !this.previousCard.flipped;
-      console.log('Card State Previus ' + this.previousCard.flipped);
-      } else {
-      console.log('Before Card State Current ' + this.currentCard.flipped);
+    changeState: function(ourCard,state) {
 
-        this.currentCard.flipped = !this.currentCard.flipped;
-        console.log('After Card State Current ' + this.currentCard.flipped);
+      if (ourCard === "previous" ) {
+          card = this.previousCard;
+      } else {
+          card = this.currentCard;
       };
+
+      console.log(ourCard + " card state is " + card.flipped);
+
+      if (state != undefined) {
+          card.flipped = state;
+      } else {
+          card.flipped = !card.flipped;
+      };
+
+      console.log("Changed card state to " + card.flipped);
     },
 
     addScore: function() {
@@ -69,12 +76,12 @@ var model = {
 
       if (this.previousCard === undefined) {
 
-        this.changeState('current')
+        this.changeState('current',true);
         
         this.previousCard = this.currentCard;
         this.previousID = this.currentID;
 
-        view.flipCard(this.currentID, true)
+        view.flipCard(this.currentID, true);
 
       } else {
 
@@ -92,13 +99,13 @@ var model = {
           this.decreaseScore();
           view.displayScore(this.currentScore);
 
-          this.changeState("previous");
-          this.changeState("current");
-
-          console.log("1.1 CurrentState is " + this.currentCard.flipped);
+          this.changeState("previous",false);
+          this.changeState("current",false);
 
           view.flipCard(this.previousID,false);
-          view.flipCard(this.currentID,false);
+          //view.flipCard(this.currentID,true);
+          //view.flipCard(this.currentID,false);
+          setTimeout(function() {view.flipCard(this.currentID,false)}, 1000);
 
           this.previousCard = undefined;
           this.previousID = undefined;
@@ -110,10 +117,7 @@ var model = {
     clickCard: function(index) {
         this.currentCard = this.getGenerateCards()[index];
         this.currentID = index;
-        console.log('Current card:' + this.currentID);
-        console.log('Previous card:' + this.previousID)
         var state = this.getCardState(this.currentCard);
-        console.log("State is :" + state);
         return state;
     }
 
