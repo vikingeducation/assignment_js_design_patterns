@@ -37,7 +37,7 @@ var view = {
       } else {
         var val = $(makeId).attr( "data-card-value");
       };
-
+      console.log("Make Id " + makeId);
       $(makeId).text(val);
     },
 
