@@ -17,3 +17,7 @@ body {
 #score-box {
   display: none;
 }
+
+.game-over {
+  color: green;
+}

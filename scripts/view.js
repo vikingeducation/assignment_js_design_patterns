@@ -13,7 +13,10 @@ var view = {
 
     var gameOver = model.allMatched();
     if (gameOver === true) {
-      $('.game-options').show();
+      $notice = $('<h3>Game Over! Refresh to play again.</h3>')
+        .attr('class', 'game-over');
+
+      $('header').append($notice);
     }
   },
 
