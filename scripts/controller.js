@@ -40,6 +40,9 @@ var controller = {
         controller.pair = [];
 
       } else {
+        // Reduce score by penalty
+        model.currentScore -= 1;
+
         // Hide cards after a 2-second delay
         window.setTimeout(view.hideCards, 2000);
       }
