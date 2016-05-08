@@ -1,0 +1,23 @@
+body {
+  font-family: 'Cinzel', serif;
+}
+
+.card {
+  height: 240px;
+  width: 137px;
+  text-align: center;
+  margin: 0 10px 10px 0;
+  border: 4px solid white;
+}
+
+.matched {
+  border: 4px solid green;
+}
+
+#score-box {
+  display: none;
+}
+
+.game-over {
+  color: green;
+}
