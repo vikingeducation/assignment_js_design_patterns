@@ -15,12 +15,13 @@ var view = {
   },
 
   renderCards: function(){
-    model.deck.forEach(element){
-      var $card = var $span = $('<img src="major_arcana/back.jpeg">')
-        .data('id', element.id)
+    model.deck.forEach(function(element){
+      var $card = $('<img>')
+        .attr('src', "major_arcana/back.jpeg")
+        .attr('data-id', element.id)
         .attr('class', 'card hidden');
 
       $('#board').append($card);
-    };
+    });
   }
 };
