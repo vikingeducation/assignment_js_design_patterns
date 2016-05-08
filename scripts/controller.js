@@ -9,6 +9,7 @@ var controller = {
   beginGame: function(){
     event.preventDefault();
     var size = $('#cardCount').val();
+    // TODO: add validations for size
     model.init(size);
     $('.game-options').hide();
     $('#score-box').show();
@@ -17,13 +18,19 @@ var controller = {
   },
 
   showCard: function(event){
-    // Show the card
+    // Set the current card properties and show
     var currentCard = model.deck[$(event.target).data('id')];
     currentCard.selected = true;
     view.showCard($(event.target), currentCard.card);
-    controller.pair.push(currentCard);
+
+    // Make sure they didn't just click the same card
+    if (currentCard !== controller.pair[0]){
+      controller.pair.push(currentCard);
+    }
 
     if (controller.pair.length === 2) {
+      // Add card to pair
+
       // Check match
       if (controller.pair[0].card === controller.pair[1].card){
         model.setMatch(controller.pair);

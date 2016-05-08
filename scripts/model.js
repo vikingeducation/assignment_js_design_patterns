@@ -41,6 +41,17 @@ var model = {
     });
   },
 
+  allMatched: function(){
+    var gameOver = true;
+    this.deck.forEach(function(element){
+      if (element.matched === false){
+        gameOver = false;
+      }
+    })
+
+    return gameOver;
+  },
+
   /**
   * Randomize array element order in-place.
   * Using Durstenfeld shuffle algorithm.

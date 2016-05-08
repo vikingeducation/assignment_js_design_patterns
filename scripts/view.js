@@ -5,13 +5,16 @@ var view = {
     // set listeners
     $('#submit').click(controller.beginGame);
     $('#board').click('.hidden', controller.showCard);
-
-    this.render();
   },
 
   render: function(){
     var score = controller.getScore();
     $('#score').text(score);
+
+    var gameOver = model.allMatched();
+    if (gameOver === true) {
+      $('.game-options').show();
+    }
   },
 
   renderCards: function(){
