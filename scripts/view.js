@@ -20,24 +20,31 @@ var view = {
       var $card = $('<img>')
         .attr('src', "major_arcana/back.jpeg")
         .attr('data-id', element.id)
-        .attr('class', 'card hidden');
+        .attr('class', 'card');
 
       $('#board').append($card);
     });
   },
 
-  showCard: function($target){
-    var actualCard = model.deck[$target.data('id')].card;
-
+  showCard: function($target, actualCard){
     $target
-      .attr('src', 'major_arcana/' + actualCard + '.jpg')
-      .addClass('in-play');
+      .attr('src', 'major_arcana/' + actualCard + '.jpg');
   },
 
   hideCards: function(){
-    $('.in-play')
-      .delay(2000)
-      .removeClass('in-play')
-      .attr('src', "major_arcana/back.jpeg");
+    $.each(controller.pair, function(i, val){
+      $('img[data-id="' + val.id + '"]')
+        .attr('src', "major_arcana/back.jpeg");
+    });
+
+    // Reset pair
+    controller.pair = [];
+  },
+
+  setMatch: function(pair){
+    $.each(pair, function(i, val){
+      $('img[data-id="' + val.id + '"]')
+        .addClass('matched');
+    })
   }
 };

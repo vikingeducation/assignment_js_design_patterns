@@ -5,40 +5,31 @@ var controller = {
   // TODO: change to user-input game size
     model.init(4);
     view.init();
-    this.firstCard = null;
+    // TODO: change to pair object/array
+    this.pair = [];
   },
 
   showCard: function(event){
     // Show the card
-    view.showCard($(event.target));
+    var currentCard = model.deck[$(event.target).data('id')];
+    currentCard.selected = true;
+    view.showCard($(event.target), currentCard.card);
+    controller.pair.push(currentCard);
 
-    if (controller.firstCard === null) {
-      // If this is the first card flipped
-      console.log('first flipped');
-      controller.firstCard = $(event.target).attr('src');
-    } else {
-      // If this is the second card flipped
-      console.log('second flipped');
+    if (controller.pair.length === 2) {
       // Check match
-      var secondCard = $(event.target).attr('src');
+      if (controller.pair[0].card === controller.pair[1].card){
+        model.setMatch(controller.pair);
+        view.setMatch(controller.pair);
 
-      if (controller.firstCard === secondCard){
-        console.log('match!');
-        model.currentScore += 5;
-        $('.in-play')
-            .removeClass('hidden')
-            .removeClass('in-play');
-            // add class for green
-            // modify model
+        // Reset pair
+        controller.pair = [];
+
       } else {
         // Hide cards after a 2-second delay
         window.setTimeout(view.hideCards, 2000);
-
-        // TODO: prevent clicks during delay
       }
 
-      // Reset first card
-      controller.firstCard = null;
     }
 
     // model.showCard()

@@ -19,6 +19,7 @@ var model = {
       this.deck.push({
         id: i,
         card: cards[i],
+        selected: false,
         matched: false
       });
     }
@@ -33,7 +34,14 @@ var model = {
     return this.shuffleArray(cardArray);
   },
 
-    /**
+  setMatch: function(pair){
+    this.currentScore += 5;
+    $.each(pair, function(i, val){
+      val.matched = true;
+    });
+  },
+
+  /**
   * Randomize array element order in-place.
   * Using Durstenfeld shuffle algorithm.
   */
