@@ -1,3 +1,10 @@
 body {
   font-family: 'Cinzel', serif;
 }
+
+.card {
+  height: 240px;
+  width: 137px;
+  text-align: center;
+  padding: 0 10px 10px 0;
+}
