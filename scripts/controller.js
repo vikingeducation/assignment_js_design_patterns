@@ -2,11 +2,18 @@
 
 var controller = {
   init: function(){
-  // TODO: change to user-input game size
-    model.init(4);
     view.init();
-    // TODO: change to pair object/array
     this.pair = [];
+  },
+
+  beginGame: function(){
+    event.preventDefault();
+    var size = $('#cardCount').val();
+    model.init(size);
+    $('.game-options').hide();
+    $('#score-box').show();
+    view.render();
+    view.renderCards();
   },
 
   showCard: function(event){
@@ -32,7 +39,6 @@ var controller = {
 
     }
 
-    // model.showCard()
     view.render()
   },
 

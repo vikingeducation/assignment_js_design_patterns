@@ -3,16 +3,15 @@
 var view = {
   init: function(){
     // set listeners
+    $('#submit').click(controller.beginGame);
     $('#board').click('.hidden', controller.showCard);
 
     this.render();
-    this.renderCards();
   },
 
   render: function(){
     var score = controller.getScore();
     $('#score').text(score);
-
   },
 
   renderCards: function(){

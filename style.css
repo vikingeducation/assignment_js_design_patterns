@@ -13,3 +13,7 @@ body {
 .matched {
   border: 4px solid green;
 }
+
+#score-box {
+  display: none;
+}
