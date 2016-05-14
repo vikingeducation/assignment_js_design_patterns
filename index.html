@@ -6,11 +6,15 @@
 
     <title>Assignment JS Design Patterns</title>
 
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="/assets/stylesheets/application.css">
+    <!-- My Styles -->
+    <link rel="stylesheet" href="/assets/stylesheets/style.css">
   </head>
   <body>
   
@@ -18,22 +22,24 @@
       <h1>
         Assignment JS Design Patterns
       </h1>
+      <h2>
+        Score: <span id="score">0</span>
+      </h2>
     </header>
-    <main id="game" class="container"></main>
+    <main id="game" class="container clearfix"></main>
 
-    <script src="/assets/js/ejs.js"></script>
-    <script src="/assets/js/card-matcher/models/base-model.js"></script>
-    <script src="/assets/js/card-matcher/models/card.js"></script>
-    <script src="/assets/js/card-matcher/models/grid.js"></script>
-    <script src="/assets/js/card-matcher/models/player.js"></script>
-    <script src="/assets/js/card-matcher/models/game.js"></script>
-    <script src="/assets/js/card-matcher/controllers/application-controller.js"></script>
-    <script src="/assets/js/card-matcher/controllers/games-controller.js"></script>
-    <script src="/assets/js/card-matcher/controllers/grids-controller.js"></script>
-    <script src="/assets/js/card-matcher/controllers/cards-controller.js"></script>
-    <script src="/assets/js/card-matcher/controllers/players-controller.js"></script>
-    <script src="/assets/js/card-matcher/helpers/application-helper.js"></script>
-    <script src="/assets/js/card-matcher/card-matcher.js"></script>
+    <!-- Models -->
+    <script src="/assets/js/card_matcher/models/game.js"></script>
+
+    <!-- Views -->
+    <script src="/assets/js/card_matcher/views/view.js"></script>
+
+    <!-- Controllers -->
+    <script src="/assets/js/card_matcher/controllers/configs_controller.js"></script>
+    <script src="/assets/js/card_matcher/controllers/games_controller.js"></script>
+
+    <!-- App -->
+    <script src="/assets/js/card_matcher/card_matcher.js"></script>
     <script>
       $(document).ready(function() {
         CardMatcher.init({
