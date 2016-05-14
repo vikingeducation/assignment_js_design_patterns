@@ -1,0 +1,21 @@
+/** ----------------------------------------
+ * Styles
+---------------------------------------- **/
+
+.card {
+  border: 1px solid #4976CE;
+  cursor: pointer;
+}
+.card img {
+  visibility: hidden;
+}
+.card.flipped {
+  border-color: #CE4840;
+}
+.card.flipped img {
+  visibility: visible;
+}
+.card.matched {
+  border-color: #60CE43;
+}
+
