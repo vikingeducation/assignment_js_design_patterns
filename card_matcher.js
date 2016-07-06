@@ -56,6 +56,7 @@ var view = {
 							  });
 		for (var squareText = 0; squareText < (model.squaresPerSide * model.squaresPerSide / 2); squareText++) {
 
+			// These two bits are adding the number but at the same time, keeping that inner div (the square cover)
 			var currentSquare = shuffledSquares.pop();
 			currentSquare.innerHTML = squareText + currentSquare.innerHTML;
 
@@ -63,6 +64,17 @@ var view = {
 			currentSquare.innerHTML = squareText + currentSquare.innerHTML;
 
 		};
+
+		// The slide up and slide down for the intro.
+		$(".square-cover").slideUp(2000);
+		$(".square-cover").slideDown(2000);
+
+		// I want to do a highlight on hover.
+		// change the background-color to darkviolet on hover
+		$(".square-cover").hover(
+      		function(event){event.target.style["backgroundColor"] = "darkviolet"},
+      		function(event){event.target.style["backgroundColor"]="black"}
+    	);
 	},
 
 	squareCover: function(rowNumber, colNumber){

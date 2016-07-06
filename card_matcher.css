@@ -3,8 +3,9 @@
 }
 
 .square{
+  color: black;
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid gray;
   height: var(--square-side);
   padding-top: 7px;
   position: relative;
@@ -16,8 +17,7 @@
   background-color: black;
   position: absolute;
   top: 0;
-  visibility: hidden;
-  height: 100%;
+  height: 35px;
   width: 100%;
 }
 
