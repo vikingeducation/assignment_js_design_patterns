@@ -127,9 +127,7 @@ var view = {
 					// If it is the game
 					// We need to display a button that will let people restart the game
 					// and also keep a track of previous scores on the screen
-					if ($(".square-cover:visible").length === 0) {
-						$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>")
-					};
+					view.gameOver();
 				};
 			};
 		});
@@ -158,9 +156,15 @@ var view = {
 			model.firstSquareSelected = null;
 			model.secondSquareSelected = null;
 		}, 1000);
+	},
+
+	gameOver: function(){
 		setTimeout(function(){
 			if ($(".square-cover:visible").length === 0) {
-				$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>")
+				$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>");
+				$("#restart-button").click(function(){
+					$("#game-over").html("");
+				});
 			};
 		}, 2000);
 	}
