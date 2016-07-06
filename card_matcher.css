@@ -7,8 +7,18 @@
   border: 1px solid black;
   height: var(--square-side);
   padding-top: 7px;
+  position: relative;
   text-align: center;
   width: var(--square-side);
+}
+
+.square-cover{
+  background-color: black;
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 .grid-row{

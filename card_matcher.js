@@ -30,14 +30,16 @@ var view = {
 		// The top for-loop will be for the rows
 		// and the nested for each box inside the row.
 		var grid = "";
-		for (var i = 0; i < model.squaresPerSide; i++) {
+		for (var rowNumber = 0; rowNumber < model.squaresPerSide; rowNumber++) {
 			var row = "<div class='grid-row'>"
-			for (var j = 0; j < model.squaresPerSide; j++) {
+			for (var colNumber = 0; colNumber < model.squaresPerSide; colNumber++) {
 				row += "<div class='square' id='square-";
-				row += i;
+				row += rowNumber;
 				row += "-";
-				row += j;
-				row += "' ></div>";
+				row += colNumber;
+				row += "' >";
+				row += view.squareCover(rowNumber, colNumber);
+				row += "</div>";
 			};
 			row += "</div>";
 			grid += row;
@@ -52,12 +54,24 @@ var view = {
 		var shuffledSquares = $(".square").sort(function() {
   								return .5 - Math.random();
 							  });
-		for (var i = 0; i < (model.squaresPerSide * model.squaresPerSide / 2); i++) {
+		for (var squareText = 0; squareText < (model.squaresPerSide * model.squaresPerSide / 2); squareText++) {
 
-			// pop from results of shuffledSquares and give them i values! Boom baby
-			shuffledSquares.pop().innerText = i;
-			shuffledSquares.pop().innerText = i;
+			var currentSquare = shuffledSquares.pop();
+			currentSquare.innerHTML = squareText + currentSquare.innerHTML;
+
+			currentSquare = shuffledSquares.pop();
+			currentSquare.innerHTML = squareText + currentSquare.innerHTML;
+
 		};
+	},
+
+	squareCover: function(rowNumber, colNumber){
+		var string = "<div class = 'square-cover' id ='square-cover-";
+		string += rowNumber;
+		string += "-";
+		string += colNumber;
+		string += "'></div>";
+		return string;
 	}
 };
 
