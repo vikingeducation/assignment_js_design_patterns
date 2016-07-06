@@ -19,7 +19,8 @@ var controller = {
 };
 
 var model = {
-	squaresPerSide: 0
+	squaresPerSide: 0,
+	numberOfAttempts: 0
 };
 
 var view = {
@@ -75,6 +76,13 @@ var view = {
       		function(event){event.target.style["backgroundColor"] = "darkviolet"},
       		function(event){event.target.style["backgroundColor"]="black"}
     	);
+
+    	// When clicked each box should reveal what's underneath
+		$(".square-cover").click( function(event){
+			$(event.target).slideUp(1000);
+			model.numberOfAttempts++;
+			$("#number-of-attempts").text(model.numberOfAttempts);
+		});
 	},
 
 	squareCover: function(rowNumber, colNumber){
