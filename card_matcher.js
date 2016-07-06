@@ -33,14 +33,12 @@ var model = {
 	squaresPerSide: 0,
 	numberOfAttempts: 0,
 	firstSquareSelected: null,
-	secondSquareSelected: null
+	secondSquareSelected: null,
+	scores: []
 };
 
 var view = {
 	init: function(){
-
-		// Removing the game over stuff
-		$("#game-finished").remove();
 
 		// SETTING UP THE GRID
 		// I think a for loop nested in a for loop should do the trick
@@ -61,7 +59,7 @@ var view = {
 			row += "</div>";
 			grid += row;
 		};
-		$('#grid').append(grid);
+		$('#grid').html(grid);
 
 		// PUTTING A VALUE INTO EACH SQUARE
 		// I'm thinking the easiest way to do this is by again, going through a for loop and then changing the text values of those squares...
@@ -162,8 +160,19 @@ var view = {
 		setTimeout(function(){
 			if ($(".square-cover:visible").length === 0) {
 				$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>");
+
+				model.scores.push({game: model.gameNumber, numberOfSquares: model.squaresPerSide, numberOfAttempts: model.numberOfAttempts });
+
+				$("#scores").prepend("<p>" + "Attempts: " + model.scores[model.scores.length - 1].numberOfAttempts + " Number of Squares: " + (model.scores[model.scores.length - 1].numberOfSquares * model.scores[model.scores.length - 1].numberOfSquares) + " Game: " + model.scores[model.scores.length - 1].game + "</p>")
+
+				// This is setting up the listener on the restart-button
+				// In hindsight, I shoulda id'ed the button as new-game-button
+				// 1. Get rid of the game over header and button for New Game
+				// 2. Save the score and shite
 				$("#restart-button").click(function(){
 					$("#game-over").html("");
+					// Now I want to run controller init again to pretty much reset and restart
+					controller.init();
 				});
 			};
 		}, 2000);
