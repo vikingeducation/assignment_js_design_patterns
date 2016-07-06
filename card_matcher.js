@@ -3,6 +3,9 @@
 var controller = {
 	init: function(){
 
+		// Have to reset all those model figures at the start of each new game.
+		model.init();
+
 		// Prompting user for a grid side length
 		do {
 			model.squaresPerSide = Number(prompt("How many squares per side? e.g. '3' for a 3 x 3 grid.", "6"));
@@ -19,6 +22,14 @@ var controller = {
 };
 
 var model = {
+	init: function(){
+		model.gameNumber++;
+		model.squaresperSide = 0;
+		model.numberOfAttempts = 0;
+		model.firstSquareSelected = null;
+		model.secondSquareSelected = null;
+	},
+	gameNumber: 0,
 	squaresPerSide: 0,
 	numberOfAttempts: 0,
 	firstSquareSelected: null,
@@ -106,8 +117,16 @@ var view = {
 				if ($("#" + model.firstSquareSelected).parent().text() !== $("#" + model.secondSquareSelected).parent().text()) {
 					view.timeoutSlide();
 				} else {
-					model.firstSquareSelected = null;
-					model.secondSquareSelected = null;
+					// So this is where we have a match!
+					view.timeOutSquareSelectedReset();
+
+					// We need to check everytime there's a match if it's the end of the game
+					// If it is the game
+					// We need to display a button that will let people restart the game
+					// and also keep a track of previous scores on the screen
+					if ($(".square-cover:visible").length === 0) {
+
+					};
 				};
 			};
 		});
@@ -126,6 +145,13 @@ var view = {
 		setTimeout(function(){
 			$("#" + model.firstSquareSelected).slideDown(1000);
 			$("#" + model.secondSquareSelected).slideDown(1000);
+			model.firstSquareSelected = null;
+			model.secondSquareSelected = null;
+		}, 1000);
+	},
+
+	timeOutSquareSelectedReset: function(){
+		setTimeout(function(){
 			model.firstSquareSelected = null;
 			model.secondSquareSelected = null;
 		}, 1000);
