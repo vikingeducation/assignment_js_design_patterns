@@ -1,0 +1,16 @@
+:root{
+  --square-side: 35px;
+}
+
+.square{
+  display: inline-block;
+  border: 1px solid black;
+  height: var(--square-side);
+  padding-top: 7px;
+  text-align: center;
+  width: var(--square-side);
+}
+
+.grid-row{
+  height: var(--square-side);
+}
