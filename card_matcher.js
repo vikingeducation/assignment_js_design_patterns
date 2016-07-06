@@ -39,6 +39,9 @@ var model = {
 var view = {
 	init: function(){
 
+		// Removing the game over stuff
+		$("#game-finished").remove();
+
 		// SETTING UP THE GRID
 		// I think a for loop nested in a for loop should do the trick
 		// The top for-loop will be for the rows
@@ -125,7 +128,7 @@ var view = {
 					// We need to display a button that will let people restart the game
 					// and also keep a track of previous scores on the screen
 					if ($(".square-cover:visible").length === 0) {
-
+						$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>")
 					};
 				};
 			};
@@ -155,6 +158,11 @@ var view = {
 			model.firstSquareSelected = null;
 			model.secondSquareSelected = null;
 		}, 1000);
+		setTimeout(function(){
+			if ($(".square-cover:visible").length === 0) {
+				$("#game-over").append("<h4>Game Over!</h4><button id='restart-button'>New Game</button>")
+			};
+		}, 2000);
 	}
 };
 
