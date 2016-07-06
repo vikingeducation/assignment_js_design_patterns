@@ -20,7 +20,9 @@ var controller = {
 
 var model = {
 	squaresPerSide: 0,
-	numberOfAttempts: 0
+	numberOfAttempts: 0,
+	firstSquareSelected: null,
+	secondSquareSelected: null
 };
 
 var view = {
@@ -80,9 +82,31 @@ var view = {
     	// When clicked each box should reveal what's underneath
 		$(".square-cover").click( function(event){
 			$(event.target).slideUp(1000);
-			model.numberOfAttempts++;
-			$("#number-of-attempts").text(model.numberOfAttempts);
 		});
+
+		// This is a listener for the count ups...
+		$(".square-cover").click( function(event){
+			// If the current target isn't either of the selected then let's add to the count.
+			if( $(event.target)[0]["id"] !== model.firstSquareSelected && $(event.target)[0]["id"] !== model.secondSquareSelected ){
+				model.numberOfAttempts++;
+				$("#number-of-attempts").text(model.numberOfAttempts);
+			};
+		});
+
+		// How about a listener which stores which one is being looked at right now...
+		$(".square-cover").click( function(event){
+			// If the current target isn't either of the selected then let's add to the count.
+			if ( model.firstSquareSelected === null ){
+				model.firstSquareSelected = $(event.target)[0]["id"];
+			} else if ( model.firstSquareSelected !== $(event.target && model.secondSquareSelected === null) ){
+				model.secondSquareSelected = $(event.target)[0]["id"];
+			};
+		});
+
+		// Well I want to bring your attention to this
+		// $("#square-cover-5-5").parent().text()
+		// That statement can get you the text and the parent
+		// I was thinking about storing the first and second selections
 	},
 
 	squareCover: function(rowNumber, colNumber){
