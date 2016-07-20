@@ -1,0 +1,22 @@
+.game {
+	width: 80%;
+	margin: 100px;
+}
+
+.card {
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+	border: 1px solid DarkRed;
+	float: left;
+}
+
+.image {
+	font-size: 70px;
+	text-align: center;
+	line-height: 200px;
+}
+
+.success {
+	border: 1px solid Green;
+}
