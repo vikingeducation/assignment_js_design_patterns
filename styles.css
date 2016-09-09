@@ -1,0 +1,17 @@
+.card {
+
+  background-image: url('images/exit.png');
+  background-size: cover;
+  display: inline-block;
+}
+
+.hidden {
+}
+
+.flipped {
+
+}
+
+body {
+  min-width: 960px;
+}
