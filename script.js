@@ -1,10 +1,16 @@
+var memoryView = {
 
-memoryView = {
+  renderGrid: function(gameCards) {
+    for (var i = 0; i < gameCards.length; i++) {
+      this.createImgDiv(gameCards[i]);
+    }
+  },
 
   createImgDiv: function(gameCard) {
     var div = $('<div class="col-xs-3"></div>');
-    div.html(this.createImgStr(gameCard) +
+    div.html(this.createImgStr(gameCard.path) +
              this.createImgStr('red_joker.png'));
+    div.attr('id', gameCard.id);
     $('body').append(div);
     $('img').last().addClass('joker-img');
     $('img').last().prev().hide();
@@ -16,23 +22,17 @@ memoryView = {
     return imgStr;
   },
 
-  renderGrid: function(gameCards) {
-    for (var i = 0; i < gameCards.length; i++) {
-      this.createImgDiv(gameCards[i]);
-    }
-  },
-
-  toggleCardListener: function() {
-    $('img').click(function(e) {
-      $target = $(e.target);
-      $target.siblings().toggle();
-      $target.toggle();
-    })
-  },
+  // toggleCardListener: function() {
+  //   $('img').click(function(e) {
+  //     $target = $(e.target);
+  //     $target.siblings().toggle();
+  //     $target.toggle();
+  //   });
+  // }
 
 };
 
-memoryModel = {
+var memoryModel = {
   gameCards: [],
   cardNums: ['2','3','4','5','6','7','8','9','10','ace','jack','queen','king'],
   cardSuits: ['spades', 'hearts', 'diamonds', 'clubs'],
@@ -40,12 +40,23 @@ memoryModel = {
   randCardPath: function() {
     return this.cardNums[this.randNum(13)] + '_of_' + this.cardSuits[this.randNum(4)] + '.png';
   },
+
+  card: function(path, id) {
+    this.path = path;
+    this.id = id;
+    return this;
+  },
+
   createCards: function(numCards) {
+    numCards = parseInt(numCards);
     var that = this;
     for(var i = 0; i < numCards; i++) {
       var cardPath = that.randCardPath();
-      that.gameCards.push(cardPath)
-      that.gameCards.push(cardPath)
+      var firstCard = new that.card(cardPath, i);
+      console.log(firstCard);
+      var secondCard = new that.card(cardPath, (i + numCards));
+      that.gameCards.push(firstCard);
+      that.gameCards.push(secondCard);
     }
     return this.gameCards;
   }
