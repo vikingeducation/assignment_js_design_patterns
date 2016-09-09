@@ -107,6 +107,7 @@ var memoryController = {
   flipCard: function(targetId) {
     var gameCards = memoryController.model.flipCard(targetId);
     memoryController.view.renderGrid(gameCards);
+    memoryController.view.cardFlipListener();
   }
 
 };
