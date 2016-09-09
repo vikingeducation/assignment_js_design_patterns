@@ -1,6 +1,11 @@
 var memoryView = {
 
+  init: function(callbacks){
+    this.callbacks = callbacks;
+  },
+
   renderGrid: function(gameCards) {
+    $('div').remove();
     for (var i = 0; i < gameCards.length; i++) {
       this.createImgDiv(gameCards[i]);
     }
@@ -8,12 +13,13 @@ var memoryView = {
 
   createImgDiv: function(gameCard) {
     var div = $('<div class="col-xs-3"></div>');
-    div.html(this.createImgStr(gameCard.path) +
-             this.createImgStr('red_joker.png'));
+    if (gameCard.flipped) {
+      div.html(this.createImgStr(gameCard.path));
+    } else {
+      div.html(this.createImgStr('red_joker.png'));
+    }
     div.attr('id', gameCard.id);
     $('body').append(div);
-    $('img').last().addClass('joker-img');
-    $('img').last().prev().hide();
   },
 
   createImgStr: function(path) {
@@ -22,13 +28,13 @@ var memoryView = {
     return imgStr;
   },
 
-  // toggleCardListener: function() {
-  //   $('img').click(function(e) {
-  //     $target = $(e.target);
-  //     $target.siblings().toggle();
-  //     $target.toggle();
-  //   });
-  // }
+  cardFlipListener: function() {
+    $('img').click(function(e) {
+      $target = $(e.target);
+      var targetId = $target.parent().attr('id')
+      memoryView.callbacks.flipCard(targetId);
+    });
+  }
 
 };
 
@@ -44,6 +50,7 @@ var memoryModel = {
   card: function(path, id) {
     this.path = path;
     this.id = id;
+    this.flipped = false;
     return this;
   },
 
@@ -59,6 +66,22 @@ var memoryModel = {
       that.gameCards.push(secondCard);
     }
     return this.gameCards;
+  },
+
+  flipCard: function(targetId) {
+    var targetCard = this.findCardById(targetId);
+    targetCard.flipped = true;
+    return this.gameCards;
+  },
+
+  findCardById: function(targetId) {
+    var gameCards = this.gameCards;
+    for (var i = 0; i < gameCards.length; i++) {
+        console.log(gameCards[i])
+      if (targetId == gameCards[i].id) {
+        return gameCards[i];
+      }
+    }
   }
 };
 
@@ -68,16 +91,23 @@ var memoryController = {
     this.model = memoryModel;
     this.view = memoryView;
     this.setupGrid();
-    this.view.toggleCardListener();
+    this.view.init({
+      flipCard: memoryController.flipCard
+      });
+    this.view.cardFlipListener();
   },
 
   setupGrid: function() {
     var gridSize = prompt('How many pairs to play with?');
     var gameCards = this.model.createCards(gridSize);
-    console.log(gameCards);
     this.view.renderGrid(gameCards);
 
   },
+
+  flipCard: function(targetId) {
+    var gameCards = memoryController.model.flipCard(targetId);
+    memoryController.view.renderGrid(gameCards);
+  }
 
 };
 
