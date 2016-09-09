@@ -6,6 +6,7 @@ $(document).ready(
 var model = {
   init: function(gridSize){
     this.correctScore = 0;
+    this.attempts = 0;
     this.gridSize = gridSize;
     this.grid = [];
     console.log(this.grid);
@@ -35,10 +36,14 @@ var model = {
     }
   },
 
+  checkEndGame: function(){
+    return (this.correctScore === parseInt(this.gridSize));
+  },
+
   compare: function(checkedBoxes) {
     var a = this.grid[(checkedBoxes[0])];
     var b = this.grid[(checkedBoxes[1])];
-
+    this.attempts ++;
 
     if (a === b){
       this.correctScore += 1;
@@ -46,7 +51,7 @@ var model = {
     } else {
       return false;
     }
-  }
+  },
 
   shuffle: function(grid){
     var j, x, i;
@@ -56,6 +61,14 @@ var model = {
       grid[i-1] = grid[j];
       grid[j] = x;
     }
+  },
+
+  getScore: function(){
+    return this.correctScore;
+  },
+
+  getAttempts: function(){
+    return this.attempts;
   }
 
 };
@@ -74,11 +87,25 @@ var view = {
       }
       if (clickCounter === 2){
         // decides what to do with cards(stay face up or flip down);
-        if (!(controller.compare(clickedBoxes)) {
+        if (!(controller.compare(clickedBoxes))) {
           // find the div with id of clickedBoxes and give it hidden class
-
+        
+          clickedBoxes.forEach(function(id){
+           setTimeout(function(){
+            $("#"+id).addClass("hidden-box")}, 1000);
+          });
         } 
-        clickedCounter = 0;
+        clickedBoxes = [];
+        clickCounter = 0;
+        var score = controller.getScore();
+        var attempts = controller.getAttempts();
+        $("#score").text("Your Score: "+ score.toString());
+        $("#attempts").text("Number of attempts: " + attempts.toString());
+        if(controller.checkEndGame()){
+          console.log("You won!");
+          $("#game-end").text("You won!");
+          $(".card-container").off("click");
+        }
       }
     });
   },
@@ -118,6 +145,18 @@ var controller = {
 
   compare: function(checkedBoxes) {
     return this.model.compare(checkedBoxes);
+  },
+
+  getScore: function(){
+    return model.getScore();
+  },
+
+  getAttempts: function(){
+    return model.getAttempts();
+  },
+
+  checkEndGame: function(){
+    return model.checkEndGame();
   }
 };
 
