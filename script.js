@@ -11,19 +11,22 @@ var view = {
     this.setEventListeners();
   },
 
-  renderSquares: function(dimensions) {
-    for (var i = 0; i < dimensions; i++) {
+  renderSquares: function() {
+    $("#board").empty();
+    for (var i = 0; i < board.dimensions; i++) {
       var $cardRow = $("<div></div>");
       $cardRow.addClass("row");
       $("#board").append($cardRow);
 
-      for (var j = 0; j < dimensions; j++) {
+      for (var j = 0; j < board.dimensions; j++) {
         var $cardSpace = $("<div></div>");
-        var sizing = (view.boardWidth / (parseInt(dimensions) + 1));
+        var sizing = (view.boardWidth / (parseInt(board.dimensions) + 1));
+        var coordinates = String(j) + String(i);
         $cardSpace.addClass("card");
-        $cardSpace.attr("id", "card" + String(j) + String(i));
+        $cardSpace.attr("id", coordinates);
         $cardSpace.width(sizing).height(sizing);
         $cardSpace.appendTo($cardRow);
+        this.flipSquare(coordinates);
       };
     };
   },
@@ -31,22 +34,26 @@ var view = {
   setEventListeners: function() {
 
     $('#board').on('click', '.card', function() {
-      controller.flipSquare($(this));
+      controller.flipSquare($(this).attr("id"));
+      controller.clickCount++;
     });
   },
 
-  flipSquare: function($square) {
-    $square.css('background-image', 'url(images/' + '' + '.png)');
-    // controller call
+  flipSquare: function(coordinates) {
+    $square = $("#" + coordinates);
+    var properties = controller.squareStatus(coordinates);
+    if (properties.squareFlipped) {
+      $square.css('background-image', 'url(images/' + properties.squareID + '.png)');
+    } else {
+      $square.css('background-image', "url(images/exit.png)");
+    }
   }
 
 };
 
 
-function Square(id, coords) {
+function Square(id) {
   this.id = id;
-  this.x = coords[0];
-  this.y = coords[1];
   this.flipped = false;
 };
 
@@ -54,14 +61,16 @@ function Square(id, coords) {
 var model = {
 
   score: 0,
+  squares: {},
 
   createSquares: function() {
-    for(var i = 0; i < board.dimensions; i++) {
-      for(var j = 0; j < board.dimensions; j++) {
-        var squareCoords = this.setXY();
-        var newSquare = new Square(String(i) + String(j), squareCoords);
-        delete board.spaces[squareCoords];
-      }
+    var counter = 0;
+    for (var i = 0; i < (board.dimensions**2)/2; i++) {
+      var squareCoordsFirst = this.setXY();
+      var squareCoordsSecond = this.setXY();
+      this.squares[squareCoordsFirst] = new Square(counter);
+      this.squares[squareCoordsSecond] = new Square(counter);
+      counter++;
     }
   },
 
@@ -69,17 +78,22 @@ var model = {
     var result;
     var count = 0;
     for (var coordinatePair in board.spaces) {
-      if (Math.random() < 1/++count) {
+      if (Math.random() < 1 / ++count) {
         result = coordinatePair;
       }
     };
+    delete board.spaces[result];
     return result;
   },
 
-  flipSquare: function(square) {
+  flipSquare: function(coordinates) {
+    var square = this.findSquare(coordinates);
+    square.flipped = square.flipped ? false : true;
+  },
 
+  findSquare: function(coordinates) {
+    return this.squares[coordinates];
   }
-
 
 };
 
@@ -88,8 +102,8 @@ var board = {
   spaces: {},
 
   init: function() {
-    for(var i = 0; i < board.dimensions; i++) {
-      for(var j = 0; j < board.dimensions; j++) {
+    for (var i = 0; i < board.dimensions; i++) {
+      for (var j = 0; j < board.dimensions; j++) {
         this.spaces[String(i) + String(j)] = true;
       }
     }
@@ -98,7 +112,9 @@ var board = {
 
 var controller = {
 
-  init: function(){
+  pairHolder: [],
+
+  init: function() {
     var dimensions = prompt("What size grid do you want?");
 
     board.dimensions = dimensions;
@@ -108,16 +124,41 @@ var controller = {
     view.init(dimensions);
   },
 
-  flipSquare: function(){
-    model.flipSquare();
-    view.flipSquare();
+  flipSquare: function(coordinates) {
+    var properties = this.squareStatus(coordinates);
+    this.pairHolder.push(properties.squareID);
+    model.flipSquare(coordinates);
+    this.checkPair(coordinates);
+    view.renderSquares();
   },
 
-  gameOver: function(){
+  checkPair: function() {
+    if (this.pairHolder.length > 2) {
+      this.pairHolder = [];
+    } else if (this.pairHolder.length === 2) {
+      if (this.pairHolder[0] === this.pairHolder[1]) {
+        console.log('you win!');
+      }
+      this.pairHolder = [];
+    }
+  },
+
+  gameOver: function() {
     var remaining = model.countRemainingCards();
     if (!remaining) {
       return true;
     }
+  },
+
+  squareStatus: function(coordinates) {
+    var foundSquare = model.findSquare(coordinates);
+    var squareFlipped = foundSquare.flipped;
+    var squareID = foundSquare.id
+    return {
+      squareFlipped: squareFlipped,
+      squareID: squareID
+    }
   }
+
 
 };
