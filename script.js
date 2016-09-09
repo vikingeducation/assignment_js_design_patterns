@@ -2,22 +2,33 @@
 memoryView = {
 
   createImgDiv: function(gameCard) {
-    $('body').append($('<div></div>')
-             .html(this.createImgTag(gameCard)));
+    var div = $('<div class="col-xs-3"></div>');
+    div.html(this.createImgStr(gameCard) +
+             this.createImgStr('red_joker.png'));
+    $('body').append(div);
+    $('img').last().addClass('joker-img');
+    $('img').last().prev().hide();
   },
 
-  createImgTag: function(path) {
-    var imgTag = $('<img>');
+  createImgStr: function(path) {
     var fullPath = 'PNG-cards-1.3/' + path;
-    imgTag.attr('src', fullPath);
-    return imgTag;
+    var imgStr = '<img src="' + fullPath + '">';
+    return imgStr;
   },
 
   renderGrid: function(gameCards) {
     for (var i = 0; i < gameCards.length; i++) {
       this.createImgDiv(gameCards[i]);
     }
-  }
+  },
+
+  toggleCardListener: function() {
+    $('img').click(function(e) {
+      $target = $(e.target);
+      $target.siblings().toggle();
+      $target.toggle();
+    })
+  },
 
 };
 
@@ -46,10 +57,11 @@ var memoryController = {
     this.model = memoryModel;
     this.view = memoryView;
     this.setupGrid();
+    this.view.toggleCardListener();
   },
 
   setupGrid: function() {
-    var gridSize = prompt('How many pairs to play with? (even)');
+    var gridSize = prompt('How many pairs to play with?');
     var gameCards = this.model.createCards(gridSize);
     console.log(gameCards);
     this.view.renderGrid(gameCards);
