@@ -6,9 +6,10 @@ $(document).ready(
 var model = {
   init: function(gridSize){
     this.gridSize = gridSize;
-    this.grid = new Array(gridSize * gridSize);
+    this.grid = [];
+    console.log(this.grid);
     this.setupLetters();
-    this.setupGrid(); 
+    this.setupGrid();
   },
 
   setupGrid: function(){
@@ -18,15 +19,12 @@ var model = {
 
    possibleLetters.forEach(function(el,index){
     //console.log(thatGrid);
-    for (var i = 0; i < thatGrid.length; i++){
-      thatGrid[i] = el;
-      thatGrid[i+1] = el;
-      i++;
-    }
+    thatGrid.push(el);
+    thatGrid.push(el);
     
    });
 
-   this.grid = this.shuffle(thatGrid);
+   this.shuffle(thatGrid);
   },
 
   setupLetters: function(){
@@ -58,8 +56,9 @@ var view = {
   },
 
   renderCards: function(grid){
+    var columnWidth = Math.floor(12/this.gridSize);
     grid.forEach( function(el, index) {
-      var $card = $("<div>" + el + "</div>").attr("id", index).css("border", "1px solid");
+      var $card = $("<div>" + el + "</div>").attr("id", index).addClass("col-md-" + columnWidth).css("border", "1px solid");
       $(".card-container").append($card);
     });
   }
@@ -77,7 +76,6 @@ var controller = {
     console.log("model's grid is" + this.model.grid);
 
     //renders all the cards from model onto the view
-    debugger;
     this.view.renderCards(this.model.grid);
 
 
