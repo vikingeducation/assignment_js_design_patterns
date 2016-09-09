@@ -7,67 +7,88 @@ var View = {
 
   init: function(size) {
     this.grid = $('.grid')
-    this.renderCards();
-    this.showBack();
-    this.showFront();
+    this.renderCards(size);
+    this.flipCard();
   },
 
-  showFront: function() {
+  flipCard: function() {
     $('.grid').on('click', '.card', function(e) {
-      var $that = $(this);
-      $that.addClass('seekingLove');
-      $that.removeClass('back');
-      Controller.sendCard($that.text());
+      var cardId = $(this).attr('data-id');
+      Controller.sendCard(cardId);
     });
   },
 
-  showBack: function() {
-    $('.card').addClass('back');
-  },
-
-  renderCards: function() {
+  renderCards: function(size) {
+    $('.grid').innerHTML = "";
+    var cardIds = this.buildCardIds(size);
     var cards = Controller.getCards();
-    while(cards[0]) {
-      cards = this.render(cards);
+    while(cardIds[0]) {
+      cardIds = this.render(cardIds, cards);
     };
   },
 
-  render: function(cards) {
-    var rand = Math.floor(Math.random() * cards.length);
-    var randCard = cards[rand];
-    cards.splice(rand, 1);
-    var newCard = this.buildCardDiv(randCard)
-    this.grid.append(newCard);
-    return cards;
+  buildCardIds: function(size) {
+    var cardIds = [];
+    for (var i = 1; i <= Number(size) * 2; i++) {
+      cardIds.push(i);
+    }
+    return cardIds;
   },
 
-  buildCardDiv: function(card) {
-    return $('<div class="card"></div>')
-        .attr('data-id', card.value)
+  render: function(cardIds, cards) {
+    var rand = Math.floor(Math.random() * cardIds.length);
+    var id = cardIds[rand];
+    var randCard = cards[String(id)];
+    cardIds.splice(rand, 1);
+    var newCard = this.buildCardDiv(randCard, id)
+    this.grid.append(newCard);
+    return cardIds;
+  },
+
+  buildCardDiv: function(card, id) {
+    if (card.flipped) {
+      if (card.matched) {
+        return $('<div class="card matched flipped"></div>')
+        .attr('data-id', id)
         .text(card.value);
+      }
+      return $('<div class="card flipped"></div>')
+        .attr('data-id', id)
+        .text(card.value);
+    } else {
+      return $('<div class="card back"></div>')
+        .attr('data-id', id)
+        .text(card.value);
+    }
   },
 
   yesMatch: function() {
     $('.seekingLove').removeClass('seekingLove').addClass('flipped')
+    this.addAttempt();
   },
 
   noMatch: function() {
     $('.seekingLove').removeClass('seekingLove').addClass('back');
+    this.addAttempt();
+  },
+
+  addAttempt: function() {
+    $('.attempt').text(Controller.getAttempts);
   }
 };
 
 var Controller = {
   init: function(size) {
     Model.init(size);
-    View.init();
+    View.init(size);
   },
 
   getCards: function() {
     return Model.cards;
   },
 
-  sendCard: function(card) {
-    Model.updateCard(card);
+  sendCard: function(cardId) {
+    Model.updateCard(cardId);
   },
 
   stayUp: function() {
@@ -76,43 +97,65 @@ var Controller = {
 
   flipDown: function() {
     setTimeout(View.noMatch, 1000);
+  },
+
+  getAttempts: function() {
+    return Model.getAttempts;
+  },
+
+  renderPage: function() {
+    View.renderCards(Object.keys(Model.cards).length);
   }
 };
 
 var Model = {
   init: function(size) {
-    this.cards = [];
+    this.cards = {};
     this.buildDeck(size);
   },
 
   buildDeck: function(size) {
-    for (var i = 1; i <= Number(size); i++) {
-      this.cards.push(new Card(String(i)));
-      this.cards.push(new Card(String(i)));
+    for (var i = 1; i <= Number(size) * 2; i += 2) {
+      this.cards[String(i)] = new Card(String(i));
+      this.cards[String(i + 1)] = new Card(String(i));
     }
   },
 
   matches: [],
 
+  attempts: 0,
+
   compareCards: function(matches) {
-    console.log(matches);
-    if (matches[0] === matches[1]) {
-      Controller.stayUp();
+    if (matches[0].value === matches[1].value) {
+      matches[0].matched = true;
+      matches[1].matched = true;
+      Controller.renderPage();
     } else {
-      Controller.flipDown();
+      matches[0].flipped = false;
+      matches[1].flipped = false;
+      Controller.renderPage();
     }
+
     this.matches = [];
+    this.attempts += 1;
   },
 
-  updateCard: function(card) {
+  updateCard: function(cardId) {
+    var card = this.cards[cardId];
+    card.flipped = true;
     this.matches.push(card);
     if (this.matches.length === 2) {
       this.compareCards(this.matches);
     }
-  }
+  },
+
+  getAttempts: function() {
+    return attempts;
+  },
 };
 
 function Card (value) {
   this.value = value;
   this.flipped = false;
+  this.matched = false;
 }

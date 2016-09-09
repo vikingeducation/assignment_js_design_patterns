@@ -4,6 +4,7 @@
   border: 1px solid black;
   display: inline-block;
   margin: 5px;
+  padding: 5px;
 }
 
 .back {
@@ -11,10 +12,13 @@
 }
 
 .grid {
-  width: 448px;
+  width: 500px;
 }
 
 .flipped {
-  border: 1px solid green;
   pointer-events: none;
+}
+
+.matched {
+  border: 1px solid green;
 }
