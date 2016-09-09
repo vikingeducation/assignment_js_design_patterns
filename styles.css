@@ -11,7 +11,7 @@
   background-color: black;
 }
 
-.grid {
+#grid {
   width: 500px;
 }
 
@@ -21,4 +21,8 @@
 
 .matched {
   border: 1px solid green;
+}
+
+.trigger {
+  pointer-events: none;
 }
