@@ -1,17 +1,32 @@
+$(document).ready( 
+  function() {
+    controller.init();
+  });
+
 var model = {
   init: function(gridSize){
     this.gridSize = gridSize;
-    this.grid = Array.new(gridSize*gridSize);
+    this.grid = new Array(gridSize * gridSize);
+    this.setupLetters();
     this.setupGrid(); 
   },
 
   setupGrid: function(){
-   var possibleLetters = this.letterArray.slice(0,gridSize);
-   possibleLetters.forEach(function(el){
-    this.grid.push(el);
-    this.grid.push(el);
+   var possibleLetters = this.letterArray.slice(0,this.gridSize);
+
+   var thatGrid = this.grid; 
+
+   possibleLetters.forEach(function(el,index){
+    //console.log(thatGrid);
+    for (var i = 0; i < thatGrid.length; i++){
+      thatGrid[i] = el;
+      thatGrid[i+1] = el;
+      i++;
+    }
+    
    });
-   shuffle(this.grid);
+
+   this.grid = this.shuffle(thatGrid);
   },
 
   setupLetters: function(){
@@ -37,8 +52,16 @@ var view = {
   init: function(){
     this.gridSize = prompt("How big a grid do you want?");
   },
+
   getGridSize: function(){
     return this.gridSize;
+  },
+
+  renderCards: function(grid){
+    grid.forEach( function(el, index) {
+      var $card = $("<div>" + el + "</div>").attr("id", index).css("border", "1px solid");
+      $(".card-container").append($card);
+    });
   }
 
 };
@@ -47,6 +70,18 @@ var controller = {
   init: function(){
     this.view = view;
     this.view.init();
-    this.model = model.init(this.view.getGridSize());
+
+    this.model = model;
+    this.model.init(this.view.getGridSize());
+
+    console.log("model's grid is" + this.model.grid);
+
+    //renders all the cards from model onto the view
+    debugger;
+    this.view.renderCards(this.model.grid);
+
+
+
   }
 };
+
