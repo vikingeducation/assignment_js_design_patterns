@@ -61,6 +61,7 @@ function Square(id) {
 var model = {
 
   score: 0,
+  attempts: 0,
   squares: {},
 
   createSquares: function() {
@@ -113,33 +114,42 @@ var board = {
 var controller = {
 
   pairHolder: [],
+  coordHolder: [],
 
   init: function() {
     var dimensions = prompt("What size grid do you want?");
 
     board.dimensions = dimensions;
     board.init();
-
     model.createSquares(dimensions);
     view.init(dimensions);
   },
 
   flipSquare: function(coordinates) {
     var properties = this.squareStatus(coordinates);
-    this.pairHolder.push(properties.squareID);
-    model.flipSquare(coordinates);
-    this.checkPair(coordinates);
+    if (!properties.squareFlipped){
+      this.pairHolder.push(properties.squareID);
+      this.coordHolder.push(coordinates);
+      model.flipSquare(coordinates);
+    }
     view.renderSquares();
+    this.checkPair(coordinates);
   },
 
   checkPair: function() {
     if (this.pairHolder.length > 2) {
       this.pairHolder = [];
+      this.coordHolder = [];
     } else if (this.pairHolder.length === 2) {
       if (this.pairHolder[0] === this.pairHolder[1]) {
         console.log('you win!');
+      } else {
+        model.flipSquare(this.coordHolder[0]);
+        model.flipSquare(this.coordHolder[1]);
       }
+      model.attempts++;
       this.pairHolder = [];
+      this.coordHolder = [];
     }
   },
 
