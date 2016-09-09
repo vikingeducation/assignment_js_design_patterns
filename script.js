@@ -26,9 +26,17 @@ var view = {
         $cardSpace.attr("id", coordinates);
         $cardSpace.width(sizing).height(sizing);
         $cardSpace.appendTo($cardRow);
-        this.flipSquare(coordinates);
+        this.showSide(coordinates);
       };
     };
+  },
+
+  renderScoreStatus: function() {
+    var attempts = controller.getAttempts();
+    var $statusDiv = $("<div></div>");
+    $statusDiv.attr("id", "status");
+    $statusDiv.text("Attempts: " + String(attempts));
+    $('#board').prepend($statusDiv);
   },
 
   setEventListeners: function() {
@@ -39,7 +47,7 @@ var view = {
     });
   },
 
-  flipSquare: function(coordinates) {
+  showSide: function(coordinates) {
     $square = $("#" + coordinates);
     var properties = controller.squareStatus(coordinates);
     if (properties.squareFlipped) {
@@ -47,8 +55,14 @@ var view = {
     } else {
       $square.css('background-image', "url(images/exit.png)");
     }
-  }
+  },
 
+  displayGameOverMsg: function() {
+    var $gameOverMsg = $("<div></div>");
+    $gameOverMsg.attr("id", "game-over-msg");
+    $gameOverMsg.text("You won!");
+    $('#board').prepend($gameOverMsg);
+  }
 };
 
 
@@ -94,6 +108,15 @@ var model = {
 
   findSquare: function(coordinates) {
     return this.squares[coordinates];
+  },
+
+  remainingSquares: function() {
+    for(var card in this.squares) {
+      if (this.squares[card].flipped === false) {
+        return false;
+      }
+    }
+    return true;
   }
 
 };
@@ -134,6 +157,10 @@ var controller = {
     }
     view.renderSquares();
     this.checkPair(coordinates);
+    view.renderScoreStatus();
+    if (model.remainingSquares()) {
+      view.displayGameOverMsg();
+    };
   },
 
   checkPair: function() {
@@ -153,13 +180,6 @@ var controller = {
     }
   },
 
-  gameOver: function() {
-    var remaining = model.countRemainingCards();
-    if (!remaining) {
-      return true;
-    }
-  },
-
   squareStatus: function(coordinates) {
     var foundSquare = model.findSquare(coordinates);
     var squareFlipped = foundSquare.flipped;
@@ -168,7 +188,11 @@ var controller = {
       squareFlipped: squareFlipped,
       squareID: squareID
     }
-  }
+  },
+
+  getAttempts: function() {
+    return model.attempts;
+  },
 
 
 };
