@@ -1,0 +1,31 @@
+* {
+  font-family: Helvetica;
+}
+
+.card {
+
+  background-image: url('images/exit.png');
+  background-size: cover;
+  display: inline-block;
+}
+
+.hidden {
+}
+
+.flipped {
+
+}
+
+body {
+  min-width: 960px;
+}
+
+#game-over-msg {
+  font-size: 40px;
+  margin-top: 20px;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 30px;
+}
