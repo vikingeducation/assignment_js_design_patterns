@@ -3,7 +3,43 @@
 var model = {
 	gridSize: 0,
 
+	attempts: 0,
+
+	score: 0,
+
+	addScore: function () {
+		this.score += 10;
+	},
+
+	decrementScore: function () {
+		this.score -= 2;
+	},
+
+	getScore: function () {
+		return this.score;
+	},
+
+	resetAttempts: function () {
+		this.attempts = 0;
+	},
+
+	cardsLeft: function () {
+		return this.gridSize - this.checkedCard();
+	},
+
+	checkedCard: function () {
+		return $('.checked').length;
+	},
+
 	pictureIndex: [1, 2, 3, 4, 5, 6, 7, 8],
+
+	incrementAttempts: function () {
+		this.attempts += 1;
+	},
+
+	readAttempts: function () {
+		return this.attempts;
+	},
 
 	setGridSize: function (size) {
 		this.gridSize = size;

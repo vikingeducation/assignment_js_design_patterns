@@ -16,17 +16,49 @@ var view = {
 
 	cardClickListener: function () {
 		$('section').on('click', '.img-block .front', function (event) {
-			var $target = $(event.target).parent();
-			$target.hide();
-			$target.next().fadeIn(500).addClass("opened");
+			view.openCard(event);
 			if (controller.imgsNotMatch()) {
+				view.showScore();
+				view.showAttempts();
 				setTimeout(function () {
 					view.closeOpenedCards();
 				}, 1000);
 			} else if (controller.imgsMatch()) {
+				view.showScore();
+				view.showAttempts();
+				view.checkRightMatch();
 				view.removeOpentag();
 			};
+			view.showGameOver();
 		});
+	},
+
+	showGameOver: function () {
+		if (controller.gameOver()) {
+			$('.gameOver').html("game over");
+			this.resetGame();
+		};
+	},
+
+	showScore: function () {
+		var score = controller.readScore();
+		$('.score').html("Score: " + score);
+	},
+
+	resetGame: function () {
+		controller.restValue();
+		$('section').remove();
+	},
+
+	showAttempts: function () {
+		var attempts = controller.getAttempts();
+		$('.attempts').html("Attempts: " + attempts);
+	},
+
+	openCard: function (event) {
+		var $target = $(event.target).parent();
+		$target.hide();
+		$target.next().fadeIn(500).addClass("opened");
 	},
 
 	closeOpenedCards: function () {
@@ -39,7 +71,10 @@ var view = {
 		$('.img-block .opened').removeClass("opened");
 	},
 
-
+	checkRightMatch: function () {
+		var $checkItems = $(controller.getNeedCheckItems());
+		$checkItems.addClass("checked");
+	},
 
 	setUpGrids: function () {
 		var size = controller.readGridValue();
