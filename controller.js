@@ -20,6 +20,22 @@ var controller = {
 
 	readPicArray: function () {
 		return model.generatePictureArray();
+	},
+
+	imgsNotMatch: function () {
+		if (model.opendCardsNum() === 2 && !model.opendCardsAllSame()) {
+			return true;
+		} else {
+			return false;
+		};
+	},
+
+	imgsMatch: function () {
+		if (model.opendCardsNum() === 2 && model.opendCardsAllSame()) {
+			return true;
+		} else {
+			return false;
+		};
 	}
 };
 

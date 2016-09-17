@@ -2,15 +2,41 @@
 
 var view = {
 	init: function () {
-		this.startButtonlistener();
+		this.startButtonListener();
+		this.cardClickListener();
 	},
 
-	startButtonlistener: function () {
+	startButtonListener: function () {
 		$("button:contains('Start')").click(function () {
 			$(this).hide();
 			controller.saveSizeValue();
 			view.setUpGrids();
 		});
+	},
+
+	cardClickListener: function () {
+		$('section').on('click', '.img-block .front', function (event) {
+			var $target = $(event.target).parent();
+			$target.hide();
+			$target.next().fadeIn(500).addClass("opened");
+			if (controller.imgsNotMatch()) {
+				setTimeout(function () {
+					view.closeOpenedCards();
+				}, 1000);
+			} else if (controller.imgsMatch()) {
+				view.removeOpentag();
+			};
+		});
+	},
+
+	closeOpenedCards: function () {
+		$('.img-block .opened').hide();
+		$('.img-block .opened').prev().show();
+		this.removeOpentag();
+	},
+
+	removeOpentag: function () {
+		$('.img-block .opened').removeClass("opened");
 	},
 
 
@@ -23,8 +49,7 @@ var view = {
 
 		for (var i = 0; i < size; i++) {
 			var picIndex = picArray.pop();
-			var $randomPicture = $("<img>").attr("src", "img/" + picIndex + ".jpg")
-				.addClass("back");
+			var $randomPicture = $("<img>").attr("src", "img/" + picIndex + ".jpg");
 			var $front = $("<div></div>").addClass("front")
 				.append($bgPicture.clone());
 			var $back = $("<div></div>").addClass("back")
@@ -35,9 +60,7 @@ var view = {
 		};
 	},
 
-	generatePicList: function (num) {
-		var list = [];
-	},
+
 
 
 }

@@ -39,9 +39,26 @@ var model = {
 			array[currentIndex] = array[randomIndex];
 			array[randomIndex] = temporaryValue;
 		}
-
 		return array;
 	},
+
+	opendCards: function () {
+		return $('.opened img');
+	},
+
+	opendCardsNum: function () {
+		return this.opendCards().length;
+	},
+
+	opendCardsAllSame: function () {
+		var cards = this.opendCards();
+		for (var i = 0; i < cards.length; i++) {
+			if (cards[i].src !== cards[0].src) {
+				return false;
+			};
+		};
+		return true;
+	}
 
 
 }
