@@ -21,8 +21,15 @@ section .img-block {
   display: inline-flex;
 }
 
-.img-block img {
+.img-block .front img {
   width: 130px;
   height: 130px;
   margin: 10px 10px;
+}
+
+.img-block .back img {
+  width: 130px;
+  height: 130px;
+  margin: 10px 10px;
+  display: none;
 }
