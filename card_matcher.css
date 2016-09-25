@@ -1,0 +1,11 @@
+div {
+    width: 100px;
+}
+
+img {
+    width: 100%;
+}
+
+.flipped {
+    display: hidden;
+}
