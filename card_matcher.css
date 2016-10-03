@@ -1,0 +1,26 @@
+:root{
+  --square-side: 35px;
+}
+
+.square{
+  color: black;
+  display: inline-block;
+  border: 1px solid gray;
+  height: var(--square-side);
+  padding-top: 7px;
+  position: relative;
+  text-align: center;
+  width: var(--square-side);
+}
+
+.square-cover{
+  background-color: black;
+  position: absolute;
+  top: 0;
+  height: 35px;
+  width: 100%;
+}
+
+.grid-row{
+  height: var(--square-side);
+}
