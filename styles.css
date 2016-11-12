@@ -5,3 +5,11 @@
 .col {
   display: inline-block;
 }
+
+.faceup {
+  display: inline-block;
+}
+
+.facedown {
+  display: none;
+}
