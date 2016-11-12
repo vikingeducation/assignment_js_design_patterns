@@ -20,8 +20,6 @@ var model = {
   decrScore: function() {
     model.score -= 1;
   }
-
-
 }
 
 var view = {
@@ -65,10 +63,16 @@ var view = {
     $('img.backOfTheCard').off('click')
   },
 
+  OnNewGameListener: function() {
+    $('.start-game').on('click', function() {
+      location.reload();
+    });
+  },
+
   init: function() {
     var ret = false;
+
     var gridSize = prompt("Please enter the grid size (Even Numbers only)");
-    // var gridSize = 4;
     if (gridSize != null && gridSize % 2 == 0) {
       model.gridSize = Number(gridSize);
       ret = true;
@@ -79,10 +83,6 @@ var view = {
 
     view.OnBackOfTheCardListener();
 
-    $('.start-game').on('click', function() {
-      location.reload();
-    });
-
     return ret;
   },
 
@@ -92,22 +92,21 @@ var view = {
     first_row_col.appendTo($('.container'));
   },
 
-  renderScore(newScore) {
+  renderScore: function(newScore) {
     $('span.score').html(newScore)
   },
 
-  markAsOpened(elem) {
+  markAsOpened: function(elem) {
     $(elem).parent().children().removeClass('closed temp').addClass('opened');
   },
 
-  markAsTemp(elem) {
+  markAsTemp: function(elem) {
     $(elem).parent().children().removeClass('closed opened').addClass('temp');
   },
 
-  markAsClosed(elem) {
+  markAsClosed: function(elem) {
     $(elem).parent().children().removeClass('temp opened').addClass('closed');
   }
-
 };
 
 var controller = {
@@ -118,6 +117,7 @@ var controller = {
         break;
       }
     }
+    view.OnNewGameListener();
   },
 
   flip: function(elem) {
