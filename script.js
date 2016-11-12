@@ -52,6 +52,12 @@ var view = {
 
     //setup
     this.gridSetup();
+
+    $('.col').on('click', 'img', function() {
+      controller.flip(this);
+    });
+
+
     return ret;
   },
 
@@ -64,6 +70,10 @@ var controller = {
         break;
       }
     }
+  },
+
+  flip: function(elem) {
+    $(elem).parent().children().toggleClass('facedown').toggleClass('faceup');
   }
 }
 
