@@ -199,32 +199,34 @@ $MGP.View = {
   setListeners: function(callback){
     self = this;
     this.gameWrapper.addEventListener('click', function(e){
-      callback(e, self) });
-      this.gameWrapper.addEventListener('touchstart', function(e){
-        callback(e, self) });
-      },
-      init: function(callback) {
-        this.gameWrapper = document.getElementsByTagName('memory-game')[0];
-        this.setListeners(callback);
-      }
-    }
+      callback(e, self)
+    });
+    this.gameWrapper.addEventListener('touchstart', function(e){
+      callback(e, self)
+    });
+  },
+  init: function(callback) {
+    this.gameWrapper = document.getElementsByTagName('memory-game')[0];
+    this.setListeners(callback);
+  }
+}
 
-    $MGP.Controller = {
-      flipCard: function(e, self){
-        var target = (e.target.tagName === "IMG" ? e.target.parentElement : e.target);
-        if(target.className.includes('card-wrapper')){
-          console.log(target)
-          // self.view.flipCard(target);
-          // self.model.flipCard(e.target.getAttribute('data-value'));
-        }
-      },
-      init: function() {
-        this.view = $MGP.View;
-        this.model = $MGP.Model;
-        this.view.init(this.flipCard);
-        this.model.init();
-        this.view.render(this.model.gameboard)
-      }
-
+$MGP.Controller = {
+  flipCard: function(e, self){
+    var target = (e.target.tagName === "IMG" ? e.target.parentElement : e.target);
+    if(target.className.includes('card-wrapper')){
+      console.log(target)
+      // self.view.flipCard(target);
+      // self.model.flipCard(e.target.getAttribute('data-value'));
     }
-    var newGame = new MemoryGame()
+  },
+  init: function() {
+    this.view = $MGP.View;
+    this.model = $MGP.Model;
+    this.view.init(this.flipCard);
+    this.model.init();
+    this.view.render(this.model.gameboard)
+  }
+
+}
+var newGame = new MemoryGame()
