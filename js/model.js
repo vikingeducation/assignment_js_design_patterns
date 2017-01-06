@@ -1,13 +1,15 @@
 var model = {
 
   init: function(numPairs) {
-    for (var i = 1; i <= numPairs; i++) {
-      this.createPair();  
+    for (var pairNumber = 0; pairNumber < numPairs; pairNumber++) {
+      this.createPair(pairNumber);
     }
   },
 
-  createPair: function() {
-    Card
+  createPair: function(pairNumber) {
+    var card = new this.Card(pairNumber);
+    this.cards.push(card);
+    this.cards.push(card);
   },
 
   cats: [
@@ -29,27 +31,15 @@ var model = {
     '16.jpg'
   ],
 
-  Card: function(imagePath) {
-
-    this.imagePath = imagePath;
+  Card: function(pairNumber) {
+    this.pairNumber = pairNumber;
+    this.imageName = model.cats[pairNumber];
     this.flipped = false;
-
+    this.found = false;
   },
 
-  cards: [
+  cards: [],
 
-    0: {
-      imagePath: ?,
-      flipped: ?,
-      found: ?,
-      pair: ?
-    },
-
-    1: {
-
-    }
-  ]
-
-  board: [7,2,8,1,3,5,4]
+  board: [7,2,8,1,3,5,4],
 
 };

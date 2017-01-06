@@ -1,21 +1,15 @@
 var view = {
 
   setUpListener: function(createPairs) {
-    $('#submit-button').on('click', function(){
+    $('#submit-button').on('click', function(event){
       var numPairs = $('#num-pairs').val();
       createPairs(numPairs);
     });
   },
 
-  numberOfCardPairs: function() {
-    Number(prompt("How many card pairs? (2-8)"));
+  renderCard: function(modelCard) {
+    var catImagePath = 'url(img/' + modelCard.imagePath + ')';
+    return $("<div class='card'>").css('background-image', catImagePath);
   },
 
-  Card: function() {
-    var catImagePath = 'url(img/' + cats.shift() + ')';
-    return $("<div class='card'>").css('background-image', catImagePath);
-  }
- 
 };
-
-

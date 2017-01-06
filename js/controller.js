@@ -8,16 +8,16 @@ var controller = {
     model.init(numPairs);
   },
  
-    {
-    var numberOfCardPairs = function() {
-
-    };
-
-    for (var i = 0; i < numberOfCardPairs; i++) {
-      var $card = Card();
-      $card.appendTo('#cards');
-      $card.clone().appendTo('#cards');
-    }
+    // {
+    // var numberOfCardPairs = function() {
+    //
+    // };
+    //
+    // for (var i = 0; i < numberOfCardPairs; i++) {
+    //   var $card = Card();
+    //   $card.appendTo('#cards');
+    //   $card.clone().appendTo('#cards');
+    // }
 
 
 };
