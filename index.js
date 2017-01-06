@@ -106,7 +106,10 @@
 var MemoryGame = function() {
   if(!(this instanceof MemoryGame)) return new MemoryGame();
 
-  this.Controller.init();
+  var self = this;
+  Ready.run( function() {
+    self.Controller.init();
+  });
 }
 
 var $MGP = MemoryGame.prototype;
@@ -197,33 +200,31 @@ $MGP.View = {
     self = this;
     this.gameWrapper.addEventListener('click', function(e){
       callback(e, self) });
-    this.gameWrapper.addEventListener('touchstart', function(e){
-      callback(e, self) });
-  },
-  init: function(callback) {
-    this.gameWrapper = document.getElementsByTagName('memory-game')[0];
-    this.setListeners(callback);
-  }
-}
-
-$MGP.Controller = {
-  flipCard: function(e, self){
-    var target = (e.target.tagName === "IMG" ? e.target.parentElement : e.target);
-    if(target.className.includes('card-wrapper')){
-      // self.view.flipCard(target);
-      // self.model.flipCard(e.target.getAttribute('data-value'));
+      this.gameWrapper.addEventListener('touchstart', function(e){
+        callback(e, self) });
+      },
+      init: function(callback) {
+        this.gameWrapper = document.getElementsByTagName('memory-game')[0];
+        this.setListeners(callback);
+      }
     }
-  },
-  init: function() {
-    this.view = $MGP.View;
-    this.model = $MGP.Model;
-    this.view.init(this.flipCard);
-    this.model.init();
-    this.view.render(this.model.gameboard)
-  }
 
-}
+    $MGP.Controller = {
+      flipCard: function(e, self){
+        var target = (e.target.tagName === "IMG" ? e.target.parentElement : e.target);
+        if(target.className.includes('card-wrapper')){
+          console.log(target)
+          // self.view.flipCard(target);
+          // self.model.flipCard(e.target.getAttribute('data-value'));
+        }
+      },
+      init: function() {
+        this.view = $MGP.View;
+        this.model = $MGP.Model;
+        this.view.init(this.flipCard);
+        this.model.init();
+        this.view.render(this.model.gameboard)
+      }
 
-Ready.run( function() {
-  var newGame = new MemoryGame()
-});
+    }
+    var newGame = new MemoryGame()
