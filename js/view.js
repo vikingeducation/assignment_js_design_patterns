@@ -1,6 +1,6 @@
 var view = {
 
-  setUpListener: function(createPairs, render) {
+  setUpInitialListener: function(createPairs, render) {
     $('#submit-button').on('click', function(event){
       var numPairs = $('#num-pairs').val();
       createPairs(numPairs);
@@ -17,7 +17,20 @@ var view = {
 
   $renderCard: function(modelCard) {
     var catImagePath = 'url(img/' + modelCard.imageName + ')';
-    return $("<div class='card'>").css('background-image', catImagePath);
+    return $("<div class='card is-face-down'>")
+      .css('background-image', catImagePath)
+      .attr('id', modelCard.id);
+  },
+
+  addCardListener: function(flipCard) {
+    $('#cards').on('click', '.card', function(e) {
+      flipCard(e);
+    });
+  },
+
+  flipCard: function(e) {
+    var $card = $(e.target);
+    $card.toggleClass('is-face-down');
   },
 
 };

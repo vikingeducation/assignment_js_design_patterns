@@ -1,5 +1,7 @@
 var model = {
 
+  numCards: 0,
+
   init: function(numPairs) {
     this.cards = [];
     for (var pairNumber = 0; pairNumber < numPairs; pairNumber++) {
@@ -8,9 +10,8 @@ var model = {
   },
 
   createPair: function(pairNumber) {
-    var card = new this.Card(pairNumber);
-    this.cards.push(card);
-    this.cards.push(card);
+    this.cards.push(new this.Card(pairNumber));
+    this.cards.push(new this.Card(pairNumber));
   },
 
   cats: [
@@ -33,10 +34,12 @@ var model = {
   ],
 
   Card: function(pairNumber) {
+    this.id = model.numCards;
     this.pairNumber = pairNumber;
     this.imageName = model.cats[pairNumber];
     this.flipped = false;
     this.found = false;
+    model.numCards++;
   },
 
   cards: [],
@@ -49,6 +52,21 @@ var model = {
       array[i] = array[j];
       array[j] = temp;
     }
-  }
+  },
+
+  flipCard: function(id) {
+    var card = model.findCardById(id);
+    card.flipped = true;
+  },
+
+  findCardById: function(id) {
+    return model.cards[id];
+  },
+
+
+
 
 };
+
+
+

@@ -4,7 +4,8 @@
 }
 
 #cards {
-  width: 444px;
+  width: 900px;
+  max-width: 100%;
   margin: auto;
 }
 
@@ -14,7 +15,15 @@
   background-size: cover;
   border: 1px solid silver;
   border-radius: 6px;
-  /*background-image: url('img/1.jpg');*/
   display: inline-block;
   margin: 10px;
+}
+
+.card:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.is-face-down {
+  background-image: url('img/cash-cats.png') !important;
 }

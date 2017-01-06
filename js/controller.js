@@ -1,7 +1,8 @@
 var controller = {
 
   init: function() {
-    view.setUpListener(controller.createPairs, controller.render);
+    view.setUpInitialListener(controller.createPairs, controller.render);
+    view.addCardListener(controller.flipCard);
   },
 
   createPairs: function(numPairs) {
@@ -11,7 +12,13 @@ var controller = {
   render: function() {
     model.shuffle(model.cards);
     view.renderBoard(model.cards);
-  }
+  },
+
+  flipCard: function(e) {
+    var id = e.target.id;
+    model.flipCard(id);
+    view.flipCard(e);
+  },
 
 };
 
