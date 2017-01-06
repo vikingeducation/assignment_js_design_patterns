@@ -8,9 +8,10 @@
   </head>
   <body>
 
-    <form id="intro-form">
-      <input type="text" id="num-pairs">
-      <button type="button" id="submit-button">Submit</button>
+    <form id="intro-form" class="form-inline">
+      <label for="num-pairs">How many pairs of cards do you want?</label>
+      <input type="number" id="num-pairs" value="2" min="2" max="16" class="form-control">
+      <button type="button" id="submit-button" class='btn btn-default'>Submit</button>
     </form>
 
     <div id="cards">

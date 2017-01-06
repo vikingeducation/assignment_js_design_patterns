@@ -9,6 +9,7 @@ var view = {
   },
 
   renderBoard: function(cards) {
+    $('#cards').empty();
     for (var i = 0; i < cards.length; i++) {
       this.$renderCard(cards[i]).appendTo('#cards');
     }

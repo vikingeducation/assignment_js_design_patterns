@@ -9,19 +9,9 @@ var controller = {
   },
 
   render: function() {
+    model.shuffle(model.cards);
     view.renderBoard(model.cards);
   }
-    // {
-    // var numberOfCardPairs = function() {
-    //
-    // };
-    //
-    // for (var i = 0; i < numberOfCardPairs; i++) {
-    //   var $card = Card();
-    //   $card.appendTo('#cards');
-    //   $card.clone().appendTo('#cards');
-    // }
-
 
 };
 
