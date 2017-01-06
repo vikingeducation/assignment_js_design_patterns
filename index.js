@@ -113,14 +113,14 @@ var $MGP = MemoryGame.prototype;
 
 MemoryGame.Card = function(value, img) {
   this.value = value;
-  this.img = img;
+  this.src = img;
   this.flipped = false;
 }
 
 $MGP.Model = {
   cardSelections: [
-    new Card("cheese", "http://vignette1.wikia.nocookie.net/clubpenguin/images/5/59/Cheese_Pin.png/revision/latest?cb=20121229072939"),
-    new Card("chocolate", "http://www.drodd.com/images15/chocolate29.jpg")
+    new MemoryGame.Card("cheese", "http://vignette1.wikia.nocookie.net/clubpenguin/images/5/59/Cheese_Pin.png/revision/latest?cb=20121229072939"),
+    new MemoryGame.Card("chocolate", "http://dbclipart.com/wp-content/uploads/2016/05/Clipart-chocolate-clipart-cliparts-for-you.png")
   ],
   gameboard: [],
   chooseCards: function(num) {
@@ -130,7 +130,6 @@ $MGP.Model = {
       selections.push(shuffled[i]);
       selections.push(shuffled[i]);
     }
-
     return this.shuffle(selections);
   },
   createPairs: function(cards) {
@@ -158,14 +157,13 @@ $MGP.Model = {
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-
     return array;
   },
   randomIndex: function(length) {
     return Math.floor(Math.random() * length);
   },
-  init: function(){
-    this.gameboard = this.chooseCards();
+  init: function(num){
+    this.gameboard = this.chooseCards(num || 2);
   }
 
 }
@@ -176,23 +174,52 @@ $MGP.View = {
     this.gameWrapper.innerHTML = "";
 
     for(var i = 0; i < gameboard.length; i++) {
-      let card = document.createElement('DIV')
-                         .classList.add(gameboard[i].flipped);
-      let img  = document.createElement('IMG')
-                         .setAttribute('src', gameboard[i].img)
-                         .setAttribute('data-value', gameboard[i].value);
-
-      this.gameWrapper.appendChild(card).appendChild(img);
+      let card = this.createCard(gameboard[i].flipped, gameboard[i].value, i);
+      let img  = this.createCardImage(gameboard[i].src);
+      card.appendChild(img);
+      this.gameWrapper.appendChild(card);
     }
   },
-  init: function() {
+  createCard: function(status, value, i){
+    var card = document.createElement('DIV');
+    card.classList.add('card-wrapper');
+    card.classList.add(status);
+    card.setAttribute('data-value', value);
+    card.setAttribute('data-index', i);
+    return card;
+  },
+  createCardImage: function(src){
+    var img = document.createElement('IMG');
+    img.setAttribute('src', src);
+    return img
+  },
+  setListeners: function(callback){
+    self = this;
+    this.gameWrapper.addEventListener('click', function(e){
+      callback(e, self) });
+    this.gameWrapper.addEventListener('touchstart', function(e){
+      callback(e, self) });
+  },
+  init: function(callback) {
     this.gameWrapper = document.getElementsByTagName('memory-game')[0];
+    this.setListeners(callback);
   }
 }
 
 $MGP.Controller = {
+  flipCard: function(e, self){
+    var target = (e.target.tagName === "IMG" ? e.target.parentElement : e.target);
+    if(target.className.includes('card-wrapper')){
+      // self.view.flipCard(target);
+      // self.model.flipCard(e.target.getAttribute('data-value'));
+    }
+  },
   init: function() {
-
+    this.view = $MGP.View;
+    this.model = $MGP.Model;
+    this.view.init(this.flipCard);
+    this.model.init();
+    this.view.render(this.model.gameboard)
   }
 
 }
