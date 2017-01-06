@@ -9,7 +9,7 @@
   background-size: cover;
   border: 1px solid silver;
   border-radius: 6px;
-  background-image: url('img/1.jpg');
+  /*background-image: url('img/1.jpg');*/
   display: inline-block;
   margin: 10px;
 }

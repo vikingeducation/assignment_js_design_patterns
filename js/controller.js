@@ -1,13 +1,16 @@
 var controller = {
 
   init: function() {
-    view.setUpListener(controller.createPairs);
+    view.setUpListener(controller.createPairs, controller.render);
   },
 
   createPairs: function(numPairs) {
     model.init(numPairs);
   },
- 
+
+  render: function() {
+    view.renderBoard(model.cards);
+  }
     // {
     // var numberOfCardPairs = function() {
     //
