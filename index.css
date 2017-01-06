@@ -1,0 +1,35 @@
+memory-game {
+  width: 75vw;
+  margin: auto;
+  display: block;
+}
+
+memory-game .card-wrapper {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 4px;
+  border: 2px solid #9fc5f8;
+  padding: 5px;
+  margin: 15px;
+  background-color: white;
+  transition: all 1s ease;
+  transform: rotateY('0deg');
+}
+
+memory-game .card-wrapper img {
+  height: 90px;
+  width: 90px;
+  display: inline;
+  vertical-align: middle;
+}
+memory-game .card-wrapper.false {
+  background: #eee;
+  transform: rotateY('180deg');
+}
+memory-game .card-wrapper.false img {
+  visibility: hidden;
+}
+memory-game .card-wrapper.true img {
+  visibility: inherit;
+}
