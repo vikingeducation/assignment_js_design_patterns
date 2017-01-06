@@ -28,6 +28,10 @@ var view = {
     });
   },
 
+  offCardListener: function() {
+    $('#cards').off();
+  },
+
   flipCard: function(e) {
     var $card = $(e.target);
     $card.toggleClass('is-face-down');

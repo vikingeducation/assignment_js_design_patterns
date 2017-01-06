@@ -56,17 +56,35 @@ var model = {
 
   flipCard: function(id) {
     var card = model.findCardById(id);
-    card.flipped = true;
+    card.flipped = !card.flipped;
   },
 
   findCardById: function(id) {
     return model.cards[id];
   },
 
+  isMatched: function(results) {
+    if (results.length === 2) {
+      if (results[0].pairNumber === results[1].pairNumber) {
+        results[0].found = true;
+        results[1].found = true;
+        return "found match";
+      } else {
+        return "not a match";
+      }
+    }
+    return "only one card";
+  },
 
+  findFlippedCards: function() {
+    var results = [];
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].flipped && !cards[i].found) {
+        results.push(cards[i]);
+      }
+    }
+    return results;
+  }
 
 
 };
-
-
-
