@@ -25,8 +25,15 @@ var holdCard;
 
 $(document).on('click', '.card', function() {
   $('.card').css('pointerEvents', 'none'); //prevent clicking while checking
-  model.checkBoard(event);
-  model.flipCard(event);
+  if (model.checkBoard(event)) {
+    view.flipCard(event);
+  }
+  if (model.checkMatch()) {
+    view.markMatch(event);
+    //check for win
+  } else if ($('.hold-card').length === 2) {
+    view.coverMismatch();
+  }
 
   $('.card').css('pointerEvents', 'auto'); //re-enable card clicking
 

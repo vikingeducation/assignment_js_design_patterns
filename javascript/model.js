@@ -3,6 +3,10 @@ var model = {
   // why can I not save a variable here like:
   // var whatever = [];
 
+  init: function() {
+    var matches = 0;
+  },
+
   generateOptions: function() {
     var pairOptions = [2,3,4,5,6,7,8,9,10,11,12,13,14];
     var $selector = $('#options');
@@ -35,18 +39,25 @@ var model = {
   },
 
   checkBoard: function(event) {
-    
-    // check if < 2 cards are in play
-    // flipCard
+    var flipNextCard = false;
+    var $target = event.target;
+    var $holdCards = $('hold-card');
+    if ($holdCards.length < 2) {
+      flipNextCard = true;
+      $($target).addClass('hold-card');
+    }
+    return flipNextCard;
   },
 
-  flipCard: function(event) {
-    var $target = $(event.target);
-    var cardNumber = $target.data("match_number");
-    var imageUrl = "images/" + cardNumber + ".jpg";
-    $target.removeClass("face-down");
-    $target.css('background-size', 'cover');
-    $target.css('background-image', 'url(/' + imageUrl + ')');
+  checkMatch: function(event) {
+    var matched = false;
+    var $holdCards = $('.hold-card');
+    if ($holdCards.length === 2) {
+      var $first = $holdCards.first();
+      var $last = $holdCards.last();
+      matched = $first.attr('data-match-number') === $last.attr('data-match-number');
+    }
+    return matched;
   }
 
   // check for matches

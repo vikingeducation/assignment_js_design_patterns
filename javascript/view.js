@@ -1,7 +1,7 @@
 var view = {
 
   init: function() {
-
+    var score = 42;
   },
 
   clearBoard: function() {
@@ -10,7 +10,7 @@ var view = {
 
   renderCard: function(number) {
     var card = $('<div>').addClass("card face-down")
-                         .data("match_number", number);
+                         .attr("data-match-number", number); //removed match_number
     return card;
   },
 
@@ -22,6 +22,31 @@ var view = {
     cards.forEach(function(card_number) {
       view.renderCard(card_number).appendTo($board);
     });
+  },
+
+  flipCard: function(event) {
+    var $target = $(event.target);
+    var cardNumber = $target.data("match-number");
+    var imageUrl = "images/" + cardNumber + ".jpg";
+    $target.removeClass("face-down");
+    $target.css('background-size', 'cover');
+    $target.css('background-image', 'url(/' + imageUrl + ')');
+  },
+
+  markMatch: function(event) {
+    var $matchedCards = $('.hold-card');
+    $matchedCards.removeClass('hold-card')
+                 .addClass('matched');
+  },
+
+  coverMismatch: function() {
+    var $misMatches = $('.hold-card');
+
+    setTimeout(function() {
+      $misMatches.removeClass('hold-card')
+                 .css('background-image', 'none')
+                 .addClass('face-down');
+    }, 1000);
   }
 
 
