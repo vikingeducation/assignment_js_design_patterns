@@ -62,10 +62,12 @@ var model = {
 
   addPoints: function() {
     model.score += $('.card').length;
+    view.updateScore();
   },
 
   reducePoints: function() {
     model.score -= 1;
+    view.updateScore();
   }
 
 

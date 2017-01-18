@@ -26,9 +26,11 @@ $(document).on('click', '.card', function() {
     view.flipCard(event);
   }
   if (model.checkMatch()) {
+    model.addPoints();
     view.markMatch(event);
     //check for win
   } else if ($('.hold-card').length === 2) {
+    model.reducePoints();
     view.coverMismatch();
   }
 
