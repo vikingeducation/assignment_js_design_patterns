@@ -3,15 +3,14 @@ var view = {
   initialize: function() {
     $scoreBoard = $('#score');
     score = model.score;
-
     $scoreBoard.hide();
   },
 
   updateScore: function() {
-    $scoreBoard = $('#score');
+    $scoreBoard = $('.score-board');
     $('.score').remove();
     $score = $('<span class="score">' + model.score + '</span>');
-    $('#score').append($score);
+    $scoreBoard.append($score);
   },
 
   initializeBoard: function() {

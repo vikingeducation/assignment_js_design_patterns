@@ -6,17 +6,32 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <div id="welcome">
-      Welcome, how many pairs would you like to match?
-      <form>
-        <select id="options">
-        </select>
-        <button type="button" id="begin">Begin</button>
-      </form>
-    </div>
+    <div class="container">
+      <div class="col-xs-4 board">
+        <div id="welcome">
+          Welcome, how many pairs would you like to match?
+          <form>
+            <select id="options">
+            </select>
+            <button type="button" id="begin" class="btn btn-primary btn-lg">
+              Begin
+            </button>
+          </form>
+        </div>
+      </div>
 
-    <div id="score">Score: </div>
-    <div id="board"></div>
+      <!-- <div id="score">
+        <h1>Score: </h1>
+      </div> -->
+      <div id="board"></div>
+
+      <div id="score">
+        <h1 class="score-board">Score: </h1>
+        <button type="button" class="btn btn-primary btn-lg btn-block">
+          Play Again
+        </button>
+      </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="javascript/model.js"></script>
