@@ -34,11 +34,10 @@ var model = {
     return cards;
   },
 
-  pickCard: function(event) {
+  checkBoard: function(event) {
+    
     // check if < 2 cards are in play
     // flipCard
-    // check for matches
-    // check for game over
   },
 
   flipCard: function(event) {
@@ -49,5 +48,8 @@ var model = {
     $target.css('background-size', 'cover');
     $target.css('background-image', 'url(/' + imageUrl + ')');
   }
+
+  // check for matches
+  // check for game over
 
 };

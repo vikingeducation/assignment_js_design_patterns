@@ -21,10 +21,19 @@ $(function() {
 
 
 
-$(document).on('click', '.card', model.pickCard);
+var holdCard;
 
-// $('#board').click(function(e) {
-//   if( $(e.target).hasClass('.face-down')) {
-//     model.flipCard(e);
-//   }
-// });
+$(document).on('click', '.card', function() {
+  $('.card').css('pointerEvents', 'none'); //prevent clicking while checking
+  model.checkBoard(event);
+  model.flipCard(event);
+
+  $('.card').css('pointerEvents', 'auto'); //re-enable card clicking
+
+});
+
+
+
+
+// to turn off click function on a selector:
+// $('selector').click(false);

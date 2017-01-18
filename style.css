@@ -13,3 +13,7 @@
 .matched {
   border: 2px solid orange;
 }
+
+.hold-card {
+  border: 2px solid red;
+}
