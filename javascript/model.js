@@ -1,7 +1,7 @@
 var model = {
 
   // why can I not save a variable here like:
-  // var whatever = [];
+  score: 0,
 
   init: function() {
     var matches = 0;
@@ -58,9 +58,17 @@ var model = {
       matched = $first.attr('data-match-number') === $last.attr('data-match-number');
     }
     return matched;
+  },
+
+  addPoints: function() {
+    model.score += $('.card').length;
+  },
+
+  reducePoints: function() {
+    model.score -= 1;
   }
 
-  // check for matches
+
   // check for game over
 
 };

@@ -1,7 +1,16 @@
 var view = {
 
-  init: function() {
-    var score = 42;
+  initialize: function() {
+    $scoreBoard = $('#score');
+    score = model.score;
+    $scoreBoard.append(score);
+    $scoreBoard.hide();
+  },
+
+  initializeBoard: function() {
+    $('#welcome').hide('slow');
+    var $pairCount = $('#options').val();
+    view.renderBoard($pairCount);
   },
 
   clearBoard: function() {
@@ -22,6 +31,7 @@ var view = {
     cards.forEach(function(card_number) {
       view.renderCard(card_number).appendTo($board);
     });
+    $('#score').show();
   },
 
   flipCard: function(event) {
@@ -35,12 +45,14 @@ var view = {
 
   markMatch: function(event) {
     var $matchedCards = $('.hold-card');
+    model.addPoints();
     $matchedCards.removeClass('hold-card')
                  .addClass('matched');
   },
 
   coverMismatch: function() {
     var $misMatches = $('.hold-card');
+    model.reducePoints();
 
     setTimeout(function() {
       $misMatches.removeClass('hold-card')

@@ -2,11 +2,9 @@ var controller = {
 
   initialize: function() {
     model.generateOptions();
-
+    view.initialize();
     $('#begin').on('click', function() {
-      $('#welcome').hide('slow');
-      var $pairCount = $('#options').val();
-      view.renderBoard($pairCount);
+      view.initializeBoard();
     });
 
   },
@@ -21,7 +19,6 @@ $(function() {
 
 
 
-var holdCard;
 
 $(document).on('click', '.card', function() {
   $('.card').css('pointerEvents', 'none'); //prevent clicking while checking
