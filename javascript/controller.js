@@ -15,8 +15,6 @@ $(function() {
 });
 
 
-
-
 $(document).on('click', '.clickable', function() {
   if (model.checkBoard(event)) {
     view.flipCard(event);
@@ -24,7 +22,7 @@ $(document).on('click', '.clickable', function() {
   if (model.checkMatch()) {
     model.addPoints();
     view.markMatch(event);
-    //check for win
+    model.checkForWin();
   } else if ($('.hold-card').length === 2) {
     model.reducePoints();
     view.coverMismatch();
@@ -36,8 +34,3 @@ $('#restart').on('click', function() {
   view.initialize();
   controller.initialize();
 });
-
-
-
-// to turn off click function on a selector:
-// $('selector').click(false);

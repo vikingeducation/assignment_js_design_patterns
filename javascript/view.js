@@ -69,5 +69,10 @@ var view = {
     }, 1000);
   },
 
+  declareWin: function() {
+    var $scoreBoard = $('h1', '.score-board');
+    var $winMessage = $('<span class="win-message">  You Win!</span>');
+    $scoreBoard.append($winMessage);
+  }
 
 };

@@ -10,6 +10,9 @@ var model = {
                                       .text(this)
                                     );
     });
+    $selector.selectpicker({
+      style: 'btn-primary',
+    });
   },
 
   generateCards: function(pairs) {
@@ -66,11 +69,17 @@ var model = {
   },
 
   restart: function() {
+    $('.win-message').remove();
     model.score = 0;
     view.updateScore();
     view.clearBoard();
-  }
+  },
 
-  // check for game over
+  checkForWin: function() {
+    var faceDowns = $('.face-down').length;
+    if (faceDowns === 0) {
+      view.declareWin();
+    }
+  }
 
 };
