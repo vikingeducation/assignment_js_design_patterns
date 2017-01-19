@@ -4,6 +4,7 @@ var view = {
     $scoreBoard = $('#score');
     score = model.score;
     $scoreBoard.hide();
+    $('#welcome').show('slow');
   },
 
   updateScore: function() {

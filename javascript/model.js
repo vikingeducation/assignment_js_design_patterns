@@ -1,11 +1,6 @@
 var model = {
 
-  // why can I not save a variable here like:
   score: 0,
-
-  init: function() {
-    var matches = 0;
-  },
 
   generateOptions: function() {
     var pairOptions = [2,3,4,5,6,7,8,9,10,11,12,13,14];
@@ -70,6 +65,11 @@ var model = {
     view.updateScore();
   },
 
+  restart: function() {
+    model.score = 0;
+    view.updateScore();
+    view.clearBoard();
+  }
 
   // check for game over
 

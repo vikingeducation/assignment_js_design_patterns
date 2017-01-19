@@ -8,9 +8,6 @@ var controller = {
     });
 
   },
-
-
-
 };
 
 $(function() {
@@ -32,10 +29,13 @@ $(document).on('click', '.clickable', function() {
     model.reducePoints();
     view.coverMismatch();
   }
-
-
 });
 
+$('#restart').on('click', function() {
+  model.restart();
+  view.initialize();
+  controller.initialize();
+});
 
 
 
