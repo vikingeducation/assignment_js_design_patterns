@@ -41,7 +41,7 @@ var model = {
   checkBoard: function(event) {
     var flipNextCard = false;
     var $target = event.target;
-    var $holdCards = $('hold-card');
+    var $holdCards = $('.hold-card');
     if ($holdCards.length < 2) {
       flipNextCard = true;
       $($target).addClass('hold-card');
@@ -68,7 +68,7 @@ var model = {
   reducePoints: function() {
     model.score -= 1;
     view.updateScore();
-  }
+  },
 
 
   // check for game over

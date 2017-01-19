@@ -20,8 +20,7 @@ $(function() {
 
 
 
-$(document).on('click', '.card', function() {
-  $('.card').css('pointerEvents', 'none'); //prevent clicking while checking
+$(document).on('click', '.clickable', function() {
   if (model.checkBoard(event)) {
     view.flipCard(event);
   }
@@ -34,7 +33,6 @@ $(document).on('click', '.card', function() {
     view.coverMismatch();
   }
 
-  $('.card').css('pointerEvents', 'auto'); //re-enable card clicking
 
 });
 

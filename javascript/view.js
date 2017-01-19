@@ -24,7 +24,7 @@ var view = {
   },
 
   renderCard: function(number) {
-    var card = $('<div>').addClass("card face-down")
+    var card = $('<div>').addClass("card face-down clickable")
                          .attr("data-match-number", number); //removed match_number
     return card;
   },
@@ -53,7 +53,8 @@ var view = {
     var $matchedCards = $('.hold-card');
     model.addPoints();
     $matchedCards.removeClass('hold-card')
-                 .addClass('matched');
+                 .addClass('matched')
+                 .removeClass('clickable');
   },
 
   coverMismatch: function() {
@@ -65,7 +66,7 @@ var view = {
                  .css('background-image', 'none')
                  .addClass('face-down');
     }, 1000);
-  }
+  },
 
 
 };
