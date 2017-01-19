@@ -7,7 +7,7 @@ var view = {
   },
 
   updateScore: function() {
-    $scoreBoard = $('.score-board');
+    $scoreBoard = $('h1', '.score-board');
     $('.score').remove();
     $score = $('<span class="score">' + model.score + '</span>');
     $scoreBoard.append($score);
