@@ -44,7 +44,8 @@ var view = {
   flipCard: function(event) {
     var $target = $(event.target);
     var cardNumber = $target.data("match-number");
-    var imageUrl = "images/" + cardNumber + ".jpg";
+    // bellow filepath specific for rawgit hosting
+    var imageUrl = "SawyerMerchant/assignment_js_design_patterns/masterimages/" + cardNumber + ".jpg";
     $target.removeClass("face-down");
     $target.css('background-size', 'cover');
     $target.css('background-image', 'url(/' + imageUrl + ')');
