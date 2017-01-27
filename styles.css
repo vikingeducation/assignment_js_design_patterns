@@ -1,0 +1,7 @@
+.picture {
+  width: 200px;
+  height: 200px;
+  border: 4px solid black;
+  background-color: rgb(53, 53, 53);
+  color: white;
+}
