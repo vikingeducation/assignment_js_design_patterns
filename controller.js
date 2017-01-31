@@ -5,6 +5,8 @@ var controller = {
     console.log("controller initiated");
     console.log(this);
     this.setGridSize();
+    model.createPictureCache();
+    view.render();
   },
 
   promptGridSize: function(){
@@ -14,7 +16,11 @@ var controller = {
   setGridSize: function(){
     var userInput = this.promptGridSize();
     model.setGridSize(userInput);
-  }
+  },
+  
+  // createGrid: function(){
+  //   vi
+  // }
 
   // setGridSize: function(){
   //   var currentSize = this.promptGridSize();

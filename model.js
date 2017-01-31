@@ -10,20 +10,22 @@ var model = {
   getGridSize: function(){
     return this.gridSize;
   },
+  
+  pictures: [],
 
-  createPictureCache: function(pictureQuantity){
+  createPictureCache: function(){
     var newPicture,
         pictureCache = [],
-        i = (pictureQuantity / 2);
+        i = (this.gridSize / 2);
     
     for (i; i > 0; i--) {
       newPicture = $("<div>", {class: "picture"});
-      newPicture.identifier = String(i);
+      newPicture.text(String(i));
       
-      pictureCache.push(newPicture, newPicture);
+      pictureCache.push(newPicture, newPicture.clone());
     }
     
-    return pictureCache.sort(function(a,b){ 
+    this.pictures = pictureCache.sort(function(a,b){ 
       return Math.floor(Math.random() * pictureCache.length)
     });
   }
