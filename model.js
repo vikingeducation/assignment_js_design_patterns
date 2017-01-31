@@ -10,5 +10,11 @@ var model = {
   getGridSize: function(){
     return this.gridSize;
   }
+  
+  
 
 }; //model end
+
+
+
+// var $div = $("<div>", {id: "foo", "class": "a"});
