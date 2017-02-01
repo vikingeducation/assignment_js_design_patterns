@@ -2,33 +2,30 @@
 
 var controller = {
   init: function(){
-    console.log("controller initiated");
-    console.log(this);
-    this.setGridSize();
+    this.promptGridSize();
     model.createPictureCache();
     view.render();
   },
 
   promptGridSize: function(){
-    return Number(prompt("Enter grid size. (4 - 20)"));
+    var promptText = "Enter grid size. (4 - 20)",
+        userInputSize;
+    
+    while (true) {
+      userInputSize = Number(prompt(promptText));
+      
+      if ((userInputSize % 2 === 0) && 
+          (userInputSize >= 4) && 
+          (userInputSize <= 20)) {
+        break;
+      }
+    }
+    model.setGridSize(userInputSize);
+    return userInputSize;
   },
 
   setGridSize: function(){
     var userInput = this.promptGridSize();
     model.setGridSize(userInput);
-  },
-  
-  // createGrid: function(){
-  //   vi
-  // }
-
-  // setGridSize: function(){
-  //   var currentSize = this.promptGridSize();
-  //   console.log(currentSize)
-  //   while ((currentSize % 2 !== 0) && (currentSize < 4 || currentSize > 20)) {
-  //     var size = this.promptGridSize();
-  //     this.setGridSize(size);
-  //   }
-  // }
-
-}; // controller end
+  }
+};

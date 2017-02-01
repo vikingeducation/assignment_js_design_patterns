@@ -17,6 +17,10 @@
   font-size: 5em;
 }
 
+.matched {
+  border-color: green;
+}
+
 h1 {
   text-align: center;
 }

@@ -2,9 +2,17 @@
 
 var model = {
   gridSize: 0,
+  maxScore: 0,
+  score: 0,
+  attempts: 0,
+  
+  userChoices: [],
+  // choice1: [],
+  // choi: [],
 
   setGridSize: function(size){
     this.gridSize = size;
+    this.maxScore = (size / 2);
   },
 
   getGridSize: function(){
@@ -29,4 +37,4 @@ var model = {
       return Math.floor(Math.random() * pictureCache.length)
     });
   }
-}; //model end
+};
