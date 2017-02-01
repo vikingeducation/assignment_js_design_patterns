@@ -6,9 +6,9 @@ var model = {
   score: 0,
   attempts: 0,
   
-  userChoices: [],
-  // choice1: [],
-  // choi: [],
+  choices: [],
+  choice1: null,
+  choice2: null,
 
   setGridSize: function(size){
     this.gridSize = size;

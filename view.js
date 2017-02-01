@@ -2,7 +2,7 @@
 
 var view = {
   render: function(){
-    $(".game-wrapper").append(model.pictures)
+    $(".game-wrapper").append(model.pictures);
     this.addTogglePictureListener();
   },
   
@@ -11,34 +11,40 @@ var view = {
   },
   
   addTogglePictureListener: function(){
-    var choices = [],
-        choice1,
-        choice2;
+    var choices = model.choices,
+        choice1 = model.choice1,
+        choice2 = model.choice2;
     
     $(".picture").click(function(event){
       
-      choices.push($(this));
+      model.choices.push($(this));
+      $(this).toggleClass("revealed");
       
-      if (choices.length === 2) {
-        choice1 = choices[0];
-        choice2 = choices[1];
+      if (!!choice1) {
+        model.choice2 = $(this);
         
-        
-        if (!(choice1.is(choice2)) && (choice1.text() === choice2.text())) {
+        if ( (!(choice1.is(choice2))) && (choice1.text() === choice2.text()) ) {
           choice1.addClass("matched");
           choice2.addClass("matched");
+        } else {
+          choice1.removeClass("revealed");
+          choice2.removeClass("revealed");
+          
+          model.choices = [];
+          model.choice1 = null;
+          model.choice2 = null;
         }
-        
-        
-        choices = [];
+      } else {
+        model.choice1 = $(this);
       }
       
-      
-      
-      // if (!($(this).immutable)) {
-      //   $(this).toggleClass("revealed");
-      // }
-      $(this).toggleClass("revealed");
-    });
-  }
+        console.log("~~~~~~~~");
+        console.log("model.choice1 " + model.choice1);
+        console.log("model.choice2 " + model.choice2);
+        console.log("model.choices " + model.choices);
+        console.log("~~~~~~~~");
+        
+        
+      });
+    }
 };
