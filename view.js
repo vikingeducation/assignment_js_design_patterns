@@ -16,35 +16,31 @@ var view = {
         choice2 = model.choice2;
     
     $(".picture").click(function(event){
-      
-      model.choices.push($(this));
       $(this).toggleClass("revealed");
+      model.choices.push($(this));
       
-      if (!!choice1) {
-        model.choice2 = $(this);
-        
-        if ( (!(choice1.is(choice2))) && (choice1.text() === choice2.text()) ) {
-          choice1.addClass("matched");
-          choice2.addClass("matched");
+      if (model.choices.length === 2) {
+        var choice1 = model.choices[0],
+            choice2 = model.choices[1];
+            
+        if ( 
+          (!(choice1.is(choice2))) && 
+          (choice1.text() === choice2.text()) 
+          
+          ) {
+          choice1.addClass("revealed");
+          choice1.off();
+          
+          choice2.addClass("revealed");
+          choice2.off();
         } else {
           choice1.removeClass("revealed");
           choice2.removeClass("revealed");
-          
-          model.choices = [];
-          model.choice1 = null;
-          model.choice2 = null;
+
         }
-      } else {
-        model.choice1 = $(this);
+        
+        model.choices = [];
       }
-      
-        console.log("~~~~~~~~");
-        console.log("model.choice1 " + model.choice1);
-        console.log("model.choice2 " + model.choice2);
-        console.log("model.choices " + model.choices);
-        console.log("~~~~~~~~");
-        
-        
       });
     }
 };
