@@ -1,22 +1,37 @@
-"use strict";
+'use strict';
 
 var view = {
   render: function(){
-    $(".game-wrapper").append(model.pictures);
+    $('.game-wrapper').append(model.pictures);
     this.addTogglePictureListener();
+    this.addScoreListeners();
+    
+    $('#attempts-value').text(model.attempts);
+    $('#score-value').text(model.score + '/' + model.gridSize);
+    
+    console.log(this.el)
   },
   
-  promptUser: function(){
-    return Number(prompt("Enter the amount of pictures for board size. (Choose an even number between 4 - 20"));
+  el: {
+    scoreContainer: $('.display-board'),
+    gameContainer: $('.game-wrapper'),
+    
+    pictures: $('.picture'),
+    
+    attempts: $('#attempts-value'),
+    score: $('#score-value'),
+  },
+  
+  addScoreListeners: function(){
+    this.el.gameContainer.on('click', '.picture', function(){
+      $('#attempts-value').text(model.attempts);
+    });
   },
   
   addTogglePictureListener: function(){
-    var choices = model.choices,
-        choice1 = model.choice1,
-        choice2 = model.choice2;
-    
-    $(".picture").click(function(event){
-      $(this).toggleClass("revealed");
+
+    $('.picture').click(function(event){
+      $(this).toggleClass('revealed');
       model.choices.push($(this));
       
       if (model.choices.length === 2) {
@@ -28,19 +43,25 @@ var view = {
           (choice1.text() === choice2.text()) 
           
           ) {
-          choice1.addClass("revealed");
+          choice1.addClass('matched');
           choice1.off();
           
-          choice2.addClass("revealed");
+          choice2.addClass('matched');
           choice2.off();
+          
+          model.incrementMatchCount();
+          console.log(model.matchCount);
         } else {
-          choice1.removeClass("revealed");
-          choice2.removeClass("revealed");
+          choice1.removeClass('revealed');
+          choice2.removeClass('revealed');
 
         }
+        model.attempts++;
         
         model.choices = [];
+        // view.gameOverCheck();
       }
+      
       });
     }
 };

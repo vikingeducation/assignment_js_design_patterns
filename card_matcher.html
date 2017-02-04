@@ -2,22 +2,35 @@
 <html>
 <head>
   <title>Card Matcher</title>
-   <link rel="stylesheet" type="text/css" href="styles.css">
+   <link rel='stylesheet' type='text/css' href='styles.css'>
 </head>
 <body>
   
   <h1>Memory Card Matcher</h1>
-  <hr>
+
+  <div class='display-board'>
+    <h2>Total Attempts:</h2>
+    <span id='attempts-value'>
+      
+    </span>
+
+    <h2>Total Score:</h2>    
+    <span id='score-value'>
+      
+    </span>
+  </div>
   
-  <div class="game-wrapper">
+<hr>
+  
+  <div class='game-wrapper'>
     
   </div>
 
 
-  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="model.js"></script>
-  <script type="text/javascript" src="view.js"></script>
-  <script type="text/javascript" src="controller.js"></script>
+  <script src='https://code.jquery.com/jquery-1.11.1.min.js'></script>
+  <script type='text/javascript' src='model.js'></script>
+  <script type='text/javascript' src='view.js'></script>
+  <script type='text/javascript' src='controller.js'></script>
 
   <script>
   $(document).ready(function(){

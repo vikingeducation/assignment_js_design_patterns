@@ -6,26 +6,27 @@ var controller = {
     model.createPictureCache();
     view.render();
   },
+    
+  gameOverCheck: function(){
+    if (model.maxScore === model.score) {
+      alert("Game Over!");
+    }
+  },
 
-  promptGridSize: function(){
-    var promptText = "Enter grid size. (4 - 20)",
-        userInputSize;
+  promptGridSize: function(message){
+    var promptText = message || "Enter grid size. (4 - 20)",
+        userResponse;
     
     while (true) {
-      userInputSize = Number(prompt(promptText));
+      userResponse = Number(prompt(promptText));
       
-      if ((userInputSize % 2 === 0) && 
-          (userInputSize >= 4) && 
-          (userInputSize <= 20)) {
+      if ((userResponse % 2 === 0) && 
+          (userResponse >= 4) && 
+          (userResponse <= 20)) {
         break;
       }
     }
-    model.setGridSize(userInputSize);
-    return userInputSize;
+    model.setGridSize(userResponse);
   },
 
-  setGridSize: function(){
-    var userInput = this.promptGridSize();
-    model.setGridSize(userInput);
-  }
 };

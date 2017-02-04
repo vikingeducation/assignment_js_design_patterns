@@ -5,10 +5,15 @@ var model = {
   maxScore: 0,
   score: 0,
   attempts: 0,
+  matchCount: 0,
   
   choices: [],
   choice1: null,
   choice2: null,
+  
+  incrementMatchCount: function(){
+    this.score += 2;
+  },
 
   setGridSize: function(size){
     this.gridSize = size;
