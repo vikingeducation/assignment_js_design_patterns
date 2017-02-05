@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var model = {
   gridSize: 0,
@@ -10,9 +10,13 @@ var model = {
   choices: [],
   choice1: null,
   choice2: null,
+
+  incrementScore: function(){
+    this.score += 1;
+  },
   
-  incrementMatchCount: function(){
-    this.score += 2;
+  incrementAttempts: function(){
+    this.attempts += 1;
   },
 
   setGridSize: function(size){
@@ -32,7 +36,7 @@ var model = {
         i = (this.gridSize / 2);
     
     for (i; i > 0; i--) {
-      newPicture = $("<div>", {class: "picture"});
+      newPicture = $('<div>', {class: 'picture'});
       newPicture.text(String(i));
       
       pictureCache.push(newPicture, newPicture.clone());

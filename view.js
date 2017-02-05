@@ -3,35 +3,35 @@
 var view = {
   render: function(){
     $('.game-wrapper').append(model.pictures);
-    this.addTogglePictureListener();
-    this.addScoreListeners();
-    
-    $('#attempts-value').text(model.attempts);
-    $('#score-value').text(model.score + '/' + model.gridSize);
-    
-    console.log(this.el)
+    view.addTogglePictureListener();
+    view.addScoreListeners();
   },
   
   el: {
     scoreContainer: $('.display-board'),
     gameContainer: $('.game-wrapper'),
     
-    pictures: $('.picture'),
-    
     attempts: $('#attempts-value'),
     score: $('#score-value'),
   },
   
   addScoreListeners: function(){
-    this.el.gameContainer.on('click', '.picture', function(){
-      $('#attempts-value').text(model.attempts);
+    view.el.attempts.text(0);
+    view.el.score.text(0);
+    
+    view.el.gameContainer.on('click', '.picture', function(){
+      view.el.attempts.text(model.attempts);
     });
   },
   
   addTogglePictureListener: function(){
+    var pics = $('.picture')
+    
+    // controller.gameOverCheck();
 
-    $('.picture').click(function(event){
+    pics.click(function(event){
       $(this).toggleClass('revealed');
+      
       model.choices.push($(this));
       
       if (model.choices.length === 2) {
@@ -49,19 +49,19 @@ var view = {
           choice2.addClass('matched');
           choice2.off();
           
-          model.incrementMatchCount();
-          console.log(model.matchCount);
-        } else {
-          choice1.removeClass('revealed');
-          choice2.removeClass('revealed');
+          model.incrementScore();
+          controller.gameOverCheck();
 
+        } else {
+          setTimeout(function(){
+            choice1.removeClass('revealed');
+            choice2.removeClass('revealed');
+          },1000);
         }
-        model.attempts++;
         
+        model.incrementAttempts();
         model.choices = [];
-        // view.gameOverCheck();
       }
-      
-      });
-    }
+    });
+  }
 };

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var controller = {
   init: function(){
@@ -9,12 +9,13 @@ var controller = {
     
   gameOverCheck: function(){
     if (model.maxScore === model.score) {
-      alert("Game Over!");
+      console.log("game over")
+      alert('Game Over! Refresh to replay.');
     }
   },
 
   promptGridSize: function(message){
-    var promptText = message || "Enter grid size. (4 - 20)",
+    var promptText = message || 'Enter grid size. (4 - 20)',
         userResponse;
     
     while (true) {
