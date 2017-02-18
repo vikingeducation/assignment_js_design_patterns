@@ -1,4 +1,18 @@
 td {
   padding: 30px;
   font-size: 30px;
+  background-color: #000;
+  color: #000;
+}
+
+.reveal {
+  color: white;
+}
+
+.match {
+  background-color: green;
+}
+
+.evaluate {
+  background-color: blue;
 }
