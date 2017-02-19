@@ -1,0 +1,25 @@
+td {
+  padding: 40px;
+  font-size: 30px;
+  background-color: #000;
+}
+
+.clickable {
+  color: #000;
+  background-color: #000;
+}
+
+/*.clickable span {
+  display: none;
+  height: 35px;
+}*/
+
+.match {
+  background-color: green;
+  color: white;
+}
+
+.evaluate {
+  background-color: blue;
+  color: white;
+}
