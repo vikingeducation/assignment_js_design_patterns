@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Card Matcher</title>
+   <link rel='stylesheet' type='text/css' href='styles.css'>
+</head>
+<body>
+
+  <h1>Memory Card Matcher</h1>
+
+  <div class='display-board'>
+    <h2>Total Attempts:</h2>
+    <span id='attempts-value'>
+
+    </span>
+
+  </div>
+
+<hr>
+
+  <div class='game-wrapper'>
+
+  </div>
+
+
+  <script src='https://code.jquery.com/jquery-1.11.1.min.js'></script>
+  <script type='text/javascript' src='model.js'></script>
+  <script type='text/javascript' src='view.js'></script>
+  <script type='text/javascript' src='controller.js'></script>
+
+  <script>
+  $(document).ready(function(){
+    controller.init();
+  });
+  </script>
+
+</body>
+</html>

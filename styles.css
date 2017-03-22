@@ -1,0 +1,32 @@
+.picture {
+  font-size: 0;
+  
+  line-height: 200px;
+  text-align: center;
+  
+  width: 200px;
+  height: 200px;
+  border: 4px solid black;
+  
+  background-color: rgb(53, 53, 53);
+  color: white;
+  display: inline-block;
+  margin: 5px;
+}
+
+.display-board {
+  border: 4px solid black;
+  
+}
+
+.revealed {
+  font-size: 5em;
+}
+
+.matched {
+  border-color: green;
+}
+
+h1 {
+  text-align: center;
+}
