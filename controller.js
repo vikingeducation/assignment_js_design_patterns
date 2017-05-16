@@ -28,12 +28,12 @@ var controller = {
     var openCard = model.getOpenCard();
     view.flipOpenCard(id);
 
-    if (openCard === undefined) {
-      model.setOpenCard(value);
+    if ($.isEmptyObject(openCard)) {
+      model.setOpenCard(value, id);
 
     } else {
 
-      if (openCard === value) {
+      if (openCard[value] && openCard[value] !== id) {
         model.setOpenCard();
         view.keepCardsOpen(value);
         model.addPoints(20);

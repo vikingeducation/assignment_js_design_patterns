@@ -7,6 +7,7 @@ var view = {
     $('#card-container').on('click', '.card', function(e) {
       revealCard($(this).attr('data-id'), $(this).attr('data-value'));
     });
+    $('#card-container').on('click', '')
     $('.btn').on('click', function(e) {
       e.stopImmediatePropagation();
       reset();
@@ -20,26 +21,30 @@ var view = {
 
   flipOpenCard: function(id) {
     var $card = $('.card[data-id=' + id + ']');
-    $card.text($card.attr('data-value')).addClass('face-up');
+    $card.addClass('face-up');
   },
 
   keepCardsOpen: function(value) {
     var $cards = $('.card[data-value=' + value + ']');
     $.each($cards, function(i, el) {
       var $el = $(el);
-      $el.text($el.attr('data-value')).addClass('matched').removeClass('face-up');
+      $el.addClass('matched').removeClass('face-up');
     });
   },
 
   initialReveal: function(deck) {
     var $container = $('#card-container');
     for (var i = 0; i < deck.length; i++) {
-      $container.append($('<div>')
-        .addClass('card ')
+      var $card = $('<div>')
+        .addClass('card')
         .attr({
           'data-value': deck[i],
           'data-id': i
-        }));
+        });
+      $card.append($('<img>').attr({
+        src: 'images/' + deck[i] + '.gif'
+      }));
+      $container.append($card);
     }
     this.showFaces(deck);
   },
@@ -48,11 +53,11 @@ var view = {
     var cards = $('#card-container .card')
     $.each(cards, function(i, el) {
       var $el = $(el);
-      $el.text($el.attr('data-value'));
+      $el.addClass('face-up')
     });
     window.setTimeout(function() {
       view.hideCards(cards);
-    }, deck.length * 100);
+    }, deck.length * 500);
   },
 
   timeOutCards: function() {
@@ -63,8 +68,9 @@ var view = {
 
   hideCards: function(collection) {
     $.each(collection, function(i, el) {
-      if (!$(el).hasClass('matched')) {
-        $(el).text('?').removeClass('face-up');
+      var $el = $(el);
+      if (!$el.hasClass('matched')) {
+        $el.removeClass('face-up');
       }
     });
   },
