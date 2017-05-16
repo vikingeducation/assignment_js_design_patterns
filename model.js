@@ -68,7 +68,7 @@ var model = {
   getImageIds: function() {
     while (this.imgIds.length < this.cardCount) {
       var id = Math.floor(Math.random() * this.imgCount + 1);
-      if (this.imgIds.indexOf(id)) {
+      if (this.imgIds.indexOf(id) < 0) {
         this.imgIds.push(id);
       }
     }
