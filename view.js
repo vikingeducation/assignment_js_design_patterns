@@ -81,7 +81,7 @@ var view = {
   },
 
   gameOver: function(msg) {
-    msg = msg ? msg : 'Congratulations! You\'ve completed the game';
+    msg = msg ? msg : 'Well done! You\'ve matched all the cats!';
     alert(msg);
   },
   reset: function() {
