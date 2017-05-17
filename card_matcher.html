@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cat Matcher</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="model.js"></script>
+  <script src="view.js"></script>
+  <script src="controller.js"></script>
+  <script>
+    $(document).ready(function(){
+      controller.init();
+    })
+  </script>
+</head>
+<body>
+ <main>
+    <h1>Welcome to Cat Matcher</h1>
+   <h3>Current Score</h3>
+   <p id="current-score">
+     0
+   </p>
+   <h3>Attempts</h3>
+   <p id="attempt-count">
+     0
+   </p>
+   <a href="#" class="btn">Reset</a>
+
+   <div id="card-container" class="">
+   </div>
+ </main>
+</body>
+</html>
