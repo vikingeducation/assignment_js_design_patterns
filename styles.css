@@ -1,0 +1,40 @@
+.row-of-cards {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  margin-right: 20px;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #ddd;
+  border: 2px solid black;
+  width: 100px;
+  height: 150px;
+}
+
+.vcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card_value {
+  font-weight: bold;
+  color: red;
+}
+
+.vcenter-parent {
+  position: relative;
+}
+.vcenter-child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.match {
+  background-color: white;
+  border: 2px solid green;
+}
