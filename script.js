@@ -144,6 +144,42 @@ var dispatch = function(params) {
 };
 
 // ------------------------------------------------------------------------
+// Handlers
+// ------------------------------------------------------------------------
+
+reg_event_db("show-card", function(db, $card) {
+  $card.addClass("matching");
+  var rank = get_card_value(get_coords($card.attr("coords")));
+  $card.children().html(rank);
+});
+
+reg_event_db("set-card", function(db, $card) {
+  var coords = get_coords($card.attr("coords"));
+  if (!db.first_card) {
+    db.first_card = coords;
+  } else {
+    db.second_card = coords;
+  }
+});
+
+reg_event_db("match", function(db) {
+  increment_score(db);
+  $(".matching").addClass("match").removeClass("matching");
+  game_over();
+});
+
+reg_event_db("no-match", function(db) {
+  db.showing_cards = false;
+  decrement_score(db);
+  $(".matching")
+    .removeClass("matching")
+    .children()
+    .html("?");
+  db.first_card = null;
+  db.second_card = null;
+});
+
+// ------------------------------------------------------------------------
 // App
 // ------------------------------------------------------------------------
 
@@ -152,42 +188,6 @@ $(document).ready(function() {
   db.set_cards(Number(prompt("How many grids do you ant to play with?")));
 
   display_cards(db.cards);
-
-  // ------------------------------------------------------------------------
-  // Handlers
-  // ------------------------------------------------------------------------
-
-  reg_event_db("show-card", function(db, $card) {
-    $card.addClass("matching");
-    var rank = get_card_value(get_coords($card.attr("coords")));
-    $card.children().html(rank);
-  });
-
-  reg_event_db("set-card", function(db, $card) {
-    var coords = get_coords($card.attr("coords"));
-    if (!db.first_card) {
-      db.first_card = coords;
-    } else {
-      db.second_card = coords;
-    }
-  });
-
-  reg_event_db("match", function(db) {
-    increment_score(db);
-    $(".matching").addClass("match").removeClass("matching");
-    game_over();
-  });
-
-  reg_event_db("no-match", function(db) {
-    db.showing_cards = false;
-    decrement_score(db);
-    $(".matching")
-      .removeClass("matching")
-      .children()
-      .html("?");
-    db.first_card = null;
-    db.second_card = null;
-  });
 
   var game_loop = function(e) {
     // wait until the cards are hidden again
